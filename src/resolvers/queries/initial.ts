@@ -1,4 +1,4 @@
-import { QueryResolvers } from "~/graphql-api/generated/graphql";
+import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-cloud-functions";
 
 export const initialData: QueryResolvers["initialData"] = async (

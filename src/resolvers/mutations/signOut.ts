@@ -1,4 +1,4 @@
-import { MutationResolvers } from "~/graphql-api/generated/graphql";
+import { MutationResolvers } from "~/generated/graphql";
 
 export const signOut: MutationResolvers["signOut"] = async (
   _,

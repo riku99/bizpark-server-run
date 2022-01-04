@@ -1,4 +1,4 @@
-import { MutationResolvers } from "~/graphql-api/generated/graphql";
+import { MutationResolvers } from "~/generated/graphql";
 import { ForbiddenError, ApolloError } from "apollo-server-cloud-functions";
 
 export const deletePick: MutationResolvers["deletePick"] = async (

@@ -1,4 +1,4 @@
-import { QueryResolvers } from "~/graphql-api/generated/graphql";
+import { QueryResolvers } from "~/generated/graphql";
 import { thoughts } from "./thoughts";
 import { initialData } from "./initial";
 

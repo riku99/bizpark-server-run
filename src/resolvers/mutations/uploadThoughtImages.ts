@@ -1,4 +1,4 @@
-import { MutationResolvers } from "~/graphql-api/generated/graphql";
+import { MutationResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-cloud-functions";
 import { Storage } from "@google-cloud/storage";
 import * as fs from "fs";

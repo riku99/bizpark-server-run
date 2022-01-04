@@ -1,7 +1,7 @@
 import {
   MutationResolvers,
   CustomErrorResponseCode,
-} from "~/graphql-api/generated/graphql";
+} from "~/generated/graphql";
 import { verifyIdToken } from "~/auth/verifyIdToken";
 import { ApolloError } from "apollo-server-cloud-functions";
 
