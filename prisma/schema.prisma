@@ -1,0 +1,176 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  uid String @unique
+  name String
+  email String @unique
+  bio String?
+  imageUrl String?
+  createdAt DateTime @default(now())
+  loggedIn Boolean @default(false)
+
+  thoughts Thought[]
+  talkRoomMessages TalkRoomMessage[]
+  senderOneOnOneRoom OneOnOneRoom[] @relation("sender")
+  recipirntOneOnOneRoom OneOnOneRoom[] @relation("recipient")
+  oneOnOneMessages OneOnOneMessage[]
+  blocks Block[] @relation("blocks")
+  blocked Block[] @relation("blocked")
+  picks Pick[]
+}
+
+model Thought {
+  id String @id @default(uuid())
+  title String?
+  text String
+  contributorId String
+  createdAt DateTime @default(now())
+  cursor Int @default(autoincrement()) @unique 
+  genre Genre
+
+  contributor User @relation(fields: [contributorId], references: [id], onDelete: Cascade)
+
+  images ThoughtImage[]
+  talkRooms TalkRoom[]
+  picked Pick[]
+
+  @@index([genre, cursor])
+  @@index([contributorId, cursor])
+}
+
+// model Image {
+//   id           String        @default(uuid())
+//   createdAt    DateTime      @default(now())
+//   width        Int
+//   height       Int
+//   url          String        @unique
+//   // user User?
+// }
+
+model ThoughtImage {
+  id String @id @default(uuid())
+  url String
+  width Int?
+  height Int?
+  thoughtId String
+
+  parent Thought @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
+
+  @@index([thoughtId])
+}
+
+model News {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  talkRoom TalkRoom[]
+}
+
+model TalkRoom {
+  id String @id @default(uuid())
+  thoughtId String?
+  newsId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parentThought Thought? @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
+  parentNews News? @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  messages TalkRoomMessage[]
+
+  @@index([thoughtId])
+}
+
+model TalkRoomMessage {
+  id String @id @default(uuid())
+  text String
+  createdAt DateTime @default(now())
+  senderId String
+  roomId String
+
+  sender User @relation(fields: [senderId], references: [id])
+  talkRoom TalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId])
+}
+
+model OneOnOneRoom {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  senderId String
+  recipientId String
+
+  sender User @relation("sender", fields: [senderId], references: [id])
+  recipient User @relation("recipient", fields: [recipientId], references: [id])
+
+  messages OneOnOneMessage[]
+
+  @@index([senderId])
+}
+
+model OneOnOneMessage {
+  id String @id @default(uuid())
+  text String
+  createdAt DateTime @default(now())
+  senderId String
+  roomId String
+
+  sender User @relation(fields: [senderId], references: [id])
+  room OneOnOneRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId])
+}
+
+model Block {
+  id String @id @default(uuid())
+  blockBy String
+  blockTo String
+
+  blocker User @relation("blocks", fields: [blockBy], references: [id], onDelete: Cascade)
+  blocked User @relation("blocked", fields: [blockTo], references: [id], onDelete: Cascade)
+
+  @@unique([blockBy, blockTo])
+  @@index([blockBy, blockTo])
+}
+
+model Pick {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  pickerId String
+  thoughtId String
+
+  picker User @relation(fields: [pickerId], references: [id], onDelete: Cascade)
+  thought Thought @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
+
+  @@index([pickerId])
+  @@index([thoughtId])
+  @@unique(fields: [pickerId, thoughtId], name: "userPickedId")
+}
+
+model Image {
+  id String @id @default(uuid())
+  url String
+  width Int?
+  height Int?
+  createdAt DateTime @default(now())
+}
+
+enum Genre {
+  BUSINESS
+  ECONOMY
+  POLITICS
+  SOCIETY
+}
+
+// ToDo Follow

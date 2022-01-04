@@ -1,0 +1,52 @@
+{
+  "name": "bizpark-server-run",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "yarn webpack --config webpack.prod.js",
+    "logs": "firebase functions:log",
+    "generate": "graphql-codegen",
+    "studio": "yarn prisma studio",
+    "seed": "yarn ts-node scripts/seed.ts",
+    "watch": "yarn build --watch"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^5.16.1",
+    "@graphql-codegen/add": "^3.1.0",
+    "@graphql-tools/graphql-file-loader": "^7.3.3",
+    "@graphql-tools/load": "^7.5.0",
+    "@graphql-tools/schema": "^8.3.1",
+    "@prisma/client": "^3.7.0",
+    "@vendia/serverless-express": "^4.5.2",
+    "apollo-server-cloud-functions": "^3.5.0",
+    "apollo-server-express": "^3.6.1",
+    "firebase-admin": "^10.0.1",
+    "firebase-functions": "^3.14.1",
+    "graphql": "^16.2.0",
+    "graphql-upload": "^13.0.0",
+    "nodemon": "^2.0.15",
+    "prisma": "^3.7.0",
+    "ts-node": "^10.4.0",
+    "ts-node-dev": "^1.1.8",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-merge": "^5.8.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^2.3.0",
+    "@graphql-codegen/typescript": "^2.4.1",
+    "@graphql-codegen/typescript-resolvers": "^2.4.2",
+    "@types/graphql": "^14.5.0",
+    "@types/graphql-upload": "^8.0.8",
+    "copy-webpack-plugin": "^10.2.0",
+    "firebase-functions-test": "^0.2.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "4.5.4",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

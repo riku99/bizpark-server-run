@@ -1,0 +1,90 @@
+scalar Void
+scalar Upload
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  bio: String
+  imageUrl: String
+}
+
+type Pick {
+  id: ID!
+  thoughtId: ID!
+}
+
+type Thought {
+  id: ID!
+  title: String
+  text: String!
+  createdAt: String
+  contributor: User
+  picked: Boolean!
+}
+
+enum Genre {
+  BUSINESS
+  ECONOMY
+  POLITICS
+  SOCIETY
+}
+
+enum CustomErrorResponseCode {
+  ALREADY_USER_EXISTING
+}
+
+type ThoughtEdge {
+  node: Thought!
+  cursor: String!
+}
+
+type ThoughtsConnection {
+  edges: [ThoughtEdge!]!
+  pageInfo: PageInfo!
+}
+
+type InitialResponse {
+  me: User!
+}
+
+type Query {
+  thoughts(
+    genre: Genre!
+    first: Int
+    after: String # last: Int # before: String
+  ): ThoughtsConnection!
+  initialData: InitialResponse!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  idToken: String!
+}
+
+input CreatePickInput {
+  thoughtId: String!
+}
+
+type SignOutResponse {
+  id: ID!
+}
+
+type UploadThoughtImagesResponse {
+  id: ID!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  createPick(input: CreatePickInput!): Pick!
+  deletePick(thoughtId: ID!): Pick!
+  signOut: SignOutResponse!
+  uploadThoughtImages(file: Upload!): UploadThoughtImagesResponse!
+}
