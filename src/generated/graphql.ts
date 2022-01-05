@@ -73,7 +73,7 @@ export type MutationDeletePickArgs = {
 
 
 export type MutationUploadThoughtImagesArgs = {
-  file: Scalars['Upload'];
+  files: Array<Scalars['Upload']>;
 };
 
 export type PageInfo = {
@@ -132,7 +132,7 @@ export type ThoughtsConnection = {
 
 export type UploadThoughtImagesResponse = {
   __typename?: 'UploadThoughtImagesResponse';
-  id: Scalars['ID'];
+  urls: Array<Scalars['String']>;
 };
 
 export type User = {
@@ -270,7 +270,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
-  uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'file'>>;
+  uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
 };
 
 export type PageInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
@@ -324,7 +324,7 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 }
 
 export type UploadThoughtImagesResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UploadThoughtImagesResponse'] = ResolversParentTypes['UploadThoughtImagesResponse']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  urls?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

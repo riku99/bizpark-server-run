@@ -78,7 +78,7 @@ type SignOutResponse {
 }
 
 type UploadThoughtImagesResponse {
-  id: ID!
+  urls: [String!]!
 }
 
 type Mutation {
@@ -86,5 +86,5 @@ type Mutation {
   createPick(input: CreatePickInput!): Pick!
   deletePick(thoughtId: ID!): Pick!
   signOut: SignOutResponse!
-  uploadThoughtImages(file: Upload!): UploadThoughtImagesResponse!
+  uploadThoughtImages(files: [Upload!]!): UploadThoughtImagesResponse!
 }
