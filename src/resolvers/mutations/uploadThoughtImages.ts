@@ -1,11 +1,10 @@
 import { MutationResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-cloud-functions";
 import { Storage } from "@google-cloud/storage";
-import * as fs from "fs";
+import { createRandomString } from "~/helpers/createRandomString";
 
 const storage = new Storage();
-const myBucket = storage.bucket("bizpark-dev");
-const contents = "This is the contents of the file.";
+const myBucket = storage.bucket(process.env.STORAGE_BUCKET as string);
 
 export const uploadThoughtImages: MutationResolvers["uploadThoughtImages"] = async (
   _,
@@ -16,20 +15,26 @@ export const uploadThoughtImages: MutationResolvers["uploadThoughtImages"] = asy
     throw new ForbiddenError("auth error");
   }
 
-  console.log("👀 Hey");
-
-  const fileName = myBucket.file("upload1");
-
-  console.log(fileName);
+  const randomName = createRandomString();
+  const filePath = `${process.env.STORAGE_BASE_PATH}/${randomName}`;
+  const fileObj = myBucket.file(randomName);
 
   const { createReadStream, filename, mimetype, encoding } = await file;
 
-  console.log(typeof createReadStream);
-
   const stream = createReadStream();
-  stream.pipe(fileName.createWriteStream({ gzip: true })).on("error", () => {});
+  stream
+    .pipe(
+      fileObj.createWriteStream({
+        gzip: true,
+        contentType: mimetype,
+      })
+    )
+    .on("error", (err: unknown) => {
+      console.log(err);
+    })
+    .on("finish", async (data: unknown) => {});
 
   return {
-    id: "fileId",
+    id: filePath,
   };
 };
