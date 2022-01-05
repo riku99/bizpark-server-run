@@ -77,20 +77,34 @@ type SignOutResponse {
   id: ID!
 }
 
-type ImageData {
+type Image {
+  id: ID!
+  url: String!
+  width: Int
+  height: Int
+}
+
+# Imageはidなしの型を使いたい時があるのでidなしImageを定義
+type SubImage {
+  url: String!
+  width: Int
+  height: Int
+}
+
+input ImageInput {
   url: String!
   width: Int
   height: Int
 }
 
 type UploadThoughtImagesResponse {
-  images: [ImageData!]!
+  images: [SubImage!]!
 }
 
 input CreateThoughtInput {
   title: String
   text: String!
-  images: [String!]
+  images: [ImageInput!]
 }
 
 type CreateThoughtResponse {

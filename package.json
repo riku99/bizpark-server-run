@@ -14,7 +14,8 @@
     "dev": "ts-node-dev -r tsconfig-paths/register src/index.ts",
     "up": "docker compose up -d",
     "down": "docker compose down",
-    "local": "yarn ts-node-dev -r tsconfig-paths/register src/local.ts"
+    "local": "yarn ts-node-dev -r tsconfig-paths/register src/local.ts",
+    "exec": "docker exec -it server bash"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.16.1",

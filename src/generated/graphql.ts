@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -26,7 +26,7 @@ export type CreatePickInput = {
 };
 
 export type CreateThoughtInput = {
-  images?: InputMaybe<Array<Scalars['String']>>;
+  images?: InputMaybe<Array<ImageInput>>;
   text: Scalars['String'];
   title?: InputMaybe<Scalars['String']>;
 };
@@ -53,11 +53,18 @@ export enum Genre {
   Society = 'SOCIETY'
 }
 
-export type ImageData = {
-  __typename?: 'ImageData';
+export type Image = {
+  __typename?: 'Image';
   height?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
   url: Scalars['String'];
   width?: Maybe<Scalars['Int']>;
+};
+
+export type ImageInput = {
+  height?: InputMaybe<Scalars['Int']>;
+  url: Scalars['String'];
+  width?: InputMaybe<Scalars['Int']>;
 };
 
 export type InitialResponse = {
@@ -132,6 +139,13 @@ export type SignOutResponse = {
   id: Scalars['ID'];
 };
 
+export type SubImage = {
+  __typename?: 'SubImage';
+  height?: Maybe<Scalars['Int']>;
+  url: Scalars['String'];
+  width?: Maybe<Scalars['Int']>;
+};
+
 export type Thought = {
   __typename?: 'Thought';
   contributor?: Maybe<User>;
@@ -156,7 +170,7 @@ export type ThoughtsConnection = {
 
 export type UploadThoughtImagesResponse = {
   __typename?: 'UploadThoughtImagesResponse';
-  images: Array<ImageData>;
+  images: Array<SubImage>;
 };
 
 export type User = {
@@ -244,7 +258,8 @@ export type ResolversTypes = {
   CustomErrorResponseCode: CustomErrorResponseCode;
   Genre: ResolverTypeWrapper<Genre>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  ImageData: ResolverTypeWrapper<ImageData>;
+  Image: ResolverTypeWrapper<Image>;
+  ImageInput: ImageInput;
   InitialResponse: ResolverTypeWrapper<InitialResponse>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -253,6 +268,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   SignOutResponse: ResolverTypeWrapper<SignOutResponse>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  SubImage: ResolverTypeWrapper<SubImage>;
   Thought: ResolverTypeWrapper<Thought>;
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
@@ -270,7 +286,8 @@ export type ResolversParentTypes = {
   CreateThoughtResponse: CreateThoughtResponse;
   CreateUserInput: CreateUserInput;
   ID: Scalars['ID'];
-  ImageData: ImageData;
+  Image: Image;
+  ImageInput: ImageInput;
   InitialResponse: InitialResponse;
   Int: Scalars['Int'];
   Mutation: {};
@@ -279,6 +296,7 @@ export type ResolversParentTypes = {
   Query: {};
   SignOutResponse: SignOutResponse;
   String: Scalars['String'];
+  SubImage: SubImage;
   Thought: Thought;
   ThoughtEdge: Omit<ThoughtEdge, 'node'> & { node: ResolversParentTypes['Thought'] };
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
@@ -295,8 +313,9 @@ export type CreateThoughtResponseResolvers<ContextType = Context, ParentType ext
 
 export type GenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, SOCIETY?: any }, ResolversTypes['Genre']>;
 
-export type ImageDataResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ImageData'] = ResolversParentTypes['ImageData']> = {
+export type ImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']> = {
   height?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   width?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -340,6 +359,13 @@ export type SignOutResponseResolvers<ContextType = Context, ParentType extends R
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type SubImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SubImage'] = ResolversParentTypes['SubImage']> = {
+  height?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  width?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ThoughtResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Thought'] = ResolversParentTypes['Thought']> = {
   contributor?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -367,7 +393,7 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 }
 
 export type UploadThoughtImagesResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UploadThoughtImagesResponse'] = ResolversParentTypes['UploadThoughtImagesResponse']> = {
-  images?: Resolver<Array<ResolversTypes['ImageData']>, ParentType, ContextType>;
+  images?: Resolver<Array<ResolversTypes['SubImage']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -386,13 +412,14 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type Resolvers<ContextType = Context> = {
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
   Genre?: GenreResolvers;
-  ImageData?: ImageDataResolvers<ContextType>;
+  Image?: ImageResolvers<ContextType>;
   InitialResponse?: InitialResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignOutResponse?: SignOutResponseResolvers<ContextType>;
+  SubImage?: SubImageResolvers<ContextType>;
   Thought?: ThoughtResolvers<ContextType>;
   ThoughtEdge?: ThoughtEdgeResolvers<ContextType>;
   ThoughtsConnection?: ThoughtsConnectionResolvers<ContextType>;

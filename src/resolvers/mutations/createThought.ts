@@ -26,7 +26,9 @@ export const createThought: MutationResolvers["createThought"] = async (
     promises.push(
       prisma.thoughtImage.create({
         data: {
-          url: image,
+          url: image.url,
+          width: image.width,
+          height: image.height,
           thoughtId: thought.id,
         },
       })

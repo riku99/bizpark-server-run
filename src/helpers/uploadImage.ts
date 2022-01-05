@@ -51,7 +51,7 @@ export const upload = async ({ file }: { file: Upload }) => {
     .pipe(
       fileObj.createWriteStream({
         gzip: true,
-        contentType: mimetype,
+        contentType: "image/webp",
       })
     )
     .on("error", (err: unknown) => {
