@@ -1,8 +1,11 @@
 import express from "express";
 import { server } from "./server";
 import { graphqlUploadExpress } from "graphql-upload";
+import { firebaseInit } from "./firebase";
 
 const start = async () => {
+  firebaseInit();
+
   await server.start();
 
   const app = express();

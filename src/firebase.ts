@@ -1,4 +1,9 @@
 import admin from "firebase-admin";
-admin.initializeApp();
 
-export const auth = admin.auth();
+export const firebaseInit = () => {
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+  });
+};
+
+// export const auth = admin.auth();

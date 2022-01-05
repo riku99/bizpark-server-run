@@ -19,6 +19,7 @@ export const verifyIdToken = async (
       email: decoded.email,
     };
   } catch (e) {
+    console.log(e);
     return null;
   }
 };
