@@ -1,7 +1,5 @@
 import { MutationResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-cloud-functions";
-import { createRandomString } from "~/helpers/createRandomString";
-import { Upload } from "graphql-upload";
 import { upload } from "~/helpers/uploadImage";
 
 export const uploadThoughtImages: MutationResolvers["uploadThoughtImages"] = async (

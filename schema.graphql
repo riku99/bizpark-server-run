@@ -81,10 +81,21 @@ type UploadThoughtImagesResponse {
   urls: [String!]!
 }
 
+input CreateThoughtInput {
+  title: String
+  text: String!
+  images: [String!]
+}
+
+type CreateThoughtResponse {
+  id: ID!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): User!
   createPick(input: CreatePickInput!): Pick!
   deletePick(thoughtId: ID!): Pick!
   signOut: SignOutResponse!
   uploadThoughtImages(files: [Upload!]!): UploadThoughtImagesResponse!
+  createThought(input: CreateThoughtInput!): CreateThoughtResponse!
 }
