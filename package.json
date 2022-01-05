@@ -10,7 +10,8 @@
     "generate": "graphql-codegen",
     "studio": "yarn prisma studio",
     "seed": "yarn ts-node scripts/seed.ts",
-    "watch": "yarn build --watch"
+    "watch": "yarn build --watch",
+    "dev": "ts-node-dev -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.16.1",

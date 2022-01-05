@@ -1,10 +1,13 @@
 import express from "express";
 import { server } from "./server";
+import { graphqlUploadExpress } from "graphql-upload";
 
 const start = async () => {
   await server.start();
 
   const app = express();
+
+  app.use(graphqlUploadExpress());
 
   server.applyMiddleware({
     app,
