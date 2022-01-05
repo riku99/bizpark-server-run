@@ -33,6 +33,8 @@ export const createThought: MutationResolvers["createThought"] = async (
     );
   });
 
+  await Promise.all(promises);
+
   return {
     id: thought.id,
   };
