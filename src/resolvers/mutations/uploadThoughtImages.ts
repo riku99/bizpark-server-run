@@ -16,9 +16,9 @@ export const uploadThoughtImages: MutationResolvers["uploadThoughtImages"] = asy
     promises.push(upload({ file }));
   });
 
-  const urls = await Promise.all(promises);
+  const images = await Promise.all(promises);
 
   return {
-    urls,
+    images,
   };
 };

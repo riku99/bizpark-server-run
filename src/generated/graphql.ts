@@ -53,6 +53,13 @@ export enum Genre {
   Society = 'SOCIETY'
 }
 
+export type ImageData = {
+  __typename?: 'ImageData';
+  height?: Maybe<Scalars['Int']>;
+  url: Scalars['String'];
+  width?: Maybe<Scalars['Int']>;
+};
+
 export type InitialResponse = {
   __typename?: 'InitialResponse';
   me: User;
@@ -149,7 +156,7 @@ export type ThoughtsConnection = {
 
 export type UploadThoughtImagesResponse = {
   __typename?: 'UploadThoughtImagesResponse';
-  urls: Array<Scalars['String']>;
+  images: Array<ImageData>;
 };
 
 export type User = {
@@ -237,6 +244,7 @@ export type ResolversTypes = {
   CustomErrorResponseCode: CustomErrorResponseCode;
   Genre: ResolverTypeWrapper<Genre>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  ImageData: ResolverTypeWrapper<ImageData>;
   InitialResponse: ResolverTypeWrapper<InitialResponse>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -262,6 +270,7 @@ export type ResolversParentTypes = {
   CreateThoughtResponse: CreateThoughtResponse;
   CreateUserInput: CreateUserInput;
   ID: Scalars['ID'];
+  ImageData: ImageData;
   InitialResponse: InitialResponse;
   Int: Scalars['Int'];
   Mutation: {};
@@ -285,6 +294,13 @@ export type CreateThoughtResponseResolvers<ContextType = Context, ParentType ext
 };
 
 export type GenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, SOCIETY?: any }, ResolversTypes['Genre']>;
+
+export type ImageDataResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ImageData'] = ResolversParentTypes['ImageData']> = {
+  height?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  width?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type InitialResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['InitialResponse'] = ResolversParentTypes['InitialResponse']> = {
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
@@ -351,7 +367,7 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 }
 
 export type UploadThoughtImagesResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UploadThoughtImagesResponse'] = ResolversParentTypes['UploadThoughtImagesResponse']> = {
-  urls?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  images?: Resolver<Array<ResolversTypes['ImageData']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -370,6 +386,7 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type Resolvers<ContextType = Context> = {
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
   Genre?: GenreResolvers;
+  ImageData?: ImageDataResolvers<ContextType>;
   InitialResponse?: InitialResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;

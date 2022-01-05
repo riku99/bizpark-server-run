@@ -77,8 +77,14 @@ type SignOutResponse {
   id: ID!
 }
 
+type ImageData {
+  url: String!
+  width: Int
+  height: Int
+}
+
 type UploadThoughtImagesResponse {
-  urls: [String!]!
+  images: [ImageData!]!
 }
 
 input CreateThoughtInput {
