@@ -13,7 +13,8 @@
     "watch": "yarn build --watch",
     "dev": "ts-node-dev -r tsconfig-paths/register src/index.ts",
     "up": "docker compose up -d",
-    "down": "docker compose down"
+    "down": "docker compose down",
+    "local": "yarn ts-node-dev -r tsconfig-paths/register src/local.ts"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.16.1",
