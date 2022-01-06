@@ -26,6 +26,7 @@ export type CreatePickInput = {
 };
 
 export type CreateThoughtInput = {
+  genre: Genre;
   images?: InputMaybe<Array<ImageInput>>;
   text: Scalars['String'];
   title?: InputMaybe<Scalars['String']>;

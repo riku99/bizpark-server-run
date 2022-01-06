@@ -11,13 +11,12 @@ export const createThought: MutationResolvers["createThought"] = async (
     throw new ForbiddenError("auth error");
   }
 
-  // TODO ジャンル可変にする
   const thought = await prisma.thought.create({
     data: {
       title: input.title,
       text: input.text,
       contributorId: requestUser.id,
-      genre: Genre.SOCIETY,
+      genre: input.genre,
     },
   });
 
