@@ -1,6 +1,5 @@
 import { MutationResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-cloud-functions";
-import { Genre } from "@prisma/client";
 
 export const createThought: MutationResolvers["createThought"] = async (
   _,

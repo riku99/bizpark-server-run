@@ -152,6 +152,7 @@ export type Thought = {
   contributor?: Maybe<User>;
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  images: Array<Maybe<Image>>;
   picked: Scalars['Boolean'];
   text: Scalars['String'];
   title?: Maybe<Scalars['String']>;
@@ -371,6 +372,7 @@ export type ThoughtResolvers<ContextType = Context, ParentType extends Resolvers
   contributor?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  images?: Resolver<Array<Maybe<ResolversTypes['Image']>>, ParentType, ContextType>;
   picked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

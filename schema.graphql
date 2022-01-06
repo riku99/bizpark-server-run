@@ -8,6 +8,13 @@ type PageInfo {
   endCursor: String
 }
 
+type Image {
+  id: ID!
+  url: String!
+  width: Int
+  height: Int
+}
+
 type User {
   id: ID!
   name: String!
@@ -27,6 +34,7 @@ type Thought {
   createdAt: String
   contributor: User
   picked: Boolean!
+  images: [Image]!
 }
 
 enum Genre {
@@ -75,13 +83,6 @@ input CreatePickInput {
 
 type SignOutResponse {
   id: ID!
-}
-
-type Image {
-  id: ID!
-  url: String!
-  width: Int
-  height: Int
 }
 
 # Imageはidなしの型を使いたい時があるのでidなしImageを定義

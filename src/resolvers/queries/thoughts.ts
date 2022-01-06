@@ -31,6 +31,14 @@ export const thoughts: QueryResolvers["thoughts"] = async (
           id: true,
         },
       },
+      images: {
+        select: {
+          id: true,
+          url: true,
+          width: true,
+          height: true,
+        },
+      },
     },
     orderBy: {
       cursor: "desc",
