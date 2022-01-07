@@ -32,8 +32,8 @@ model User {
 
 model Thought {
   id String @id @default(uuid())
-  title String?
-  text String
+  title String? @db.VarChar(30)
+  text String   @db.VarChar(500)
   contributorId String
   createdAt DateTime @default(now())
   cursor Int @default(autoincrement()) @unique 
@@ -48,15 +48,6 @@ model Thought {
   @@index([genre, cursor])
   @@index([contributorId, cursor])
 }
-
-// model Image {
-//   id           String        @default(uuid())
-//   createdAt    DateTime      @default(now())
-//   width        Int
-//   height       Int
-//   url          String        @unique
-//   // user User?
-// }
 
 model ThoughtImage {
   id String @id @default(uuid())
