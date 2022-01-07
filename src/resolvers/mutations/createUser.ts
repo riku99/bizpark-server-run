@@ -3,7 +3,7 @@ import {
   CustomErrorResponseCode,
 } from "~/generated/graphql";
 import { verifyIdToken } from "~/auth/verifyIdToken";
-import { ApolloError } from "apollo-server-cloud-functions";
+import { ApolloError } from "apollo-server-express";
 
 export const createUser: MutationResolvers["createUser"] = async (
   _,

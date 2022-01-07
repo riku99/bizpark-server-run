@@ -5,6 +5,7 @@ import { deletePick } from "./deletePick";
 import { signOut } from "./signOut";
 import { uploadThoughtImages } from "./uploadThoughtImages";
 import { createThought } from "./createThought";
+import { deleteThought } from "./deleteTohught";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -13,4 +14,5 @@ export const Mutation: MutationResolvers = {
   signOut,
   uploadThoughtImages,
   createThought,
+  deleteThought,
 };

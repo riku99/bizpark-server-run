@@ -44,8 +44,18 @@ export type CreateUserInput = {
 };
 
 export enum CustomErrorResponseCode {
-  AlreadyUserExisting = 'ALREADY_USER_EXISTING'
+  AlreadyUserExisting = 'ALREADY_USER_EXISTING',
+  InvalidRequest = 'INVALID_REQUEST'
 }
+
+export type DeleteThoughtInput = {
+  id: Scalars['String'];
+};
+
+export type DeleteThoughtResponse = {
+  __typename?: 'DeleteThoughtResponse';
+  id: Scalars['ID'];
+};
 
 export enum Genre {
   Business = 'BUSINESS',
@@ -79,6 +89,7 @@ export type Mutation = {
   createThought: CreateThoughtResponse;
   createUser: User;
   deletePick: Pick;
+  deleteThought: DeleteThoughtResponse;
   signOut: SignOutResponse;
   uploadThoughtImages: UploadThoughtImagesResponse;
 };
@@ -101,6 +112,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeletePickArgs = {
   thoughtId: Scalars['ID'];
+};
+
+
+export type MutationDeleteThoughtArgs = {
+  input: DeleteThoughtInput;
 };
 
 
@@ -258,6 +274,8 @@ export type ResolversTypes = {
   CreateThoughtResponse: ResolverTypeWrapper<CreateThoughtResponse>;
   CreateUserInput: CreateUserInput;
   CustomErrorResponseCode: CustomErrorResponseCode;
+  DeleteThoughtInput: DeleteThoughtInput;
+  DeleteThoughtResponse: ResolverTypeWrapper<DeleteThoughtResponse>;
   Genre: ResolverTypeWrapper<Genre>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
@@ -287,6 +305,8 @@ export type ResolversParentTypes = {
   CreateThoughtInput: CreateThoughtInput;
   CreateThoughtResponse: CreateThoughtResponse;
   CreateUserInput: CreateUserInput;
+  DeleteThoughtInput: DeleteThoughtInput;
+  DeleteThoughtResponse: DeleteThoughtResponse;
   ID: Scalars['ID'];
   Image: Image;
   ImageInput: ImageInput;
@@ -313,6 +333,11 @@ export type CreateThoughtResponseResolvers<ContextType = Context, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type DeleteThoughtResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteThoughtResponse'] = ResolversParentTypes['DeleteThoughtResponse']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type GenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, SOCIETY?: any }, ResolversTypes['Genre']>;
 
 export type ImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']> = {
@@ -333,6 +358,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createThought?: Resolver<ResolversTypes['CreateThoughtResponse'], ParentType, ContextType, RequireFields<MutationCreateThoughtArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;
+  deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
 };
@@ -414,6 +440,7 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export type Resolvers<ContextType = Context> = {
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
+  DeleteThoughtResponse?: DeleteThoughtResponseResolvers<ContextType>;
   Genre?: GenreResolvers;
   Image?: ImageResolvers<ContextType>;
   InitialResponse?: InitialResponseResolvers<ContextType>;

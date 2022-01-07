@@ -1819,14 +1819,6 @@ apollo-server-caching@^3.3.0:
   dependencies:
     lru-cache "^6.0.0"
 
-apollo-server-cloud-functions@^3.5.0:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/apollo-server-cloud-functions/-/apollo-server-cloud-functions-3.6.1.tgz#bc52d1068485c5814ee54361d4af7355dfcfbc5c"
-  integrity sha512-3Gvu09eDG7K//1E9dZrvWzj7UNbfoXcYaQCvK3H1DE0CU+Eweak49lraAWhSrvjKVfNi6gl5GjlZV3WeXCsQJA==
-  dependencies:
-    apollo-server-express "^3.6.1"
-    express "^4.17.1"
-
 apollo-server-core@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/apollo-server-core/-/apollo-server-core-3.6.1.tgz#e835198a2eda5bcb61d2a1174d44ecb0ac414d15"

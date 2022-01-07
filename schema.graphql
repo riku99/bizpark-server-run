@@ -46,6 +46,7 @@ enum Genre {
 
 enum CustomErrorResponseCode {
   ALREADY_USER_EXISTING
+  INVALID_REQUEST
 }
 
 type ThoughtEdge {
@@ -113,6 +114,14 @@ type CreateThoughtResponse {
   id: ID!
 }
 
+input DeleteThoughtInput {
+  id: String!
+}
+
+type DeleteThoughtResponse {
+  id: ID!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): User!
   createPick(input: CreatePickInput!): Pick!
@@ -120,4 +129,5 @@ type Mutation {
   signOut: SignOutResponse!
   uploadThoughtImages(files: [Upload!]!): UploadThoughtImagesResponse!
   createThought(input: CreateThoughtInput!): CreateThoughtResponse!
+  deleteThought(input: DeleteThoughtInput!): DeleteThoughtResponse!
 }

@@ -1,5 +1,5 @@
 import { MutationResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-cloud-functions";
+import { ForbiddenError } from "apollo-server-express";
 
 export const createThought: MutationResolvers["createThought"] = async (
   _,
