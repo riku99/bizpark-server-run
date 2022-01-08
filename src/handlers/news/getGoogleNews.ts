@@ -1,5 +1,5 @@
 import { default as axios } from "axios";
-import { prisma } from "../lib/prisma";
+import { prisma } from "../../lib/prisma";
 import { GoogleNewsArticle, GoogleNewsTopic } from "~/types";
 import { NewsGenre } from "@prisma/client";
 
@@ -8,7 +8,7 @@ const getGoogleNewsWithTopics = async ({
 }: {
   topic: GoogleNewsTopic;
 }) => {
-  const endpoint = process.env.RAKUTEN_RAPID_API_KEY;
+  const endpoint = "https://google-news.p.rapidapi.com/v1/topic_headlines";
   const lang = "jp";
   const country = "JP";
   let genre: NewsGenre;
@@ -22,7 +22,7 @@ const getGoogleNewsWithTopics = async ({
   }
 
   const headers = {
-    "x-rapidapi-key": "1beaf1dd23msh2fc296d43f143edp1fa377jsn40e17fa594e1",
+    "x-rapidapi-key": process.env.RAKUTEN_RAPID_API_KEY as string,
     "x-rapidapi-host": "google-news.p.rapidapi.com",
     useQueryString: "true",
   };
@@ -58,16 +58,10 @@ const getGoogleNewsWithTopics = async ({
 };
 
 const googleNewsTopics: GoogleNewsTopic[] = ["BUSINESS", "TECHNOLOGY"];
-const getGoogleNews = async () => {
+export const getGoogleNews = async () => {
   const promises: Promise<any>[] = [];
   googleNewsTopics.forEach((topic) => {
     promises.push(getGoogleNewsWithTopics({ topic }));
   });
   await Promise.all(promises);
 };
-
-const getNews = async () => {
-  await Promise.all([getGoogleNews()]);
-};
-
-getNews();
