@@ -15,7 +15,7 @@
     "up": "docker compose up -d",
     "down": "docker compose down",
     "local": "yarn ts-node-dev -r tsconfig-paths/register src/local.ts",
-    "exec": "docker exec -it server bash"
+    "exe": "docker exec -it server bash"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.16.1",
@@ -26,6 +26,7 @@
     "@prisma/client": "^3.7.0",
     "@vendia/serverless-express": "^4.5.2",
     "apollo-server-express": "^3.6.1",
+    "axios": "^0.24.0",
     "firebase-admin": "^10.0.1",
     "firebase-functions": "^3.14.1",
     "fluent-ffmpeg": "^2.1.2",
@@ -36,6 +37,7 @@
     "sharp": "^0.29.3",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
+    "unirest": "^0.6.0",
     "uuid": "^8.3.2",
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1",

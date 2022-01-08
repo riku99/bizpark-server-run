@@ -64,8 +64,14 @@ model ThoughtImage {
 model News {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
+  title String
+  link String
+  image String?
+  articleCreatedAt DateTime?
+  genre NewsGenre
+  provider String
 
-  talkRoom TalkRoom[]
+  @@index([genre, createdAt])
 }
 
 model TalkRoom {
@@ -76,7 +82,7 @@ model TalkRoom {
   updatedAt DateTime @updatedAt
 
   parentThought Thought? @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
-  parentNews News? @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  // parentNews News? @relation(fields: [newsId], references: [id], onDelete: Cascade)
   messages TalkRoomMessage[]
 
   @@index([thoughtId])
@@ -162,6 +168,13 @@ enum Genre {
   ECONOMY
   POLITICS
   SOCIETY
+}
+
+enum NewsGenre {
+  BUSINESS
+  ECONOMY
+  POLITICS
+  TECHNOLOGY
 }
 
 // ToDo Follow
