@@ -42,3 +42,19 @@ export type NewscatcherArticle = {
 };
 
 export type NewscatcherTopic = "business" | "finance" | "politics";
+
+export type BingNewsValue = {
+  name: string;
+  url: string;
+  datePublished: string;
+  image: {
+    thumbnail: {
+      contentUrl: string;
+    };
+  };
+  provider: {
+    name: string;
+  }[];
+};
+
+export type BingNewsCategory = "Business" | "Politics";
