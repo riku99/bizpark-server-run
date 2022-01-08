@@ -32,3 +32,13 @@ export type NewsDataSourceResult = {
   id: string; // ex) nhk
   name: string; // ex) NHK
 };
+
+export type NewscatcherArticle = {
+  title: string;
+  link: string;
+  media: string; // 関連画像
+  published_date: string;
+  rights: string;
+};
+
+export type NewscatcherTopic = "business" | "finance" | "politics";

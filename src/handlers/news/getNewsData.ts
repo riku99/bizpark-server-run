@@ -2,6 +2,7 @@ import { default as axios } from "axios";
 import { prisma } from "../../lib/prisma";
 import { NewsDataResponse } from "~/types";
 
+// https://api.rakuten.net/algodom-media-algodom-media-default/api/newsdata2/endpoints
 // piliticsのみ
 // 2022/01/08現在politicsの場合 source_id が nhk のみなので provider はとりあえずNHKに固定
 const getNewsData = async ({ page = 1 }: { page: number }) => {

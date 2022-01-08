@@ -69,7 +69,7 @@ model News {
   image String?
   articleCreatedAt DateTime?
   genre NewsGenre
-  provider String
+  provider String?
 
   @@index([genre, createdAt])
 }
