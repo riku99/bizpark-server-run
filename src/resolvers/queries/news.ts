@@ -23,6 +23,13 @@ export const news: QueryResolvers["news"] = async (
     orderBy: {
       cursor: "desc",
     },
+    include: {
+      picked: {
+        where: {
+          pickerId: requestUser.id,
+        },
+      },
+    },
     take: first ?? DEFAULT_TAKE_COUNT,
     skip: decodedAfter && decodedAfter > 1 ? 1 : 0,
     cursor: decodedAfter ? { cursor: decodedAfter } : undefined,
@@ -62,7 +69,15 @@ export const news: QueryResolvers["news"] = async (
     endCursor: news[news.length - 1].cursor.toString(),
   };
 
-  const edges = news.map((n) => {
+  const convertedNews = news.map((n) => {
+    const picked = !!n.picked.length;
+    return {
+      ...n,
+      picked,
+    };
+  });
+
+  const edges = convertedNews.map((n) => {
     return {
       node: n,
       cursor: n.cursor.toString(),

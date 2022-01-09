@@ -27,6 +27,11 @@ type Pick {
   thoughtId: ID!
 }
 
+type NewsPick {
+  id: ID!
+  newsId: ID!
+}
+
 type Thought {
   id: ID!
   title: String
@@ -45,6 +50,7 @@ type News {
   articleCreatedAt: String
   genre: NewsGenre!
   provider: String
+  picked: Boolean!
 }
 
 enum Genre {
@@ -150,6 +156,18 @@ type DeleteThoughtResponse {
   id: ID!
 }
 
+input CreateNewsPickInput {
+  newsId: ID!
+}
+
+type CreateNewsPickResponse {
+  id: ID!
+}
+
+input DeleteNewsPickInput {
+  newsId: ID!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): User!
   createPick(input: CreatePickInput!): Pick!
@@ -158,4 +176,6 @@ type Mutation {
   uploadThoughtImages(files: [Upload!]!): UploadThoughtImagesResponse!
   createThought(input: CreateThoughtInput!): CreateThoughtResponse!
   deleteThought(input: DeleteThoughtInput!): DeleteThoughtResponse!
+  createNewsPick(input: CreateNewsPickInput!): NewsPick!
+  deleteNewsPick(input: DeleteNewsPickInput!): NewsPick!
 }

@@ -6,6 +6,8 @@ import { signOut } from "./signOut";
 import { uploadThoughtImages } from "./uploadThoughtImages";
 import { createThought } from "./createThought";
 import { deleteThought } from "./deleteTohught";
+import { createNewsPick } from "./createNewsPick";
+import { deleteNewsPick } from "./deleteNewsPick";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -15,4 +17,6 @@ export const Mutation: MutationResolvers = {
   uploadThoughtImages,
   createThought,
   deleteThought,
+  createNewsPick,
+  deleteNewsPick,
 };

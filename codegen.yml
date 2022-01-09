@@ -19,3 +19,4 @@ generates:
         Image: "@prisma/client/index.d#Image"
         News: "@prisma/client/index.d#News"
         NewsGenre: "@prisma/client/index.d#NewsGenre"
+        NewsPick: "@prisma/client/index.d#NewsPick"

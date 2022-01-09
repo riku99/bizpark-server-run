@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick, Image, News, NewsGenre } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image, News, NewsGenre, NewsPick } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -19,6 +19,15 @@ export type Scalars = {
   Float: number;
   Upload: Promise<GraphQLFileUpload>;
   Void: void;
+};
+
+export type CreateNewsPickInput = {
+  newsId: Scalars['ID'];
+};
+
+export type CreateNewsPickResponse = {
+  __typename?: 'CreateNewsPickResponse';
+  id: Scalars['ID'];
 };
 
 export type CreatePickInput = {
@@ -47,6 +56,10 @@ export enum CustomErrorResponseCode {
   AlreadyUserExisting = 'ALREADY_USER_EXISTING',
   InvalidRequest = 'INVALID_REQUEST'
 }
+
+export type DeleteNewsPickInput = {
+  newsId: Scalars['ID'];
+};
 
 export type DeleteThoughtInput = {
   id: Scalars['String'];
@@ -85,13 +98,20 @@ export type InitialResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createNewsPick: NewsPick;
   createPick: Pick;
   createThought: CreateThoughtResponse;
   createUser: User;
+  deleteNewsPick: NewsPick;
   deletePick: Pick;
   deleteThought: DeleteThoughtResponse;
   signOut: SignOutResponse;
   uploadThoughtImages: UploadThoughtImagesResponse;
+};
+
+
+export type MutationCreateNewsPickArgs = {
+  input: CreateNewsPickInput;
 };
 
 
@@ -107,6 +127,11 @@ export type MutationCreateThoughtArgs = {
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationDeleteNewsPickArgs = {
+  input: DeleteNewsPickInput;
 };
 
 
@@ -131,6 +156,7 @@ export type News = {
   id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
   link: Scalars['String'];
+  picked: Scalars['Boolean'];
   provider?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
@@ -153,6 +179,12 @@ export enum NewsGenre {
   Politics = 'POLITICS',
   Technology = 'TECHNOLOGY'
 }
+
+export type NewsPick = {
+  __typename?: 'NewsPick';
+  id: Scalars['ID'];
+  newsId: Scalars['ID'];
+};
 
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -307,11 +339,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CreateNewsPickInput: CreateNewsPickInput;
+  CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
   CreateThoughtResponse: ResolverTypeWrapper<CreateThoughtResponse>;
   CreateUserInput: CreateUserInput;
   CustomErrorResponseCode: CustomErrorResponseCode;
+  DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
   DeleteThoughtResponse: ResolverTypeWrapper<DeleteThoughtResponse>;
   Genre: ResolverTypeWrapper<Genre>;
@@ -325,6 +360,7 @@ export type ResolversTypes = {
   NewsConnection: ResolverTypeWrapper<Omit<NewsConnection, 'edges'> & { edges: Array<ResolversTypes['NewsEdge']> }>;
   NewsEdge: ResolverTypeWrapper<Omit<NewsEdge, 'node'> & { node: ResolversTypes['News'] }>;
   NewsGenre: ResolverTypeWrapper<NewsGenre>;
+  NewsPick: ResolverTypeWrapper<NewsPick>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
   Query: ResolverTypeWrapper<{}>;
@@ -343,10 +379,13 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  CreateNewsPickInput: CreateNewsPickInput;
+  CreateNewsPickResponse: CreateNewsPickResponse;
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
   CreateThoughtResponse: CreateThoughtResponse;
   CreateUserInput: CreateUserInput;
+  DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
   DeleteThoughtResponse: DeleteThoughtResponse;
   ID: Scalars['ID'];
@@ -358,6 +397,7 @@ export type ResolversParentTypes = {
   News: News;
   NewsConnection: Omit<NewsConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsEdge']> };
   NewsEdge: Omit<NewsEdge, 'node'> & { node: ResolversParentTypes['News'] };
+  NewsPick: NewsPick;
   PageInfo: PageInfo;
   Pick: Pick;
   Query: {};
@@ -371,6 +411,11 @@ export type ResolversParentTypes = {
   UploadThoughtImagesResponse: UploadThoughtImagesResponse;
   User: User;
   Void: Scalars['Void'];
+};
+
+export type CreateNewsPickResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateNewsPickResponse'] = ResolversParentTypes['CreateNewsPickResponse']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CreateThoughtResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateThoughtResponse'] = ResolversParentTypes['CreateThoughtResponse']> = {
@@ -399,9 +444,11 @@ export type InitialResponseResolvers<ContextType = Context, ParentType extends R
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createPick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationCreatePickArgs, 'input'>>;
   createThought?: Resolver<ResolversTypes['CreateThoughtResponse'], ParentType, ContextType, RequireFields<MutationCreateThoughtArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  deleteNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationDeleteNewsPickArgs, 'input'>>;
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;
   deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
@@ -414,6 +461,7 @@ export type NewsResolvers<ContextType = Context, ParentType extends ResolversPar
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  picked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   provider?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -432,6 +480,12 @@ export type NewsEdgeResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type NewsGenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, TECHNOLOGY?: any }, ResolversTypes['NewsGenre']>;
+
+export type NewsPickResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsPick'] = ResolversParentTypes['NewsPick']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  newsId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
 
 export type PageInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -510,6 +564,7 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type Resolvers<ContextType = Context> = {
+  CreateNewsPickResponse?: CreateNewsPickResponseResolvers<ContextType>;
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
   DeleteThoughtResponse?: DeleteThoughtResponseResolvers<ContextType>;
   Genre?: GenreResolvers;
@@ -520,6 +575,7 @@ export type Resolvers<ContextType = Context> = {
   NewsConnection?: NewsConnectionResolvers<ContextType>;
   NewsEdge?: NewsEdgeResolvers<ContextType>;
   NewsGenre?: NewsGenreResolvers;
+  NewsPick?: NewsPickResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

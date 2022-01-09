@@ -1,7 +1,7 @@
 import { MutationResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
 
-export const createPick: MutationResolvers["createPick"] = async (
+export const createNewsPick: MutationResolvers["createNewsPick"] = async (
   _,
   { input },
   { prisma, requestUser }
@@ -10,12 +10,12 @@ export const createPick: MutationResolvers["createPick"] = async (
     throw new ForbiddenError("auth error");
   }
 
-  const pick = await prisma.pick.create({
+  const newsPick = await prisma.newsPick.create({
     data: {
       pickerId: requestUser.id,
-      thoughtId: input.thoughtId,
+      newsId: input.newsId,
     },
   });
 
-  return pick;
+  return newsPick;
 };
