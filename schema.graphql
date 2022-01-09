@@ -20,6 +20,21 @@ type User {
   name: String!
   bio: String
   imageUrl: String
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
+}
+
+type Me {
+  id: ID!
+  name: String!
+  bio: String
+  imageUrl: String
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
 }
 
 type Pick {
@@ -104,6 +119,7 @@ type Query {
   ): ThoughtsConnection!
   initialData: InitialResponse!
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
+  me: Me!
 }
 
 input CreateUserInput {
@@ -169,7 +185,7 @@ input DeleteNewsPickInput {
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User!
+  createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
   deletePick(thoughtId: ID!): Pick!
   signOut: SignOutResponse!

@@ -19,6 +19,10 @@ model User {
   imageUrl String?
   createdAt DateTime @default(now())
   loggedIn Boolean @default(false)
+  facebook String?
+  twitter String?
+  linkedin String?
+  instagram String?
 
   thoughts Thought[]
   talkRoomMessages TalkRoomMessage[]

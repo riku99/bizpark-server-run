@@ -20,3 +20,5 @@ generates:
         News: "@prisma/client/index.d#News"
         NewsGenre: "@prisma/client/index.d#NewsGenre"
         NewsPick: "@prisma/client/index.d#NewsPick"
+        Me: "@prisma/client/index.d#User"
+        User: "@prisma/client/index.d#User"
