@@ -28,6 +28,7 @@ model User {
   blocks Block[] @relation("blocks")
   blocked Block[] @relation("blocked")
   picks Pick[]
+  newsPicks NewsPick[]
 }
 
 model Thought {
@@ -70,8 +71,13 @@ model News {
   articleCreatedAt DateTime?
   genre NewsGenre
   provider String?
+  cursor Int @default(autoincrement()) @unique 
+  isPicked Boolean @default(false) // ピックされてないものは削除するのでそのためのフラグ
+  apiSource String? // どのAPIから取得したデータか
 
-  @@index([genre, createdAt])
+  picked NewsPick[]
+
+  @@index([genre, cursor])
 }
 
 model TalkRoom {
@@ -153,6 +159,16 @@ model Pick {
   @@index([pickerId])
   @@index([thoughtId])
   @@unique(fields: [pickerId, thoughtId], name: "userPickedId")
+}
+
+model NewsPick {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  pickerId String
+  newsId String
+
+  picker User @relation(fields: [pickerId], references: [id], onDelete: Cascade)
+  news News @relation(fields: [newsId], references: [id], onDelete: Cascade)
 }
 
 model Image {

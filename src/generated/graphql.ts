@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick, Image } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image, News, NewsGenre } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -124,6 +124,36 @@ export type MutationUploadThoughtImagesArgs = {
   files: Array<Scalars['Upload']>;
 };
 
+export type News = {
+  __typename?: 'News';
+  articleCreatedAt?: Maybe<Scalars['String']>;
+  genre: NewsGenre;
+  id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  link: Scalars['String'];
+  provider?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+export type NewsConnection = {
+  __typename?: 'NewsConnection';
+  edges: Array<NewsEdge>;
+  pageInfo: PageInfo;
+};
+
+export type NewsEdge = {
+  __typename?: 'NewsEdge';
+  cursor: Scalars['String'];
+  node: News;
+};
+
+export enum NewsGenre {
+  Business = 'BUSINESS',
+  Economy = 'ECONOMY',
+  Politics = 'POLITICS',
+  Technology = 'TECHNOLOGY'
+}
+
 export type PageInfo = {
   __typename?: 'PageInfo';
   endCursor?: Maybe<Scalars['String']>;
@@ -141,7 +171,15 @@ export type Pick = {
 export type Query = {
   __typename?: 'Query';
   initialData: InitialResponse;
+  news?: Maybe<NewsConnection>;
   thoughts: ThoughtsConnection;
+};
+
+
+export type QueryNewsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  genre: NewsGenre;
 };
 
 
@@ -283,6 +321,10 @@ export type ResolversTypes = {
   InitialResponse: ResolverTypeWrapper<InitialResponse>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
+  News: ResolverTypeWrapper<News>;
+  NewsConnection: ResolverTypeWrapper<Omit<NewsConnection, 'edges'> & { edges: Array<ResolversTypes['NewsEdge']> }>;
+  NewsEdge: ResolverTypeWrapper<Omit<NewsEdge, 'node'> & { node: ResolversTypes['News'] }>;
+  NewsGenre: ResolverTypeWrapper<NewsGenre>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
   Query: ResolverTypeWrapper<{}>;
@@ -313,6 +355,9 @@ export type ResolversParentTypes = {
   InitialResponse: InitialResponse;
   Int: Scalars['Int'];
   Mutation: {};
+  News: News;
+  NewsConnection: Omit<NewsConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsEdge']> };
+  NewsEdge: Omit<NewsEdge, 'node'> & { node: ResolversParentTypes['News'] };
   PageInfo: PageInfo;
   Pick: Pick;
   Query: {};
@@ -363,6 +408,31 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
 };
 
+export type NewsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {
+  articleCreatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  genre?: Resolver<ResolversTypes['NewsGenre'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  provider?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsConnection'] = ResolversParentTypes['NewsConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['NewsEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsEdge'] = ResolversParentTypes['NewsEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['News'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsGenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, TECHNOLOGY?: any }, ResolversTypes['NewsGenre']>;
+
 export type PageInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -379,6 +449,7 @@ export type PickResolvers<ContextType = Context, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   initialData?: Resolver<ResolversTypes['InitialResponse'], ParentType, ContextType>;
+  news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, 'genre'>>;
 };
 
@@ -445,6 +516,10 @@ export type Resolvers<ContextType = Context> = {
   Image?: ImageResolvers<ContextType>;
   InitialResponse?: InitialResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  News?: NewsResolvers<ContextType>;
+  NewsConnection?: NewsConnectionResolvers<ContextType>;
+  NewsEdge?: NewsEdgeResolvers<ContextType>;
+  NewsGenre?: NewsGenreResolvers;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

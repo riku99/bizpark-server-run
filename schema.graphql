@@ -37,11 +37,28 @@ type Thought {
   images: [Image]!
 }
 
+type News {
+  id: ID!
+  title: String!
+  link: String!
+  image: String
+  articleCreatedAt: String
+  genre: NewsGenre!
+  provider: String
+}
+
 enum Genre {
   BUSINESS
   ECONOMY
   POLITICS
   SOCIETY
+}
+
+enum NewsGenre {
+  BUSINESS
+  ECONOMY
+  POLITICS
+  TECHNOLOGY
 }
 
 enum CustomErrorResponseCode {
@@ -63,6 +80,16 @@ type InitialResponse {
   me: User!
 }
 
+type NewsEdge {
+  node: News!
+  cursor: String!
+}
+
+type NewsConnection {
+  edges: [NewsEdge!]!
+  pageInfo: PageInfo!
+}
+
 type Query {
   thoughts(
     genre: Genre!
@@ -70,6 +97,7 @@ type Query {
     after: String # last: Int # before: String
   ): ThoughtsConnection!
   initialData: InitialResponse!
+  news(genre: NewsGenre!, first: Int, after: String): NewsConnection
 }
 
 input CreateUserInput {

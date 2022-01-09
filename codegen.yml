@@ -17,3 +17,5 @@ generates:
         Genre: "@prisma/client/index.d#Genre"
         Pick: "@prisma/client/index.d#Pick"
         Image: "@prisma/client/index.d#Image"
+        News: "@prisma/client/index.d#News"
+        NewsGenre: "@prisma/client/index.d#NewsGenre"
