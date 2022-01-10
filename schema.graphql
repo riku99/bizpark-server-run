@@ -1,6 +1,32 @@
 scalar Void
 scalar Upload
 
+enum Genre {
+  BUSINESS
+  ECONOMY
+  POLITICS
+  SOCIETY
+}
+
+enum NewsGenre {
+  BUSINESS
+  ECONOMY
+  POLITICS
+  TECHNOLOGY
+}
+
+enum CustomErrorResponseCode {
+  ALREADY_USER_EXISTING
+  INVALID_REQUEST
+}
+
+enum SocialType {
+  FACEBOOK
+  TWITTER
+  LINKEDIN
+  INSTAGRAM
+}
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -15,15 +41,19 @@ type Image {
   height: Int
 }
 
+type Social {
+  id: ID!
+  userId: String!
+  type: SocialType!
+  link: String!
+}
+
 type User {
   id: ID!
   name: String!
   bio: String
   imageUrl: String
-  facebook: String
-  twitter: String
-  linkedin: String
-  instagram: String
+  socials: [SocialType]!
 }
 
 type Me {
@@ -31,10 +61,7 @@ type Me {
   name: String!
   bio: String
   imageUrl: String
-  facebook: String
-  twitter: String
-  linkedin: String
-  instagram: String
+  socials: [SocialType]!
 }
 
 type Pick {
@@ -66,25 +93,6 @@ type News {
   genre: NewsGenre!
   provider: String
   picked: Boolean!
-}
-
-enum Genre {
-  BUSINESS
-  ECONOMY
-  POLITICS
-  SOCIETY
-}
-
-enum NewsGenre {
-  BUSINESS
-  ECONOMY
-  POLITICS
-  TECHNOLOGY
-}
-
-enum CustomErrorResponseCode {
-  ALREADY_USER_EXISTING
-  INVALID_REQUEST
 }
 
 type ThoughtEdge {

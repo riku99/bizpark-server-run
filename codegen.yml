@@ -22,3 +22,4 @@ generates:
         NewsPick: "@prisma/client/index.d#NewsPick"
         Me: "@prisma/client/index.d#User"
         User: "@prisma/client/index.d#User"
+        Social: "@prisma/client/index.d#Social"

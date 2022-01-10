@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick, Image, News, NewsGenre, NewsPick, User } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image, News, NewsGenre, NewsPick, User, Social } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -99,13 +99,10 @@ export type InitialResponse = {
 export type Me = {
   __typename?: 'Me';
   bio?: Maybe<Scalars['String']>;
-  facebook?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
-  instagram?: Maybe<Scalars['String']>;
-  linkedin?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  twitter?: Maybe<Scalars['String']>;
+  socials: Array<Maybe<SocialType>>;
 };
 
 export type Mutation = {
@@ -239,6 +236,21 @@ export type SignOutResponse = {
   id: Scalars['ID'];
 };
 
+export type Social = {
+  __typename?: 'Social';
+  id: Scalars['ID'];
+  link: Scalars['String'];
+  type: SocialType;
+  userId: Scalars['String'];
+};
+
+export enum SocialType {
+  Facebook = 'FACEBOOK',
+  Instagram = 'INSTAGRAM',
+  Linkedin = 'LINKEDIN',
+  Twitter = 'TWITTER'
+}
+
 export type SubImage = {
   __typename?: 'SubImage';
   height?: Maybe<Scalars['Int']>;
@@ -277,13 +289,10 @@ export type UploadThoughtImagesResponse = {
 export type User = {
   __typename?: 'User';
   bio?: Maybe<Scalars['String']>;
-  facebook?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
-  instagram?: Maybe<Scalars['String']>;
-  linkedin?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  twitter?: Maybe<Scalars['String']>;
+  socials: Array<Maybe<SocialType>>;
 };
 
 
@@ -383,6 +392,8 @@ export type ResolversTypes = {
   Pick: ResolverTypeWrapper<Pick>;
   Query: ResolverTypeWrapper<{}>;
   SignOutResponse: ResolverTypeWrapper<SignOutResponse>;
+  Social: ResolverTypeWrapper<Social>;
+  SocialType: SocialType;
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
   Thought: ResolverTypeWrapper<Thought>;
@@ -421,6 +432,7 @@ export type ResolversParentTypes = {
   Pick: Pick;
   Query: {};
   SignOutResponse: SignOutResponse;
+  Social: Social;
   String: Scalars['String'];
   SubImage: SubImage;
   Thought: Thought;
@@ -464,13 +476,10 @@ export type InitialResponseResolvers<ContextType = Context, ParentType extends R
 
 export type MeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Me'] = ResolversParentTypes['Me']> = {
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  facebook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  instagram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  socials?: Resolver<Array<Maybe<ResolversTypes['SocialType']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -544,6 +553,14 @@ export type SignOutResponseResolvers<ContextType = Context, ParentType extends R
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type SocialResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Social'] = ResolversParentTypes['Social']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['SocialType'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type SubImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SubImage'] = ResolversParentTypes['SubImage']> = {
   height?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -585,13 +602,10 @@ export type UploadThoughtImagesResponseResolvers<ContextType = Context, ParentTy
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  facebook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  instagram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  socials?: Resolver<Array<Maybe<ResolversTypes['SocialType']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -617,6 +631,7 @@ export type Resolvers<ContextType = Context> = {
   Pick?: PickResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignOutResponse?: SignOutResponseResolvers<ContextType>;
+  Social?: SocialResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
   Thought?: ThoughtResolvers<ContextType>;
   ThoughtEdge?: ThoughtEdgeResolvers<ContextType>;

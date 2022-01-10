@@ -21,5 +21,14 @@ export const me: QueryResolvers["me"] = async (
     });
   }
 
-  return requestUser;
+  const socials = await prisma.social.findMany({
+    where: {
+      userId: requestUser.id,
+    },
+  });
+
+  return {
+    ...requestUser,
+    socials,
+  };
 };
