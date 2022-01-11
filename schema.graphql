@@ -184,10 +184,14 @@ input DeleteNewsPickInput {
   newsId: ID!
 }
 
-input UpdateMe {
+input UpdateMeInput {
   name: String!
   bio: String
   imageUrl: String
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
 }
 
 type Mutation {
@@ -200,4 +204,6 @@ type Mutation {
   deleteThought(input: DeleteThoughtInput!): DeleteThoughtResponse!
   createNewsPick(input: CreateNewsPickInput!): NewsPick!
   deleteNewsPick(input: DeleteNewsPickInput!): NewsPick!
+  updateMe(input: UpdateMeInput!): Me!
+  uploadImage(file: Upload!): SubImage!
 }

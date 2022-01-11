@@ -118,6 +118,8 @@ export type Mutation = {
   deletePick: Pick;
   deleteThought: DeleteThoughtResponse;
   signOut: SignOutResponse;
+  updateMe: Me;
+  uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
 };
 
@@ -154,6 +156,16 @@ export type MutationDeletePickArgs = {
 
 export type MutationDeleteThoughtArgs = {
   input: DeleteThoughtInput;
+};
+
+
+export type MutationUpdateMeArgs = {
+  input: UpdateMeInput;
+};
+
+
+export type MutationUploadImageArgs = {
+  file: Scalars['Upload'];
 };
 
 
@@ -269,10 +281,14 @@ export type ThoughtsConnection = {
   pageInfo: PageInfo;
 };
 
-export type UpdateMe = {
+export type UpdateMeInput = {
   bio?: InputMaybe<Scalars['String']>;
+  facebook?: InputMaybe<Scalars['String']>;
   imageUrl?: InputMaybe<Scalars['String']>;
+  instagram?: InputMaybe<Scalars['String']>;
+  linkedin?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
+  twitter?: InputMaybe<Scalars['String']>;
 };
 
 export type UploadThoughtImagesResponse = {
@@ -394,7 +410,7 @@ export type ResolversTypes = {
   Thought: ResolverTypeWrapper<Thought>;
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
-  UpdateMe: UpdateMe;
+  UpdateMeInput: UpdateMeInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
   UploadThoughtImagesResponse: ResolverTypeWrapper<UploadThoughtImagesResponse>;
   User: ResolverTypeWrapper<User>;
@@ -433,7 +449,7 @@ export type ResolversParentTypes = {
   Thought: Thought;
   ThoughtEdge: Omit<ThoughtEdge, 'node'> & { node: ResolversParentTypes['Thought'] };
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
-  UpdateMe: UpdateMe;
+  UpdateMeInput: UpdateMeInput;
   Upload: Scalars['Upload'];
   UploadThoughtImagesResponse: UploadThoughtImagesResponse;
   User: User;
@@ -491,6 +507,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;
   deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
+  updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
+  uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
 };
 

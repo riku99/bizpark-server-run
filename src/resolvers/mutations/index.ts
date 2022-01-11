@@ -8,6 +8,8 @@ import { createThought } from "./createThought";
 import { deleteThought } from "./deleteTohught";
 import { createNewsPick } from "./createNewsPick";
 import { deleteNewsPick } from "./deleteNewsPick";
+import { updateMe } from "./updateMe";
+import { uploadImage } from "./uploadImage";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -19,4 +21,6 @@ export const Mutation: MutationResolvers = {
   deleteThought,
   createNewsPick,
   deleteNewsPick,
+  updateMe,
+  uploadImage,
 };
