@@ -2,6 +2,7 @@ import { createRandomString } from "~/helpers/createRandomString";
 import { Upload } from "graphql-upload";
 import { Storage } from "@google-cloud/storage";
 import sharp from "sharp";
+import { SubImage } from "~/generated/graphql";
 
 const storage = new Storage();
 const myBucket = storage.bucket(process.env.STORAGE_BUCKET as string);
@@ -47,21 +48,29 @@ export const upload = async ({ file }: { file: Upload }) => {
     sharp().resize(resizeWidth, resizeHeight)
   );
 
-  resizedStream
-    .pipe(
-      fileObj.createWriteStream({
-        gzip: true,
-        contentType: "image/webp",
-      })
-    )
-    .on("error", (err: unknown) => {
-      console.log(err);
+  const uploadStream = resizedStream.pipe(
+    fileObj.createWriteStream({
+      gzip: true,
+      contentType: "image/webp",
     })
-    .on("finish", (data: unknown) => {});
+  );
 
-  return {
-    url: filePath,
-    width: dimensions.width,
-    height: dimensions.height,
-  };
+  const uploadPromise = () =>
+    new Promise<SubImage>((resolve, reject) => {
+      uploadStream
+        .on("error", (err: unknown) => {
+          console.log(err);
+          reject();
+        })
+        .on("finish", (data: unknown) => {
+          resolve({
+            url: filePath,
+            width: dimensions.width,
+            height: dimensions.height,
+          });
+        });
+    });
+
+  const data = await uploadPromise();
+  return data;
 };
