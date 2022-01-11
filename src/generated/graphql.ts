@@ -230,6 +230,7 @@ export type Query = {
   me: Me;
   news?: Maybe<NewsConnection>;
   thoughts: ThoughtsConnection;
+  user: User;
 };
 
 
@@ -246,6 +247,11 @@ export type QueryThoughtsArgs = {
   genre: Genre;
 };
 
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
+};
+
 export type SignOutResponse = {
   __typename?: 'SignOutResponse';
   id: Scalars['ID'];
@@ -260,7 +266,7 @@ export type SubImage = {
 
 export type Thought = {
   __typename?: 'Thought';
-  contributor?: Maybe<User>;
+  contributor: User;
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   images: Array<Maybe<Image>>;
@@ -563,6 +569,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   me?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, 'genre'>>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 
 export type SignOutResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SignOutResponse'] = ResolversParentTypes['SignOutResponse']> = {
@@ -578,7 +585,7 @@ export type SubImageResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type ThoughtResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Thought'] = ResolversParentTypes['Thought']> = {
-  contributor?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  contributor?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   images?: Resolver<Array<Maybe<ResolversTypes['Image']>>, ParentType, ContextType>;

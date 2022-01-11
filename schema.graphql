@@ -71,7 +71,7 @@ type Thought {
   title: String
   text: String!
   createdAt: String
-  contributor: User
+  contributor: User!
   picked: Boolean!
   images: [Image]!
 }
@@ -120,6 +120,7 @@ type Query {
   initialData: InitialResponse!
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
   me: Me!
+  user(id: ID!): User!
 }
 
 input CreateUserInput {
