@@ -19,10 +19,10 @@ model User {
   imageUrl String?
   createdAt DateTime @default(now())
   loggedIn Boolean @default(false)
-  // facebook String?
-  // twitter String?
-  // linkedin String?
-  // instagram String?
+  facebook String?
+  twitter String?
+  linkedin String?
+  instagram String?
 
   thoughts Thought[]
   talkRoomMessages TalkRoomMessage[]
@@ -33,7 +33,6 @@ model User {
   blocked Block[] @relation("blocked")
   picks Pick[]
   newsPicks NewsPick[]
-  socials Social[]
 }
 
 model Thought {
@@ -184,16 +183,16 @@ model Image {
   createdAt DateTime @default(now())
 }
 
-model Social {
-  id String @id @default(uuid())
-  userId String
-  type Socials
-  link String
+// model Social {
+//   id String @id @default(uuid())
+//   userId String
+//   type Socials
+//   link String
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
-}
+//   @@index([userId])
+// }
 
 enum Genre {
   BUSINESS
@@ -209,11 +208,11 @@ enum NewsGenre {
   TECHNOLOGY
 }
 
-enum Socials {
-  FACEBOOK
-  TWITTER
-  LINKEDIN
-  INSTAGRAM
-}
+// enum Socials {
+//   FACEBOOK
+//   TWITTER
+//   LINKEDIN
+//   INSTAGRAM
+// }
 
 // ToDo Follow

@@ -20,13 +20,6 @@ enum CustomErrorResponseCode {
   INVALID_REQUEST
 }
 
-enum SocialType {
-  FACEBOOK
-  TWITTER
-  LINKEDIN
-  INSTAGRAM
-}
-
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -41,19 +34,15 @@ type Image {
   height: Int
 }
 
-type Social {
-  id: ID!
-  userId: String!
-  type: SocialType!
-  link: String!
-}
-
 type User {
   id: ID!
   name: String!
   bio: String
   imageUrl: String
-  socials: [SocialType]!
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
 }
 
 type Me {
@@ -61,7 +50,10 @@ type Me {
   name: String!
   bio: String
   imageUrl: String
-  socials: [SocialType]!
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
 }
 
 type Pick {
@@ -190,6 +182,12 @@ type CreateNewsPickResponse {
 
 input DeleteNewsPickInput {
   newsId: ID!
+}
+
+input UpdateMe {
+  name: String!
+  bio: String
+  imageUrl: String
 }
 
 type Mutation {
