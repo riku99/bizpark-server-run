@@ -121,6 +121,7 @@ type Query {
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
   me: Me!
   user(id: ID!): User!
+  pickedThoughts(first: Int!, after: String): ThoughtsConnection!
 }
 
 input CreateUserInput {
