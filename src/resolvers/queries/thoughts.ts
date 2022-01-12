@@ -72,7 +72,7 @@ export const thoughts: QueryResolvers["thoughts"] = async (
       node: thought,
       cursor: thought.cursor,
     };
-  }, []);
+  });
 
   return {
     edges,
