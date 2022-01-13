@@ -1,6 +1,7 @@
 import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
 import { findThoughtsWithRelayStyle } from "~/models/thought";
+import { createThoughtConnection } from "~/helpers/createThoughtConnection";
 
 const DEFAULT_TAKE_COUNT = 20;
 
@@ -25,17 +26,9 @@ export const thoughts: QueryResolvers["thoughts"] = async (
     after: decodedAfter,
   });
 
-  const genreCount = await prisma.thought.count({
-    where: {
-      genre,
-    },
-  });
-
-  let hasNextPage: boolean;
-  let hasPreviousPage: boolean;
-
+  let count: number;
   if (decodedAfter) {
-    const afterGenreCount = await prisma.thought.count({
+    count = await prisma.thought.count({
       where: {
         genre,
         cursor: {
@@ -43,39 +36,20 @@ export const thoughts: QueryResolvers["thoughts"] = async (
         },
       },
     });
-
-    hasNextPage = afterGenreCount - (first ?? DEFAULT_TAKE_COUNT) > 0;
-    hasPreviousPage = true;
   } else {
-    // afterがない。初回。
-    hasNextPage = genreCount > DEFAULT_TAKE_COUNT;
-    hasPreviousPage = false;
+    count = await prisma.thought.count({
+      where: {
+        genre,
+      },
+    });
   }
 
-  const pageInfo = {
-    hasNextPage,
-    hasPreviousPage,
-    startCursor: thoughts[0].cursor,
-    endCursor: thoughts[thoughts.length - 1].cursor.toString(),
-  };
-
-  const convertedThoughts = thoughts.map((t) => {
-    const picked = !!t.picked.length;
-    return {
-      ...t,
-      picked,
-    };
+  const connection = createThoughtConnection({
+    thoughts,
+    after: decodedAfter,
+    first: first ?? DEFAULT_TAKE_COUNT,
+    count,
   });
 
-  const edges = convertedThoughts.map((thought) => {
-    return {
-      node: thought,
-      cursor: thought.cursor,
-    };
-  });
-
-  return {
-    edges,
-    pageInfo,
-  };
+  return connection;
 };
