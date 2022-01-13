@@ -87,6 +87,12 @@ type News {
   picked: Boolean!
 }
 
+type Follow {
+  id: ID!
+  followerId: ID!
+  followeeId: ID!
+}
+
 type ThoughtEdge {
   node: Thought!
   cursor: String!
@@ -124,6 +130,7 @@ type Query {
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
+  follows: [User]!
 }
 
 input CreateUserInput {

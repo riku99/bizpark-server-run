@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick, Image, News, NewsGenre, NewsPick, User } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image, News, NewsGenre, NewsPick, User, Follow } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -67,6 +67,13 @@ export type DeleteThoughtInput = {
 
 export type DeleteThoughtResponse = {
   __typename?: 'DeleteThoughtResponse';
+  id: Scalars['ID'];
+};
+
+export type Follow = {
+  __typename?: 'Follow';
+  followeeId: Scalars['ID'];
+  followerId: Scalars['ID'];
   id: Scalars['ID'];
 };
 
@@ -416,6 +423,7 @@ export type ResolversTypes = {
   DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
   DeleteThoughtResponse: ResolverTypeWrapper<DeleteThoughtResponse>;
+  Follow: ResolverTypeWrapper<Follow>;
   Genre: ResolverTypeWrapper<Genre>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
@@ -457,6 +465,7 @@ export type ResolversParentTypes = {
   DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
   DeleteThoughtResponse: DeleteThoughtResponse;
+  Follow: Follow;
   ID: Scalars['ID'];
   Image: Image;
   ImageInput: ImageInput;
@@ -495,6 +504,13 @@ export type CreateThoughtResponseResolvers<ContextType = Context, ParentType ext
 };
 
 export type DeleteThoughtResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteThoughtResponse'] = ResolversParentTypes['DeleteThoughtResponse']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FollowResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Follow'] = ResolversParentTypes['Follow']> = {
+  followeeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  followerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -661,6 +677,7 @@ export type Resolvers<ContextType = Context> = {
   CreateNewsPickResponse?: CreateNewsPickResponseResolvers<ContextType>;
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
   DeleteThoughtResponse?: DeleteThoughtResponseResolvers<ContextType>;
+  Follow?: FollowResolvers<ContextType>;
   Genre?: GenreResolvers;
   Image?: ImageResolvers<ContextType>;
   InitialResponse?: InitialResponseResolvers<ContextType>;

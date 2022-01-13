@@ -33,6 +33,8 @@ model User {
   blocked Block[] @relation("blocked")
   picks Pick[]
   newsPicks NewsPick[]
+  follow Follow[] @relation("follow")
+  follower Follow[] @relation("follower")
 }
 
 model Thought {
@@ -183,16 +185,20 @@ model Image {
   createdAt DateTime @default(now())
 }
 
-// model Social {
-//   id String @id @default(uuid())
-//   userId String
-//   type Socials
-//   link String
+model Follow {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+  followerId String
+  followeeId String
+  cursor Int @default(autoincrement()) @unique 
 
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  follower User @relation("follow", fields: [followerId], references: [id], onDelete: Cascade)
+  followee User @relation("follower", fields: [followeeId], references: [id], onDelete: Cascade)
 
-//   @@index([userId])
-// }
+  @@unique([followerId, followeeId])
+  @@index([followerId])
+  @@index([cursor])
+}
 
 enum Genre {
   BUSINESS
@@ -207,12 +213,3 @@ enum NewsGenre {
   POLITICS
   TECHNOLOGY
 }
-
-// enum Socials {
-//   FACEBOOK
-//   TWITTER
-//   LINKEDIN
-//   INSTAGRAM
-// }
-
-// ToDo Follow
