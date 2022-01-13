@@ -1,5 +1,6 @@
 import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
+import { findNewsWithRelayStyle } from "~/models/news";
 
 const DEFAULT_TAKE_COUNT = 30;
 
@@ -16,23 +17,13 @@ export const news: QueryResolvers["news"] = async (
     ? Number(Buffer.from(after, "base64").toString())
     : null;
 
-  const news = await prisma.news.findMany({
+  const news = await findNewsWithRelayStyle({
     where: {
       genre,
     },
-    orderBy: {
-      cursor: "desc",
-    },
-    include: {
-      picked: {
-        where: {
-          pickerId: requestUser.id,
-        },
-      },
-    },
-    take: first ?? DEFAULT_TAKE_COUNT,
-    skip: decodedAfter && decodedAfter > 1 ? 1 : 0,
-    cursor: decodedAfter ? { cursor: decodedAfter } : undefined,
+    userId: requestUser.id,
+    first: first ?? DEFAULT_TAKE_COUNT,
+    after: decodedAfter,
   });
 
   const genreCount = await prisma.news.count({
