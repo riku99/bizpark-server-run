@@ -217,4 +217,5 @@ type Mutation {
   deleteNewsPick(input: DeleteNewsPickInput!): NewsPick!
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
+  follow(followeeId: ID!): User!
 }
