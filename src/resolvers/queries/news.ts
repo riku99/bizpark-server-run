@@ -1,8 +1,9 @@
 import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
 import { findNewsWithRelayStyle } from "~/models/news";
+import { createNewsConnection } from "~/helpers/createNewsConnection";
 
-const DEFAULT_TAKE_COUNT = 30;
+const DEFAULT_TAKE_COUNT = 20;
 
 export const news: QueryResolvers["news"] = async (
   _,
@@ -26,17 +27,9 @@ export const news: QueryResolvers["news"] = async (
     after: decodedAfter,
   });
 
-  const genreCount = await prisma.news.count({
-    where: {
-      genre,
-    },
-  });
-
-  let hasNextPage: boolean;
-  let hasPreviousPage: boolean;
-
+  let count: number;
   if (decodedAfter) {
-    const afterGenreCount = await prisma.news.count({
+    count = await prisma.news.count({
       where: {
         genre,
         cursor: {
@@ -44,39 +37,20 @@ export const news: QueryResolvers["news"] = async (
         },
       },
     });
-
-    hasNextPage = afterGenreCount - (first ?? DEFAULT_TAKE_COUNT) > 0;
-    hasPreviousPage = true;
   } else {
-    // afterがない。初回。
-    hasNextPage = genreCount > (first ?? DEFAULT_TAKE_COUNT);
-    hasPreviousPage = false;
+    count = await prisma.news.count({
+      where: {
+        genre,
+      },
+    });
   }
 
-  const pageInfo = {
-    hasNextPage,
-    hasPreviousPage,
-    startCursor: news[0].cursor.toString(),
-    endCursor: news[news.length - 1].cursor.toString(),
-  };
-
-  const convertedNews = news.map((n) => {
-    const picked = !!n.picked.length;
-    return {
-      ...n,
-      picked,
-    };
+  const connection = createNewsConnection({
+    news,
+    first: first ?? DEFAULT_TAKE_COUNT,
+    count,
+    after: decodedAfter,
   });
 
-  const edges = convertedNews.map((n) => {
-    return {
-      node: n,
-      cursor: n.cursor.toString(),
-    };
-  });
-
-  return {
-    edges,
-    pageInfo,
-  };
+  return connection;
 };
