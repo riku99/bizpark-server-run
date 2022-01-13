@@ -123,6 +123,7 @@ type Query {
   user(id: ID!): User!
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsConnection!
+  userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
 }
 
 input CreateUserInput {

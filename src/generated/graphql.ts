@@ -233,6 +233,7 @@ export type Query = {
   pickedThoughts: ThoughtsConnection;
   thoughts: ThoughtsConnection;
   user: User;
+  userThoughts: ThoughtsConnection;
 };
 
 
@@ -264,6 +265,13 @@ export type QueryThoughtsArgs = {
 
 export type QueryUserArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryUserThoughtsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first: Scalars['Int'];
+  userId: Scalars['ID'];
 };
 
 export type SignOutResponse = {
@@ -586,6 +594,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, 'genre'>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;
 };
 
 export type SignOutResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SignOutResponse'] = ResolversParentTypes['SignOutResponse']> = {
