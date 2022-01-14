@@ -118,6 +118,16 @@ type NewsConnection {
   pageInfo: PageInfo!
 }
 
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+}
+
 type Query {
   thoughts(
     genre: Genre!
@@ -131,7 +141,7 @@ type Query {
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
-  follows: [User]!
+  follows(first: Int!, after: String): UserConnection!
 }
 
 input CreateUserInput {

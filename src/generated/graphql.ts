@@ -245,7 +245,7 @@ export type Pick = {
 
 export type Query = {
   __typename?: 'Query';
-  follows: Array<Maybe<User>>;
+  follows: UserConnection;
   initialData: InitialResponse;
   me: Me;
   news?: Maybe<NewsConnection>;
@@ -254,6 +254,12 @@ export type Query = {
   thoughts: ThoughtsConnection;
   user: User;
   userThoughts: ThoughtsConnection;
+};
+
+
+export type QueryFollowsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first: Scalars['Int'];
 };
 
 
@@ -355,6 +361,18 @@ export type User = {
   linkedin?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   twitter?: Maybe<Scalars['String']>;
+};
+
+export type UserConnection = {
+  __typename?: 'UserConnection';
+  edges: Array<UserEdge>;
+  pageInfo: PageInfo;
+};
+
+export type UserEdge = {
+  __typename?: 'UserEdge';
+  cursor: Scalars['String'];
+  node: User;
 };
 
 
@@ -464,6 +482,8 @@ export type ResolversTypes = {
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
   UploadThoughtImagesResponse: ResolverTypeWrapper<UploadThoughtImagesResponse>;
   User: ResolverTypeWrapper<User>;
+  UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
+  UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
 
@@ -504,6 +524,8 @@ export type ResolversParentTypes = {
   Upload: Scalars['Upload'];
   UploadThoughtImagesResponse: UploadThoughtImagesResponse;
   User: User;
+  UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
+  UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
   Void: Scalars['Void'];
 };
 
@@ -619,7 +641,7 @@ export type PickResolvers<ContextType = Context, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  follows?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  follows?: Resolver<ResolversTypes['UserConnection'], ParentType, ContextType, RequireFields<QueryFollowsArgs, 'first'>>;
   initialData?: Resolver<ResolversTypes['InitialResponse'], ParentType, ContextType>;
   me?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
@@ -687,6 +709,18 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UserConnection'] = ResolversParentTypes['UserConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['UserEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UserEdge'] = ResolversParentTypes['UserEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void';
 }
@@ -717,6 +751,8 @@ export type Resolvers<ContextType = Context> = {
   Upload?: GraphQLScalarType;
   UploadThoughtImagesResponse?: UploadThoughtImagesResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserConnection?: UserConnectionResolvers<ContextType>;
+  UserEdge?: UserEdgeResolvers<ContextType>;
   Void?: GraphQLScalarType;
 };
 

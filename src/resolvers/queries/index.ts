@@ -7,6 +7,7 @@ import { user } from "./user";
 import { pickedThoughts } from "./pickedThoughts";
 import { pickedNews } from "./pickedNews";
 import { userThoughts } from "./userThoughts";
+import { follows } from "./follows";
 
 export const Query: QueryResolvers = {
   thoughts,
@@ -17,4 +18,5 @@ export const Query: QueryResolvers = {
   pickedThoughts,
   pickedNews,
   userThoughts,
+  follows,
 };
