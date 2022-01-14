@@ -22,6 +22,9 @@ export const follows: QueryResolvers["follows"] = async (
     include: {
       followee: true,
     },
+    orderBy: {
+      cursor: "desc",
+    },
     take: first,
     cursor: decodedAfter ? { cursor: decodedAfter } : undefined,
     skip: decodedAfter && decodedAfter > 1 ? 1 : 0,
