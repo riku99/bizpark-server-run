@@ -14,6 +14,13 @@ export const user: QueryResolvers["user"] = async (
     where: {
       id,
     },
+    include: {
+      follower: {
+        where: {
+          followerId: requestUser.id,
+        },
+      },
+    },
   });
 
   if (!user) {
@@ -23,5 +30,11 @@ export const user: QueryResolvers["user"] = async (
     );
   }
 
-  return user;
+  const follow = !!user.follower.length;
+  const { follower, ...userData } = user;
+
+  return {
+    ...userData,
+    follow,
+  };
 };

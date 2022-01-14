@@ -1,7 +1,7 @@
 import { MutationResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
 
-export const follow: MutationResolvers["follow"] = async (
+export const unfollow: MutationResolvers["unfollow"] = async (
   _,
   { followeeId },
   { prisma, requestUser }
@@ -10,10 +10,12 @@ export const follow: MutationResolvers["follow"] = async (
     throw new ForbiddenError("auth error");
   }
 
-  await prisma.follow.create({
-    data: {
-      followeeId,
-      followerId: requestUser.id,
+  await prisma.follow.delete({
+    where: {
+      followerId_followeeId: {
+        followerId: requestUser.id,
+        followeeId,
+      },
     },
   });
 

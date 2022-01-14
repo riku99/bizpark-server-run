@@ -1,7 +1,9 @@
-import { Thought, User } from "@prisma/client";
+import { Thought, User, Follow } from "@prisma/client";
 
 type T = (Thought & {
-  contributor: User;
+  contributor: User & {
+    follower: Follow[];
+  };
   picked: {
     id: string;
   }[];
@@ -45,9 +47,14 @@ export const createThoughtConnection = async ({
 
   const convertedThoughts = thoughts.map((t) => {
     const picked = !!t.picked.length;
+    const follow = !!t.contributor.follower.length;
     return {
       ...t,
       picked,
+      contributor: {
+        ...t.contributor,
+        follow,
+      },
     };
   });
 

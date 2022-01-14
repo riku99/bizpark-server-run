@@ -124,8 +124,9 @@ export type Mutation = {
   deleteNewsPick: NewsPick;
   deletePick: Pick;
   deleteThought: DeleteThoughtResponse;
-  follow: User;
+  follow?: Maybe<Scalars['Boolean']>;
   signOut: SignOutResponse;
+  unfollow?: Maybe<Scalars['Boolean']>;
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
@@ -168,6 +169,11 @@ export type MutationDeleteThoughtArgs = {
 
 
 export type MutationFollowArgs = {
+  followeeId: Scalars['ID'];
+};
+
+
+export type MutationUnfollowArgs = {
   followeeId: Scalars['ID'];
 };
 
@@ -342,6 +348,7 @@ export type User = {
   __typename?: 'User';
   bio?: Maybe<Scalars['String']>;
   facebook?: Maybe<Scalars['String']>;
+  follow: Scalars['Boolean'];
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
   instagram?: Maybe<Scalars['String']>;
@@ -557,8 +564,9 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationDeleteNewsPickArgs, 'input'>>;
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;
   deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
-  follow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
+  follow?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
+  unfollow?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
@@ -669,6 +677,7 @@ export type UploadThoughtImagesResponseResolvers<ContextType = Context, ParentTy
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   facebook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  follow?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   instagram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

@@ -11,6 +11,7 @@ import { deleteNewsPick } from "./deleteNewsPick";
 import { updateMe } from "./updateMe";
 import { uploadImage } from "./uploadImage";
 import { follow } from "./follow";
+import { unfollow } from "./unfollow";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -25,4 +26,5 @@ export const Mutation: MutationResolvers = {
   updateMe,
   uploadImage,
   follow,
+  unfollow,
 };

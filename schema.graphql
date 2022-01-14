@@ -43,6 +43,7 @@ type User {
   twitter: String
   linkedin: String
   instagram: String
+  follow: Boolean!
 }
 
 type Me {
@@ -217,5 +218,6 @@ type Mutation {
   deleteNewsPick(input: DeleteNewsPickInput!): NewsPick!
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
-  follow(followeeId: ID!): User!
+  follow(followeeId: ID!): Boolean
+  unfollow(followeeId: ID!): Boolean
 }

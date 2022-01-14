@@ -12,10 +12,18 @@ export const findThoughtsWithRelayStyle = async ({
   first: number;
   after: number | null;
 }) => {
-  return await prisma.thought.findMany({
+  const data = await prisma.thought.findMany({
     where,
     include: {
-      contributor: true,
+      contributor: {
+        include: {
+          follower: {
+            where: {
+              followerId: userId,
+            },
+          },
+        },
+      },
       picked: {
         where: {
           pickerId: userId,
@@ -44,4 +52,6 @@ export const findThoughtsWithRelayStyle = async ({
         }
       : undefined,
   });
+
+  return data;
 };
