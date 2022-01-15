@@ -1,5 +1,8 @@
-import { MutationResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
+import {
+  MutationResolvers,
+  CustomErrorResponseCode,
+} from "~/generated/graphql";
+import { ForbiddenError, ApolloError } from "apollo-server-express";
 
 export const follow: MutationResolvers["follow"] = async (
   _,
@@ -8,6 +11,22 @@ export const follow: MutationResolvers["follow"] = async (
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
+  }
+
+  const blocking = await prisma.block.findUnique({
+    where: {
+      blockBy_blockTo: {
+        blockBy: requestUser.id,
+        blockTo: followeeId,
+      },
+    },
+  });
+
+  if (blocking) {
+    throw new ApolloError(
+      "user is blocking",
+      CustomErrorResponseCode.InvalidRequest
+    );
   }
 
   await prisma.follow.create({
