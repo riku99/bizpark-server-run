@@ -117,6 +117,7 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  block: User;
   createNewsPick: NewsPick;
   createPick: Pick;
   createThought: CreateThoughtResponse;
@@ -130,6 +131,11 @@ export type Mutation = {
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
+};
+
+
+export type MutationBlockArgs = {
+  blockTo: Scalars['ID'];
 };
 
 
@@ -354,6 +360,7 @@ export type UploadThoughtImagesResponse = {
 export type User = {
   __typename?: 'User';
   bio?: Maybe<Scalars['String']>;
+  blocking?: Maybe<Scalars['Boolean']>;
   facebook?: Maybe<Scalars['String']>;
   follow: Scalars['Boolean'];
   id: Scalars['ID'];
@@ -580,6 +587,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  block?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationBlockArgs, 'blockTo'>>;
   createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createPick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationCreatePickArgs, 'input'>>;
   createThought?: Resolver<ResolversTypes['CreateThoughtResponse'], ParentType, ContextType, RequireFields<MutationCreateThoughtArgs, 'input'>>;
@@ -699,6 +707,7 @@ export type UploadThoughtImagesResponseResolvers<ContextType = Context, ParentTy
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  blocking?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   facebook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   follow?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;

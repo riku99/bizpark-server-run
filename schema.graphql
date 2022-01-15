@@ -44,6 +44,7 @@ type User {
   linkedin: String
   instagram: String
   follow: Boolean!
+  blocking: Boolean
 }
 
 type Me {
@@ -230,4 +231,5 @@ type Mutation {
   uploadImage(file: Upload!): SubImage!
   follow(followeeId: ID!): Boolean
   unfollow(followeeId: ID!): Boolean
+  block(blockTo: ID!): User!
 }
