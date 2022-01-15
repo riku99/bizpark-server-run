@@ -144,6 +144,7 @@ type Query {
   pickedNews(first: Int!, after: String): NewsConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
   follows(first: Int!, after: String, q: String): UserConnection!
+  blockingUsers: [User]!
 }
 
 input CreateUserInput {

@@ -258,6 +258,7 @@ export type Pick = {
 
 export type Query = {
   __typename?: 'Query';
+  blockingUsers: Array<Maybe<User>>;
   follows: UserConnection;
   initialData: InitialResponse;
   me: Me;
@@ -658,6 +659,7 @@ export type PickResolvers<ContextType = Context, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  blockingUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
   follows?: Resolver<ResolversTypes['UserConnection'], ParentType, ContextType, RequireFields<QueryFollowsArgs, 'first'>>;
   initialData?: Resolver<ResolversTypes['InitialResponse'], ParentType, ContextType>;
   me?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
