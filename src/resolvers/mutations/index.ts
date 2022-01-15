@@ -13,6 +13,7 @@ import { uploadImage } from "./uploadImage";
 import { follow } from "./follow";
 import { unfollow } from "./unfollow";
 import { block } from "./block";
+import { unblock } from "./unblock";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -29,4 +30,5 @@ export const Mutation: MutationResolvers = {
   follow,
   unfollow,
   block,
+  unblock,
 };

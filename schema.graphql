@@ -18,6 +18,7 @@ enum NewsGenre {
 enum CustomErrorResponseCode {
   ALREADY_USER_EXISTING
   INVALID_REQUEST
+  ALREADY_UN_BLOKING
 }
 
 type PageInfo {
@@ -232,4 +233,5 @@ type Mutation {
   follow(followeeId: ID!): Boolean
   unfollow(followeeId: ID!): Boolean
   block(blockTo: ID!): User!
+  unblock(blockedUserId: ID!): User!
 }

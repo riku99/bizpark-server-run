@@ -53,6 +53,7 @@ export type CreateUserInput = {
 };
 
 export enum CustomErrorResponseCode {
+  AlreadyUnBloking = 'ALREADY_UN_BLOKING',
   AlreadyUserExisting = 'ALREADY_USER_EXISTING',
   InvalidRequest = 'INVALID_REQUEST'
 }
@@ -127,6 +128,7 @@ export type Mutation = {
   deleteThought: DeleteThoughtResponse;
   follow?: Maybe<Scalars['Boolean']>;
   signOut: SignOutResponse;
+  unblock: User;
   unfollow?: Maybe<Scalars['Boolean']>;
   updateMe: Me;
   uploadImage: SubImage;
@@ -176,6 +178,11 @@ export type MutationDeleteThoughtArgs = {
 
 export type MutationFollowArgs = {
   followeeId: Scalars['ID'];
+};
+
+
+export type MutationUnblockArgs = {
+  blockedUserId: Scalars['ID'];
 };
 
 
@@ -597,6 +604,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
   follow?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
+  unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
   unfollow?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
