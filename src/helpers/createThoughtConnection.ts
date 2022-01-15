@@ -41,8 +41,10 @@ export const createThoughtConnection = async ({
   const pageInfo = {
     hasNextPage,
     hasPreviousPage,
-    startCursor: thoughts[0].cursor,
-    endCursor: thoughts[thoughts.length - 1].cursor.toString(),
+    startCursor: thoughts.length ? thoughts[0].cursor : null,
+    endCursor: thoughts.length
+      ? thoughts[thoughts.length - 1].cursor.toString()
+      : null,
   };
 
   const convertedThoughts = thoughts.map((t) => {

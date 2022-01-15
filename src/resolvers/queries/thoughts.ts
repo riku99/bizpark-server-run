@@ -2,6 +2,7 @@ import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
 import { findThoughtsWithRelayStyle } from "~/models/thought";
 import { createThoughtConnection } from "~/helpers/createThoughtConnection";
+import { Prisma } from "@prisma/client";
 
 const DEFAULT_TAKE_COUNT = 20;
 
@@ -19,8 +20,24 @@ export const thoughts: QueryResolvers["thoughts"] = async (
     ? Number(Buffer.from(after, "base64").toString())
     : null;
 
+  const where: Prisma.ThoughtWhereInput = {
+    genre,
+    contributor: {
+      blocked: {
+        none: {
+          blockBy: requestUser.id,
+        },
+      },
+      blocks: {
+        none: {
+          blockTo: requestUser.id,
+        },
+      },
+    },
+  };
+
   const thoughts = await findThoughtsWithRelayStyle({
-    where: { genre },
+    where,
     userId: requestUser.id,
     first: first ?? DEFAULT_TAKE_COUNT,
     after: decodedAfter,
@@ -29,18 +46,11 @@ export const thoughts: QueryResolvers["thoughts"] = async (
   let count: number;
   if (decodedAfter) {
     count = await prisma.thought.count({
-      where: {
-        genre,
-        cursor: {
-          lt: decodedAfter,
-        },
-      },
+      where,
     });
   } else {
     count = await prisma.thought.count({
-      where: {
-        genre,
-      },
+      where,
     });
   }
 
