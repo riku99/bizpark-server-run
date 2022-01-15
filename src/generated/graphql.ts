@@ -260,6 +260,7 @@ export type Query = {
 export type QueryFollowsArgs = {
   after?: InputMaybe<Scalars['String']>;
   first: Scalars['Int'];
+  q?: InputMaybe<Scalars['String']>;
 };
 
 

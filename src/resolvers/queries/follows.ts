@@ -4,7 +4,7 @@ import { ForbiddenError } from "apollo-server-express";
 // 自分以外のユーザーのフォローは見せない仕様なので、requestUserのみで検索
 export const follows: QueryResolvers["follows"] = async (
   _,
-  { first, after },
+  { first, after, q },
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
@@ -18,6 +18,22 @@ export const follows: QueryResolvers["follows"] = async (
   const follows = await prisma.follow.findMany({
     where: {
       followerId: requestUser.id,
+      followee: q
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: q,
+                },
+              },
+              {
+                bio: {
+                  contains: q,
+                },
+              },
+            ],
+          }
+        : undefined,
     },
     include: {
       followee: true,
@@ -67,8 +83,10 @@ export const follows: QueryResolvers["follows"] = async (
   const pageInfo = {
     hasNextPage,
     hasPreviousPage,
-    startCursor: follows[0].cursor.toString(),
-    endCursor: follows[follows.length - 1].cursor.toString(),
+    startCursor: follows.length ? follows[0].cursor.toString() : null,
+    endCursor: follows.length
+      ? follows[follows.length - 1].cursor.toString()
+      : null,
   };
 
   const edges = convertedFollows.map((follow, idx) => ({

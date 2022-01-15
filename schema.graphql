@@ -141,7 +141,7 @@ type Query {
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
-  follows(first: Int!, after: String): UserConnection!
+  follows(first: Int!, after: String, q: String): UserConnection!
 }
 
 input CreateUserInput {
