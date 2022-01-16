@@ -105,6 +105,7 @@ export type InitialResponse = {
 };
 
 export type JoinTalkInput = {
+  contributorId: Scalars['String'];
   thoughtId: Scalars['String'];
 };
 
@@ -275,6 +276,7 @@ export type Query = {
   news?: Maybe<NewsConnection>;
   pickedNews: NewsConnection;
   pickedThoughts: ThoughtsConnection;
+  thoughtTalkRooms: Array<Maybe<ThoughtTalkRoom>>;
   thoughts: ThoughtsConnection;
   user: User;
   userThoughts: ThoughtsConnection;
@@ -712,6 +714,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
   pickedNews?: Resolver<ResolversTypes['NewsConnection'], ParentType, ContextType, RequireFields<QueryPickedNewsArgs, 'first'>>;
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;
+  thoughtTalkRooms?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoom']>>, ParentType, ContextType>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, never>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;

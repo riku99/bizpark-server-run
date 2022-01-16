@@ -68,11 +68,22 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
     include,
   });
 
-  await prisma.thoughtTalkRoomMember.create({
-    data: {
+  const membersData = [
+    {
       talkRoomId: newData.id,
       userId: requestUser.id,
     },
+  ];
+
+  if (requestUser.id !== input.contributorId) {
+    membersData.push({
+      talkRoomId: newData.id,
+      userId: input.contributorId,
+    });
+  }
+
+  await prisma.thoughtTalkRoomMember.createMany({
+    data: membersData,
   });
 
   return newData;

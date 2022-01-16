@@ -169,6 +169,7 @@ type Query {
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
   follows(first: Int!, after: String, q: String): UserConnection!
   blockingUsers: [User]!
+  thoughtTalkRooms: [ThoughtTalkRoom]!
 }
 
 input CreateUserInput {
@@ -245,6 +246,7 @@ input UpdateMeInput {
 
 input JoinTalkInput {
   thoughtId: String!
+  contributorId: String!
 }
 
 type Mutation {
