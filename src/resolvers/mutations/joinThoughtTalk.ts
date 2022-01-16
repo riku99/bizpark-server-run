@@ -1,5 +1,6 @@
 import { MutationResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
+import { Prisma } from "@prisma/client";
 
 export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
   _,
@@ -9,6 +10,20 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
   if (!requestUser) {
     throw new ForbiddenError("auth error");
   }
+
+  const include: Prisma.ThoughtTalkRoomInclude = {
+    thought: true,
+    members: {
+      include: {
+        user: true,
+      },
+    },
+    messages: {
+      include: {
+        sender: true,
+      },
+    },
+  };
 
   const existingData = await prisma.thoughtTalkRoom.findUnique({
     where: {
@@ -30,12 +45,18 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
   });
 
   if (existingData) {
-    await prisma.thoughtTalkRoomMember.create({
-      data: {
-        talkRoomId: existingData.id,
-        userId: requestUser.id,
-      },
-    });
+    const includedMe = existingData.members.some(
+      (m) => m.userId === requestUser.id
+    );
+
+    if (!includedMe) {
+      await prisma.thoughtTalkRoomMember.create({
+        data: {
+          talkRoomId: existingData.id,
+          userId: requestUser.id,
+        },
+      });
+    }
 
     return existingData;
   }
@@ -44,19 +65,7 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
     data: {
       thoughtId: input.thoughtId,
     },
-    include: {
-      thought: true,
-      members: {
-        include: {
-          user: true,
-        },
-      },
-      messages: {
-        include: {
-          sender: true,
-        },
-      },
-    },
+    include,
   });
 
   await prisma.thoughtTalkRoomMember.create({
