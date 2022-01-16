@@ -93,7 +93,7 @@ model News {
 
 model ThoughtTalkRoom {
   id String @id @default(uuid())
-  thoughtId String
+  thoughtId String @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

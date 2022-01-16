@@ -44,7 +44,7 @@ type User {
   twitter: String
   linkedin: String
   instagram: String
-  follow: Boolean!
+  follow: Boolean
   blocking: Boolean
 }
 
@@ -130,11 +130,20 @@ type UserConnection {
   pageInfo: PageInfo!
 }
 
+type ThoughtTalkRoomMessage {
+  id: ID!
+  text: String!
+  createdAt: String!
+  sender: User!
+}
+
 type ThoughtTalkRoom {
   id: ID!
-  thoughtId: ID!
-  createdAt: String
+  thought: Thought!
+  createdAt: String!
   updatedAt: String
+  members: [User]!
+  messages: [ThoughtTalkRoomMessage]!
 }
 
 type Query {
@@ -247,5 +256,5 @@ type Mutation {
   unfollow(followeeId: ID!): User!
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!
-  # joinTalk(input: JoinTalkInput!):
+  joinThoughtTalk(input: JoinTalkInput!): ThoughtTalkRoom!
 }

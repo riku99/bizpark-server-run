@@ -23,3 +23,5 @@ generates:
         Me: "@prisma/client/index.d#User"
         User: "@prisma/client/index.d#User"
         Follow: "@prisma/client/index.d#Follow"
+        ThoughtTalkRoomMessage: "@prisma/client/index.d#ThoughtTalkRoomMessage"
+        ThoughtTalkRoom: "@prisma/client/index.d#ThoughtTalkRoom"
