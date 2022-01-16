@@ -25,3 +25,4 @@ generates:
         Follow: "@prisma/client/index.d#Follow"
         ThoughtTalkRoomMessage: "@prisma/client/index.d#ThoughtTalkRoomMessage"
         ThoughtTalkRoom: "@prisma/client/index.d#ThoughtTalkRoom"
+        ThoughtTalkRoomMember: "@prisma/client/index.d#ThoughtTalkRoomMember"

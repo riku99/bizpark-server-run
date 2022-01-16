@@ -74,8 +74,8 @@ type Thought {
   title: String
   text: String!
   createdAt: String
-  contributor: User!
-  picked: Boolean!
+  contributor: User
+  picked: Boolean
   images: [Image]!
 }
 
@@ -137,12 +137,19 @@ type ThoughtTalkRoomMessage {
   sender: User!
 }
 
+type ThoughtTalkRoomMember {
+  id: ID!
+  createdAt: String
+  talkRoom: ThoughtTalkRoom
+  user: User
+}
+
 type ThoughtTalkRoom {
   id: ID!
   thought: Thought!
   createdAt: String!
   updatedAt: String
-  members: [User]!
+  members: [ThoughtTalkRoomMember]!
   messages: [ThoughtTalkRoomMessage]!
 }
 

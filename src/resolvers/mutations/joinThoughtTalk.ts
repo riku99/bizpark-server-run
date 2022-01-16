@@ -15,12 +15,28 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
       thoughtId: input.thoughtId,
     },
     include: {
-      members: true,
-      messages: true,
+      thought: true,
+      members: {
+        include: {
+          user: true,
+        },
+      },
+      messages: {
+        include: {
+          sender: true,
+        },
+      },
     },
   });
 
   if (existingData) {
+    await prisma.thoughtTalkRoomMember.create({
+      data: {
+        talkRoomId: existingData.id,
+        userId: requestUser.id,
+      },
+    });
+
     return existingData;
   }
 
@@ -29,8 +45,24 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
       thoughtId: input.thoughtId,
     },
     include: {
-      members: true,
-      messages: true,
+      thought: true,
+      members: {
+        include: {
+          user: true,
+        },
+      },
+      messages: {
+        include: {
+          sender: true,
+        },
+      },
+    },
+  });
+
+  await prisma.thoughtTalkRoomMember.create({
+    data: {
+      talkRoomId: newData.id,
+      userId: requestUser.id,
     },
   });
 
