@@ -300,7 +300,8 @@ export type QueryPickedThoughtsArgs = {
 export type QueryThoughtsArgs = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
-  genre: Genre;
+  follow?: InputMaybe<Scalars['Boolean']>;
+  genre?: InputMaybe<Genre>;
 };
 
 
@@ -666,7 +667,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
   pickedNews?: Resolver<ResolversTypes['NewsConnection'], ParentType, ContextType, RequireFields<QueryPickedNewsArgs, 'first'>>;
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;
-  thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, 'genre'>>;
+  thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, never>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;
 };

@@ -9,7 +9,7 @@ const DEFAULT_TAKE_COUNT = 20;
 // 前にページネーションすることはないものとして実装する
 export const thoughts: QueryResolvers["thoughts"] = async (
   _,
-  { genre, first, after },
+  { genre, first, after, follow },
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
@@ -21,8 +21,15 @@ export const thoughts: QueryResolvers["thoughts"] = async (
     : null;
 
   const where: Prisma.ThoughtWhereInput = {
-    genre,
+    genre: genre ?? undefined,
     contributor: {
+      follower: follow
+        ? {
+            some: {
+              followerId: requestUser.id,
+            },
+          }
+        : undefined,
       blocked: {
         none: {
           blockBy: requestUser.id,

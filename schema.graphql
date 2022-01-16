@@ -132,9 +132,10 @@ type UserConnection {
 
 type Query {
   thoughts(
-    genre: Genre!
+    genre: Genre
     first: Int
     after: String # last: Int # before: String
+    follow: Boolean
   ): ThoughtsConnection!
   initialData: InitialResponse!
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
