@@ -231,8 +231,8 @@ type Mutation {
   deleteNewsPick(input: DeleteNewsPickInput!): NewsPick!
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
-  follow(followeeId: ID!): Boolean
-  unfollow(followeeId: ID!): Boolean
+  follow(followeeId: ID!): User!
+  unfollow(followeeId: ID!): User!
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!
 }

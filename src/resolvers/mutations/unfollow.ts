@@ -10,14 +10,20 @@ export const unfollow: MutationResolvers["unfollow"] = async (
     throw new ForbiddenError("auth error");
   }
 
-  await prisma.follow.delete({
+  const result = await prisma.follow.delete({
     where: {
       followerId_followeeId: {
         followerId: requestUser.id,
         followeeId,
       },
     },
+    include: {
+      followee: true,
+    },
   });
 
-  return true;
+  return {
+    ...result.followee,
+    follow: false,
+  };
 };

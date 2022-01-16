@@ -29,12 +29,18 @@ export const follow: MutationResolvers["follow"] = async (
     );
   }
 
-  await prisma.follow.create({
+  const result = await prisma.follow.create({
     data: {
       followeeId,
       followerId: requestUser.id,
     },
+    include: {
+      followee: true,
+    },
   });
 
-  return true;
+  return {
+    ...result.followee,
+    follow: true,
+  };
 };
