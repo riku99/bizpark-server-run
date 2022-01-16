@@ -130,6 +130,13 @@ type UserConnection {
   pageInfo: PageInfo!
 }
 
+type ThoughtTalkRoom {
+  id: ID!
+  thoughtId: ID!
+  createdAt: String
+  updatedAt: String
+}
+
 type Query {
   thoughts(
     genre: Genre
@@ -220,6 +227,10 @@ input UpdateMeInput {
   instagram: String
 }
 
+input JoinTalkInput {
+  thoughtId: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -236,4 +247,5 @@ type Mutation {
   unfollow(followeeId: ID!): User!
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!
+  # joinTalk(input: JoinTalkInput!):
 }

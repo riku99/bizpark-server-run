@@ -25,14 +25,19 @@ model User {
   instagram String?
 
   thoughts Thought[]
-  talkRoomMessages TalkRoomMessage[]
+  thoughtTalkRoomMessages ThoughtTalkRoomMessage[]
+  thoughtTalkRooms ThoughtTalkRoomMember[]
+
   senderOneOnOneRoom OneOnOneRoom[] @relation("sender")
   recipirntOneOnOneRoom OneOnOneRoom[] @relation("recipient")
   oneOnOneMessages OneOnOneMessage[]
+
   blocks Block[] @relation("blocks")
   blocked Block[] @relation("blocked")
+
   picks Pick[]
   newsPicks NewsPick[]
+
   follow Follow[] @relation("follow")
   follower Follow[] @relation("follower")
 }
@@ -49,7 +54,7 @@ model Thought {
   contributor User @relation(fields: [contributorId], references: [id], onDelete: Cascade)
 
   images ThoughtImage[]
-  talkRooms TalkRoom[]
+  talkRooms ThoughtTalkRoom[]
   picked Pick[]
 
   @@index([genre, cursor])
@@ -86,21 +91,20 @@ model News {
   @@index([genre, cursor])
 }
 
-model TalkRoom {
+model ThoughtTalkRoom {
   id String @id @default(uuid())
-  thoughtId String?
-  newsId String?
+  thoughtId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  parentThought Thought? @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
-  // parentNews News? @relation(fields: [newsId], references: [id], onDelete: Cascade)
-  messages TalkRoomMessage[]
+  thought Thought @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
+  messages ThoughtTalkRoomMessage[]
+  members ThoughtTalkRoomMember[]
 
   @@index([thoughtId])
 }
 
-model TalkRoomMessage {
+model ThoughtTalkRoomMessage {
   id String @id @default(uuid())
   text String
   createdAt DateTime @default(now())
@@ -108,9 +112,22 @@ model TalkRoomMessage {
   roomId String
 
   sender User @relation(fields: [senderId], references: [id])
-  talkRoom TalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  talkRoom ThoughtTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
   @@index([roomId])
+}
+
+model ThoughtTalkRoomMember {
+  id String @id @default(uuid())
+  talkRoomId String
+  userId String
+  createdAt DateTime @default(now())
+
+  talkRoom ThoughtTalkRoom @relation(fields: [talkRoomId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([talkRoomId])
+  @@index([userId])
 }
 
 model OneOnOneRoom {
