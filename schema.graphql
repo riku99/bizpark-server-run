@@ -19,6 +19,7 @@ enum CustomErrorResponseCode {
   ALREADY_USER_EXISTING
   INVALID_REQUEST
   ALREADY_UN_BLOKING
+  NOT_FOUND
 }
 
 type PageInfo {
@@ -170,6 +171,7 @@ type Query {
   follows(first: Int!, after: String, q: String): UserConnection!
   blockingUsers: [User]!
   thoughtTalkRooms: [ThoughtTalkRoom]!
+  thoughtTalkRoom(id: ID!): ThoughtTalkRoom!
 }
 
 input CreateUserInput {

@@ -55,7 +55,8 @@ export type CreateUserInput = {
 export enum CustomErrorResponseCode {
   AlreadyUnBloking = 'ALREADY_UN_BLOKING',
   AlreadyUserExisting = 'ALREADY_USER_EXISTING',
-  InvalidRequest = 'INVALID_REQUEST'
+  InvalidRequest = 'INVALID_REQUEST',
+  NotFound = 'NOT_FOUND'
 }
 
 export type DeleteNewsPickInput = {
@@ -276,6 +277,7 @@ export type Query = {
   news?: Maybe<NewsConnection>;
   pickedNews: NewsConnection;
   pickedThoughts: ThoughtsConnection;
+  thoughtTalkRoom: ThoughtTalkRoom;
   thoughtTalkRooms: Array<Maybe<ThoughtTalkRoom>>;
   thoughts: ThoughtsConnection;
   user: User;
@@ -306,6 +308,11 @@ export type QueryPickedNewsArgs = {
 export type QueryPickedThoughtsArgs = {
   after?: InputMaybe<Scalars['String']>;
   first: Scalars['Int'];
+};
+
+
+export type QueryThoughtTalkRoomArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -714,6 +721,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
   pickedNews?: Resolver<ResolversTypes['NewsConnection'], ParentType, ContextType, RequireFields<QueryPickedNewsArgs, 'first'>>;
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;
+  thoughtTalkRoom?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<QueryThoughtTalkRoomArgs, 'id'>>;
   thoughtTalkRooms?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoom']>>, ParentType, ContextType>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, never>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
