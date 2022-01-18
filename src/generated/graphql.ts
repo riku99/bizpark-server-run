@@ -46,6 +46,11 @@ export type CreateThoughtResponse = {
   id: Scalars['ID'];
 };
 
+export type CreateThoughtTalkRoomMessageInput = {
+  roomId: Scalars['ID'];
+  text: Scalars['String'];
+};
+
 export type CreateUserInput = {
   email: Scalars['String'];
   idToken: Scalars['String'];
@@ -128,6 +133,7 @@ export type Mutation = {
   createNewsPick: NewsPick;
   createPick: Pick;
   createThought: CreateThoughtResponse;
+  createThoughtTalkRoomMessage: ThoughtTalkRoomMessage;
   createUser: Me;
   deleteNewsPick: NewsPick;
   deletePick: Pick;
@@ -160,6 +166,11 @@ export type MutationCreatePickArgs = {
 
 export type MutationCreateThoughtArgs = {
   input: CreateThoughtInput;
+};
+
+
+export type MutationCreateThoughtTalkRoomMessageArgs = {
+  input: CreateThoughtTalkRoomMessageInput;
 };
 
 
@@ -518,6 +529,7 @@ export type ResolversTypes = {
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
   CreateThoughtResponse: ResolverTypeWrapper<CreateThoughtResponse>;
+  CreateThoughtTalkRoomMessageInput: CreateThoughtTalkRoomMessageInput;
   CreateUserInput: CreateUserInput;
   CustomErrorResponseCode: CustomErrorResponseCode;
   DeleteNewsPickInput: DeleteNewsPickInput;
@@ -568,6 +580,7 @@ export type ResolversParentTypes = {
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
   CreateThoughtResponse: CreateThoughtResponse;
+  CreateThoughtTalkRoomMessageInput: CreateThoughtTalkRoomMessageInput;
   CreateUserInput: CreateUserInput;
   DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
@@ -661,6 +674,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createPick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationCreatePickArgs, 'input'>>;
   createThought?: Resolver<ResolversTypes['CreateThoughtResponse'], ParentType, ContextType, RequireFields<MutationCreateThoughtArgs, 'input'>>;
+  createThoughtTalkRoomMessage?: Resolver<ResolversTypes['ThoughtTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateThoughtTalkRoomMessageArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationDeleteNewsPickArgs, 'input'>>;
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;

@@ -12,7 +12,8 @@
     "paths": {
       "~/*": ["*"]
     },
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "lib": ["esnext.asynciterable"]
   },
   "compileOnSave": true,
   "include": ["src"]

@@ -1,6 +1,5 @@
 FROM node:14
-RUN apt-get update \
-    && apt-get install -y ffmpeg
+RUN apt-get update
 WORKDIR /app
 COPY package*.json /app/
 RUN yarn install

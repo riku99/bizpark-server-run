@@ -252,6 +252,11 @@ input JoinTalkInput {
   contributorId: String!
 }
 
+input CreateThoughtTalkRoomMessageInput {
+  text: String!
+  roomId: ID!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -269,6 +274,9 @@ type Mutation {
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!
   joinThoughtTalk(input: JoinTalkInput!): ThoughtTalkRoom!
+  createThoughtTalkRoomMessage(
+    input: CreateThoughtTalkRoomMessageInput!
+  ): ThoughtTalkRoomMessage!
 }
 
 type Subscription {

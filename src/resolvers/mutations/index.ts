@@ -15,6 +15,7 @@ import { unfollow } from "./unfollow";
 import { block } from "./block";
 import { unblock } from "./unblock";
 import { joinThoughtTalk } from "./joinThoughtTalk";
+import { createThoughtTalkRoomMessage } from "./createThoughtTalkRoomMessage";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -33,4 +34,5 @@ export const Mutation: MutationResolvers = {
   block,
   unblock,
   joinThoughtTalk,
+  createThoughtTalkRoomMessage,
 };
