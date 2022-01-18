@@ -272,5 +272,5 @@ type Mutation {
 }
 
 type Subscription {
-  thoughtTalkRoomMessage: ThoughtTalkRoomMessage
+  thoughtTalkRoomMessageCreated: ThoughtTalkRoomMessage
 }

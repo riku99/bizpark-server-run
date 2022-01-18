@@ -349,7 +349,7 @@ export type SubImage = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  thoughtTalkRoomMessage?: Maybe<ThoughtTalkRoomMessage>;
+  thoughtTalkRoomMessageCreated?: Maybe<ThoughtTalkRoomMessage>;
 };
 
 export type Thought = {
@@ -749,7 +749,7 @@ export type SubImageResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type SubscriptionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  thoughtTalkRoomMessage?: SubscriptionResolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, "thoughtTalkRoomMessage", ParentType, ContextType>;
+  thoughtTalkRoomMessageCreated?: SubscriptionResolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, "thoughtTalkRoomMessageCreated", ParentType, ContextType>;
 };
 
 export type ThoughtResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Thought'] = ResolversParentTypes['Thought']> = {
