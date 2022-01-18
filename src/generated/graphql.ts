@@ -347,6 +347,11 @@ export type SubImage = {
   width?: Maybe<Scalars['Int']>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  thoughtTalkRoomMessage?: Maybe<ThoughtTalkRoomMessage>;
+};
+
 export type Thought = {
   __typename?: 'Thought';
   contributor?: Maybe<User>;
@@ -386,6 +391,7 @@ export type ThoughtTalkRoomMessage = {
   __typename?: 'ThoughtTalkRoomMessage';
   createdAt: Scalars['String'];
   id: Scalars['ID'];
+  roomId?: Maybe<Scalars['ID']>;
   sender: User;
   text: Scalars['String'];
 };
@@ -538,6 +544,7 @@ export type ResolversTypes = {
   SignOutResponse: ResolverTypeWrapper<SignOutResponse>;
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
+  Subscription: ResolverTypeWrapper<{}>;
   Thought: ResolverTypeWrapper<Thought>;
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtTalkRoom: ResolverTypeWrapper<ThoughtTalkRoom>;
@@ -584,6 +591,7 @@ export type ResolversParentTypes = {
   SignOutResponse: SignOutResponse;
   String: Scalars['String'];
   SubImage: SubImage;
+  Subscription: {};
   Thought: Thought;
   ThoughtEdge: Omit<ThoughtEdge, 'node'> & { node: ResolversParentTypes['Thought'] };
   ThoughtTalkRoom: ThoughtTalkRoom;
@@ -740,6 +748,10 @@ export type SubImageResolvers<ContextType = Context, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type SubscriptionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  thoughtTalkRoomMessage?: SubscriptionResolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, "thoughtTalkRoomMessage", ParentType, ContextType>;
+};
+
 export type ThoughtResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Thought'] = ResolversParentTypes['Thought']> = {
   contributor?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -778,6 +790,7 @@ export type ThoughtTalkRoomMemberResolvers<ContextType = Context, ParentType ext
 export type ThoughtTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessage'] = ResolversParentTypes['ThoughtTalkRoomMessage']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  roomId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   sender?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -848,6 +861,7 @@ export type Resolvers<ContextType = Context> = {
   Query?: QueryResolvers<ContextType>;
   SignOutResponse?: SignOutResponseResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
   Thought?: ThoughtResolvers<ContextType>;
   ThoughtEdge?: ThoughtEdgeResolvers<ContextType>;
   ThoughtTalkRoom?: ThoughtTalkRoomResolvers<ContextType>;

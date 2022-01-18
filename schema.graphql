@@ -136,6 +136,7 @@ type ThoughtTalkRoomMessage {
   text: String!
   createdAt: String!
   sender: User!
+  roomId: ID
 }
 
 type ThoughtTalkRoomMember {
@@ -268,4 +269,8 @@ type Mutation {
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!
   joinThoughtTalk(input: JoinTalkInput!): ThoughtTalkRoom!
+}
+
+type Subscription {
+  thoughtTalkRoomMessage: ThoughtTalkRoomMessage
 }
