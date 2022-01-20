@@ -38,8 +38,10 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
   });
 
   const talkRoomsWithSeenData = talkRooms.map((room, idx) => {
-    // そのルームの一番最新のメッセージの既読データがあれば「全て読まれている」状態である
-    const allMessageSeen = room.messages[0].seen.length;
+    // そのトークルームの一番最近のメッセージが自分のもの || seenデータが存在する場合は「全て既読した」扱い
+    const lastMessage = room.messages[0];
+    const allMessageSeen =
+      lastMessage.senderId === requestUser.id || !!lastMessage.seen.length;
     return {
       ...room,
       allMessageSeen,
