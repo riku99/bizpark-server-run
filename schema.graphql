@@ -148,11 +148,11 @@ type ThoughtTalkRoomMember {
 
 type ThoughtTalkRoom {
   id: ID!
-  thought: Thought!
-  createdAt: String!
+  thought: Thought
+  createdAt: String
   updatedAt: String
-  members: [ThoughtTalkRoomMember]!
-  messages: [ThoughtTalkRoomMessage]!
+  members: [ThoughtTalkRoomMember]
+  messages: [ThoughtTalkRoomMessage]
   allMessageSeen: Boolean
 }
 
@@ -258,6 +258,11 @@ input CreateThoughtTalkRoomMessageInput {
   roomId: ID!
 }
 
+input CreateUserThoughtTalkRoomMessageSeenInput {
+  messageId: ID!
+  roomId: ID!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -278,6 +283,9 @@ type Mutation {
   createThoughtTalkRoomMessage(
     input: CreateThoughtTalkRoomMessageInput!
   ): ThoughtTalkRoomMessage!
+  createUserThoughtTalkRoomMessageSeen(
+    input: CreateUserThoughtTalkRoomMessageSeenInput!
+  ): ThoughtTalkRoom!
 }
 
 type Subscription {

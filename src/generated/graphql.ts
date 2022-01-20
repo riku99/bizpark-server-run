@@ -57,6 +57,11 @@ export type CreateUserInput = {
   name: Scalars['String'];
 };
 
+export type CreateUserThoughtTalkRoomMessageSeenInput = {
+  messageId: Scalars['ID'];
+  roomId: Scalars['ID'];
+};
+
 export enum CustomErrorResponseCode {
   AlreadyUnBloking = 'ALREADY_UN_BLOKING',
   AlreadyUserExisting = 'ALREADY_USER_EXISTING',
@@ -135,6 +140,7 @@ export type Mutation = {
   createThought: CreateThoughtResponse;
   createThoughtTalkRoomMessage: ThoughtTalkRoomMessage;
   createUser: Me;
+  createUserThoughtTalkRoomMessageSeen: ThoughtTalkRoom;
   deleteNewsPick: NewsPick;
   deletePick: Pick;
   deleteThought: DeleteThoughtResponse;
@@ -176,6 +182,11 @@ export type MutationCreateThoughtTalkRoomMessageArgs = {
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationCreateUserThoughtTalkRoomMessageSeenArgs = {
+  input: CreateUserThoughtTalkRoomMessageSeenInput;
 };
 
 
@@ -383,11 +394,11 @@ export type ThoughtEdge = {
 export type ThoughtTalkRoom = {
   __typename?: 'ThoughtTalkRoom';
   allMessageSeen?: Maybe<Scalars['Boolean']>;
-  createdAt: Scalars['String'];
+  createdAt?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  members: Array<Maybe<ThoughtTalkRoomMember>>;
-  messages: Array<Maybe<ThoughtTalkRoomMessage>>;
-  thought: Thought;
+  members?: Maybe<Array<Maybe<ThoughtTalkRoomMember>>>;
+  messages?: Maybe<Array<Maybe<ThoughtTalkRoomMessage>>>;
+  thought?: Maybe<Thought>;
   updatedAt?: Maybe<Scalars['String']>;
 };
 
@@ -532,6 +543,7 @@ export type ResolversTypes = {
   CreateThoughtResponse: ResolverTypeWrapper<CreateThoughtResponse>;
   CreateThoughtTalkRoomMessageInput: CreateThoughtTalkRoomMessageInput;
   CreateUserInput: CreateUserInput;
+  CreateUserThoughtTalkRoomMessageSeenInput: CreateUserThoughtTalkRoomMessageSeenInput;
   CustomErrorResponseCode: CustomErrorResponseCode;
   DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
@@ -583,6 +595,7 @@ export type ResolversParentTypes = {
   CreateThoughtResponse: CreateThoughtResponse;
   CreateThoughtTalkRoomMessageInput: CreateThoughtTalkRoomMessageInput;
   CreateUserInput: CreateUserInput;
+  CreateUserThoughtTalkRoomMessageSeenInput: CreateUserThoughtTalkRoomMessageSeenInput;
   DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
   DeleteThoughtResponse: DeleteThoughtResponse;
@@ -677,6 +690,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createThought?: Resolver<ResolversTypes['CreateThoughtResponse'], ParentType, ContextType, RequireFields<MutationCreateThoughtArgs, 'input'>>;
   createThoughtTalkRoomMessage?: Resolver<ResolversTypes['ThoughtTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateThoughtTalkRoomMessageArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  createUserThoughtTalkRoomMessageSeen?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationCreateUserThoughtTalkRoomMessageSeenArgs, 'input'>>;
   deleteNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationDeleteNewsPickArgs, 'input'>>;
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;
   deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
@@ -786,11 +800,11 @@ export type ThoughtEdgeResolvers<ContextType = Context, ParentType extends Resol
 
 export type ThoughtTalkRoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoom'] = ResolversParentTypes['ThoughtTalkRoom']> = {
   allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  members?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoomMember']>>, ParentType, ContextType>;
-  messages?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>>, ParentType, ContextType>;
-  thought?: Resolver<ResolversTypes['Thought'], ParentType, ContextType>;
+  members?: Resolver<Maybe<Array<Maybe<ResolversTypes['ThoughtTalkRoomMember']>>>, ParentType, ContextType>;
+  messages?: Resolver<Maybe<Array<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>>>, ParentType, ContextType>;
+  thought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
