@@ -17,9 +17,17 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
       roomId: input.roomId,
       senderId: requestUser.id,
     },
+    include: {
+      sender: true,
+    },
   });
 
-  pubsub.publish("THOUGHT_TALK_ROOM_MESSAGE_CREATED", message);
+  pubsub.publish("THOUGHT_TALK_ROOM_MESSAGE_CREATED", {
+    thoughtTalkRoomMessageCreated: {
+      ...message,
+      seen: false,
+    },
+  });
 
   return message;
 };

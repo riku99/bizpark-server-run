@@ -153,6 +153,7 @@ type ThoughtTalkRoom {
   updatedAt: String
   members: [ThoughtTalkRoomMember]!
   messages: [ThoughtTalkRoomMessage]!
+  allMessageSeen: Boolean
 }
 
 type Query {

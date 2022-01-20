@@ -23,6 +23,11 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
       messages: {
         include: {
           sender: true,
+          seen: {
+            where: {
+              userId: requestUser.id,
+            },
+          },
         },
         take: 20,
         orderBy: {
@@ -32,5 +37,14 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
     },
   });
 
-  return talkRooms;
+  const talkRoomsWithSeenData = talkRooms.map((room, idx) => {
+    // そのルームの一番最新のメッセージの既読データがあれば「全て読まれている」状態である
+    const allMessageSeen = room.messages[0].seen.length;
+    return {
+      ...room,
+      allMessageSeen,
+    };
+  });
+
+  return talkRoomsWithSeenData;
 };

@@ -382,6 +382,7 @@ export type ThoughtEdge = {
 
 export type ThoughtTalkRoom = {
   __typename?: 'ThoughtTalkRoom';
+  allMessageSeen?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['String'];
   id: Scalars['ID'];
   members: Array<Maybe<ThoughtTalkRoomMember>>;
@@ -784,6 +785,7 @@ export type ThoughtEdgeResolvers<ContextType = Context, ParentType extends Resol
 };
 
 export type ThoughtTalkRoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoom'] = ResolversParentTypes['ThoughtTalkRoom']> = {
+  allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   members?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoomMember']>>, ParentType, ContextType>;

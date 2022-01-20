@@ -27,13 +27,17 @@ const start = async () => {
 
   const app = express();
 
+  app.use(graphqlUploadExpress());
+
   const httpServer = createServer(app);
 
   const subscriptionServer = SubscriptionServer.create(
     {
-      schema,
+      schema: schemaWithResolvers,
       execute,
       subscribe,
+      onConnect: () => {},
+      onDisconnect: () => {},
     },
     {
       server: httpServer,
@@ -58,16 +62,15 @@ const start = async () => {
   });
 
   await server.start();
-
-  app.use(graphqlUploadExpress());
-
   server.applyMiddleware({
     app,
   });
 
-  httpServer.listen({ port: 4000 }, () =>
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
-  );
+  httpServer.listen({ port: 4000 }, () => {
+    console.log(
+      `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
+    );
+  });
 };
 
 start().catch((e) => {

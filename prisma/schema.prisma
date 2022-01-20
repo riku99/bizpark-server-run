@@ -40,6 +40,8 @@ model User {
 
   follow Follow[] @relation("follow")
   follower Follow[] @relation("follower")
+
+  seenThoughtTalkRoomMessages UserThoughtTalkRoomMessageSeen[]
 }
 
 model Thought {
@@ -113,8 +115,22 @@ model ThoughtTalkRoomMessage {
 
   sender User @relation(fields: [senderId], references: [id])
   talkRoom ThoughtTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  seen UserThoughtTalkRoomMessageSeen[]
 
   @@index([roomId])
+}
+
+model UserThoughtTalkRoomMessageSeen {
+  id String @id @default(uuid())
+  userId String
+  messageId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message ThoughtTalkRoomMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, messageId])
+  @@index([userId, messageId])
 }
 
 model ThoughtTalkRoomMember {
