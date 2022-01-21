@@ -10,20 +10,21 @@ export const createUserThoughtTalkRoomMessageSeen: MutationResolvers["createUser
     throw new ForbiddenError("auth error");
   }
 
-  const createSeen = prisma.userThoughtTalkRoomMessageSeen.create({
-    data: {
-      userId: requestUser.id,
-      messageId: input.messageId,
-    },
-  });
+  // 同じメッセージデータが送られてくることもあるが、エラー出したくないのでハンドリング
+  try {
+    await prisma.userThoughtTalkRoomMessageSeen.create({
+      data: {
+        userId: requestUser.id,
+        messageId: input.messageId,
+      },
+    });
+  } catch (e) {}
 
-  const getTalkRoom = prisma.thoughtTalkRoom.findUnique({
+  const talkRoom = await prisma.thoughtTalkRoom.findUnique({
     where: {
       id: input.roomId,
     },
   });
-
-  const [, talkRoom] = await Promise.all([createSeen, getTalkRoom]);
 
   if (!talkRoom) {
     throw new Error();
