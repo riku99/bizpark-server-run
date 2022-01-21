@@ -21,6 +21,11 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
     messages: {
       include: {
         sender: true,
+        seen: {
+          where: {
+            userId: requestUser.id,
+          },
+        },
       },
     },
   };
@@ -39,6 +44,11 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
       messages: {
         include: {
           sender: true,
+          seen: {
+            where: {
+              userId: requestUser.id,
+            },
+          },
         },
       },
     },
@@ -58,7 +68,17 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
       });
     }
 
-    return existingData;
+    let allMessageSeen = true;
+    if (existingData.messages.length) {
+      const lastMessage = existingData.messages[0];
+      allMessageSeen =
+        lastMessage.senderId === requestUser.id || !!lastMessage.seen.length;
+    }
+
+    return {
+      ...existingData,
+      allMessageSeen,
+    };
   }
 
   const newData = await prisma.thoughtTalkRoom.create({
@@ -86,5 +106,9 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
     data: membersData,
   });
 
-  return newData;
+  // 新しいトークルーム = メッセージは存在していない のでallMessageSeenはtrueでいい
+  return {
+    ...newData,
+    allMessageSeen: true,
+  };
 };
