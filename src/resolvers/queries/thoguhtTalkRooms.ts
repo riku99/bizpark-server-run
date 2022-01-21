@@ -10,15 +10,32 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
     throw new ForbiddenError("auth error");
   }
 
-  // where一旦なしで全部取得
+  // 「自分が発言したトークルーム」のみを取得
   const talkRooms = await prisma.thoughtTalkRoom.findMany({
+    where: {
+      members: {
+        some: {
+          userId: requestUser.id,
+        },
+      },
+      messages: {
+        some: {
+          senderId: requestUser.id,
+        },
+      },
+    },
     include: {
       thought: true,
       members: {
+        where: {
+          userId: {
+            not: requestUser.id,
+          },
+        },
         include: {
           user: true,
         },
-        take: 7,
+        take: 6,
       },
       messages: {
         include: {
@@ -48,6 +65,7 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
       allMessageSeen =
         lastMessage.senderId === requestUser.id || !!lastMessage.seen.length;
     }
+
     return {
       ...room,
       allMessageSeen,
