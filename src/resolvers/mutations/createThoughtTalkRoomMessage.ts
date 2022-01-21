@@ -22,6 +22,15 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     },
   });
 
+  await prisma.thoughtTalkRoom.update({
+    where: {
+      id: input.roomId,
+    },
+    data: {
+      updatedAt: new Date(),
+    },
+  });
+
   pubsub.publish("THOUGHT_TALK_ROOM_MESSAGE_CREATED", {
     thoughtTalkRoomMessageCreated: {
       ...message,

@@ -35,6 +35,9 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
         },
       },
     },
+    orderBy: {
+      updatedAt: "desc",
+    },
   });
 
   const talkRoomsWithSeenData = talkRooms.map((room, idx) => {
