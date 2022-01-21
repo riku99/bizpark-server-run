@@ -144,6 +144,7 @@ model ThoughtTalkRoomMember {
 
   @@index([talkRoomId])
   @@index([userId])
+  @@unique([talkRoomId, userId])
 }
 
 model OneOnOneRoom {

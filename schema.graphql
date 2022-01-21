@@ -263,6 +263,10 @@ input CreateUserThoughtTalkRoomMessageSeenInput {
   roomId: ID!
 }
 
+input DeleteThoughtTalkRoomMemberInput {
+  roomId: ID!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -286,6 +290,7 @@ type Mutation {
   createUserThoughtTalkRoomMessageSeen(
     input: CreateUserThoughtTalkRoomMessageSeenInput!
   ): ThoughtTalkRoom!
+  deleteThoughtTalkRoomMember(input: DeleteThoughtTalkRoomMemberInput!): Boolean
 }
 
 type Subscription {
