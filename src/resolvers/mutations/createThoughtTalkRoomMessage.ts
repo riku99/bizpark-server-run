@@ -34,7 +34,6 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
   pubsub.publish("THOUGHT_TALK_ROOM_MESSAGE_CREATED", {
     thoughtTalkRoomMessageCreated: {
       ...message,
-      seen: false,
     },
   });
 
