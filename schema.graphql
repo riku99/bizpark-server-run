@@ -152,8 +152,8 @@ type ThoughtTalkRoom {
   createdAt: String
   updatedAt: String
   members: [ThoughtTalkRoomMember]
-  messages: [ThoughtTalkRoomMessage]
-  # messages(first: Int!, after: String): ThoughtTalkRoomMessageConnection
+  # messages: [ThoughtTalkRoomMessage]
+  messages(first: Int!, after: String): ThoughtTalkRoomMessageConnection
   allMessageSeen: Boolean
 }
 

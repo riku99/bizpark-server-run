@@ -37,20 +37,6 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
         },
         take: 6,
       },
-      // messages: {
-      //   include: {
-      //     sender: true,
-      //     seen: {
-      //       where: {
-      //         userId: requestUser.id,
-      //       },
-      //     },
-      //   },
-      //   take: 20,
-      //   orderBy: {
-      //     createdAt: "desc",
-      //   },
-      // },
     },
     orderBy: {
       updatedAt: "desc",

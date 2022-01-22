@@ -25,15 +25,7 @@ export const thoughtTalkRoom: QueryResolvers["thoughtTalkRoom"] = async (
         include: {
           user: true,
         },
-        take: 7,
-      },
-      messages: {
-        include: {
-          sender: true,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
+        take: 6,
       },
     },
   });
