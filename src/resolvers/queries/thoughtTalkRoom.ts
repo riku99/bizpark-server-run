@@ -17,6 +17,11 @@ export const thoughtTalkRoom: QueryResolvers["thoughtTalkRoom"] = async (
     include: {
       thought: true,
       members: {
+        where: {
+          userId: {
+            not: requestUser.id,
+          },
+        },
         include: {
           user: true,
         },

@@ -14,6 +14,11 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
   const include: Prisma.ThoughtTalkRoomInclude = {
     thought: true,
     members: {
+      where: {
+        userId: {
+          not: requestUser.id,
+        },
+      },
       include: {
         user: true,
       },
@@ -27,6 +32,9 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     },
   };
 
@@ -37,6 +45,11 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
     include: {
       thought: true,
       members: {
+        where: {
+          userId: {
+            not: requestUser.id,
+          },
+        },
         include: {
           user: true,
         },
@@ -49,6 +62,9 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
               userId: requestUser.id,
             },
           },
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       },
     },
