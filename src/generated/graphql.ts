@@ -58,7 +58,7 @@ export type CreateUserInput = {
 };
 
 export type CreateUserThoughtTalkRoomMessageSeenInput = {
-  messageId: Scalars['ID'];
+  messageId: Scalars['Int'];
   roomId: Scalars['ID'];
 };
 
@@ -99,6 +99,12 @@ export enum Genre {
   Politics = 'POLITICS',
   Society = 'SOCIETY'
 }
+
+export type GetThoughtTalkRoomMessagesInput = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  roomId: Scalars['ID'];
+};
 
 export type Image = {
   __typename?: 'Image';
@@ -423,10 +429,22 @@ export type ThoughtTalkRoomMember = {
 export type ThoughtTalkRoomMessage = {
   __typename?: 'ThoughtTalkRoomMessage';
   createdAt: Scalars['String'];
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   roomId?: Maybe<Scalars['ID']>;
   sender: User;
   text: Scalars['String'];
+};
+
+export type ThoughtTalkRoomMessageConnection = {
+  __typename?: 'ThoughtTalkRoomMessageConnection';
+  edges: Array<ThoughtTalkRoomMessageEdge>;
+  pageInfo: PageInfo;
+};
+
+export type ThoughtTalkRoomMessageEdge = {
+  __typename?: 'ThoughtTalkRoomMessageEdge';
+  cursor: Scalars['String'];
+  node: ThoughtTalkRoomMessage;
 };
 
 export type ThoughtsConnection = {
@@ -561,6 +579,7 @@ export type ResolversTypes = {
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Follow: ResolverTypeWrapper<Follow>;
   Genre: ResolverTypeWrapper<Genre>;
+  GetThoughtTalkRoomMessagesInput: GetThoughtTalkRoomMessagesInput;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
   ImageInput: ImageInput;
@@ -586,6 +605,8 @@ export type ResolversTypes = {
   ThoughtTalkRoom: ResolverTypeWrapper<ThoughtTalkRoom>;
   ThoughtTalkRoomMember: ResolverTypeWrapper<ThoughtTalkRoomMember>;
   ThoughtTalkRoomMessage: ResolverTypeWrapper<ThoughtTalkRoomMessage>;
+  ThoughtTalkRoomMessageConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMessageEdge']> }>;
+  ThoughtTalkRoomMessageEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMessage'] }>;
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
   UpdateMeInput: UpdateMeInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
@@ -612,6 +633,7 @@ export type ResolversParentTypes = {
   DeleteThoughtResponse: DeleteThoughtResponse;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Follow: Follow;
+  GetThoughtTalkRoomMessagesInput: GetThoughtTalkRoomMessagesInput;
   ID: Scalars['ID'];
   Image: Image;
   ImageInput: ImageInput;
@@ -636,6 +658,8 @@ export type ResolversParentTypes = {
   ThoughtTalkRoom: ThoughtTalkRoom;
   ThoughtTalkRoomMember: ThoughtTalkRoomMember;
   ThoughtTalkRoomMessage: ThoughtTalkRoomMessage;
+  ThoughtTalkRoomMessageConnection: Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMessageEdge']> };
+  ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
   UpdateMeInput: UpdateMeInput;
   Upload: Scalars['Upload'];
@@ -832,10 +856,22 @@ export type ThoughtTalkRoomMemberResolvers<ContextType = Context, ParentType ext
 
 export type ThoughtTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessage'] = ResolversParentTypes['ThoughtTalkRoomMessage']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   roomId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   sender?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ThoughtTalkRoomMessageConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessageConnection'] = ResolversParentTypes['ThoughtTalkRoomMessageConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['ThoughtTalkRoomMessageEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ThoughtTalkRoomMessageEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessageEdge'] = ResolversParentTypes['ThoughtTalkRoomMessageEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['ThoughtTalkRoomMessage'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -910,6 +946,8 @@ export type Resolvers<ContextType = Context> = {
   ThoughtTalkRoom?: ThoughtTalkRoomResolvers<ContextType>;
   ThoughtTalkRoomMember?: ThoughtTalkRoomMemberResolvers<ContextType>;
   ThoughtTalkRoomMessage?: ThoughtTalkRoomMessageResolvers<ContextType>;
+  ThoughtTalkRoomMessageConnection?: ThoughtTalkRoomMessageConnectionResolvers<ContextType>;
+  ThoughtTalkRoomMessageEdge?: ThoughtTalkRoomMessageEdgeResolvers<ContextType>;
   ThoughtsConnection?: ThoughtsConnectionResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   UploadThoughtImagesResponse?: UploadThoughtImagesResponseResolvers<ContextType>;

@@ -37,40 +37,25 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
         },
         take: 6,
       },
-      messages: {
-        include: {
-          sender: true,
-          seen: {
-            where: {
-              userId: requestUser.id,
-            },
-          },
-        },
-        take: 20,
-        orderBy: {
-          createdAt: "desc",
-        },
-      },
+      // messages: {
+      //   include: {
+      //     sender: true,
+      //     seen: {
+      //       where: {
+      //         userId: requestUser.id,
+      //       },
+      //     },
+      //   },
+      //   take: 20,
+      //   orderBy: {
+      //     createdAt: "desc",
+      //   },
+      // },
     },
     orderBy: {
       updatedAt: "desc",
     },
   });
 
-  const talkRoomsWithSeenData = talkRooms.map((room, idx) => {
-    // そのトークルームの一番最近のメッセージが自分のもの || seenデータが存在する場合は「全て既読した」扱い
-    let allMessageSeen = true;
-    if (room.messages.length) {
-      const lastMessage = room.messages[0];
-      allMessageSeen =
-        lastMessage.senderId === requestUser.id || !!lastMessage.seen.length;
-    }
-
-    return {
-      ...room,
-      allMessageSeen,
-    };
-  });
-
-  return talkRoomsWithSeenData;
+  return talkRooms;
 };

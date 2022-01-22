@@ -132,7 +132,7 @@ type UserConnection {
 }
 
 type ThoughtTalkRoomMessage {
-  id: ID!
+  id: Int!
   text: String!
   createdAt: String!
   sender: User!
@@ -153,14 +153,31 @@ type ThoughtTalkRoom {
   updatedAt: String
   members: [ThoughtTalkRoomMember]
   messages: [ThoughtTalkRoomMessage]
+  # messages(first: Int!, after: String): ThoughtTalkRoomMessageConnection
   allMessageSeen: Boolean
+}
+
+type ThoughtTalkRoomMessageEdge {
+  node: ThoughtTalkRoomMessage!
+  cursor: String!
+}
+
+type ThoughtTalkRoomMessageConnection {
+  edges: [ThoughtTalkRoomMessageEdge!]!
+  pageInfo: PageInfo!
+}
+
+input GetThoughtTalkRoomMessagesInput {
+  roomId: ID!
+  first: Int
+  after: String
 }
 
 type Query {
   thoughts(
     genre: Genre
     first: Int
-    after: String # last: Int # before: String
+    after: String
     follow: Boolean
   ): ThoughtsConnection!
   initialData: InitialResponse!
@@ -259,7 +276,7 @@ input CreateThoughtTalkRoomMessageInput {
 }
 
 input CreateUserThoughtTalkRoomMessageSeenInput {
-  messageId: ID!
+  messageId: Int!
   roomId: ID!
 }
 

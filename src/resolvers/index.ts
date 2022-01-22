@@ -3,6 +3,7 @@ import { Resolvers } from "~/generated/graphql";
 import { Query } from "./queries";
 import { GraphQLUpload } from "graphql-upload";
 import { Subscription } from "./subscriptoins";
+import { ThoughtTalkRoom } from "./ThoughtTalkRoom";
 
 export const resolvers: Resolvers = {
   // @ts-ignore
@@ -10,4 +11,5 @@ export const resolvers: Resolvers = {
   Mutation,
   Query,
   Subscription,
+  ThoughtTalkRoom,
 };
