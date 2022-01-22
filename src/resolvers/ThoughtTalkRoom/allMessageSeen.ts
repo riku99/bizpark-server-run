@@ -19,11 +19,16 @@ export const allMessageSeen: ThoughtTalkRoomResolvers["allMessageSeen"] = async 
           },
         },
       },
+      orderBy: {
+        id: "desc",
+      },
+      take: 1,
     });
 
   let allMessageSeen = true;
   if (messages.length) {
     const lastMessage = messages[0];
+
     allMessageSeen =
       lastMessage.senderId === requestUser?.id || !!lastMessage.seen.length;
   }
