@@ -20,7 +20,7 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
       skip: decodedAfter && decodedAfter > 1 ? 1 : 0,
       cursor: decodedAfter ? { id: decodedAfter } : undefined,
       orderBy: {
-        id: "asc",
+        id: "desc",
       },
       include: {
         sender: true,
