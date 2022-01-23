@@ -19,9 +19,6 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
         },
       },
     },
-    include: {
-      thought: true,
-    },
     orderBy: {
       updatedAt: "desc",
     },
