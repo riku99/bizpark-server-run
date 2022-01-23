@@ -23,19 +23,6 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
         user: true,
       },
     },
-    messages: {
-      include: {
-        sender: true,
-        seen: {
-          where: {
-            userId: requestUser.id,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    },
   };
 
   const existingData = await prisma.thoughtTalkRoom.findUnique({
@@ -52,19 +39,6 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
         },
         include: {
           user: true,
-        },
-      },
-      messages: {
-        include: {
-          sender: true,
-          seen: {
-            where: {
-              userId: requestUser.id,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: "desc",
         },
       },
     },
@@ -84,17 +58,7 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
       });
     }
 
-    let allMessageSeen = true;
-    if (existingData.messages.length) {
-      const lastMessage = existingData.messages[0];
-      allMessageSeen =
-        lastMessage.senderId === requestUser.id || !!lastMessage.seen.length;
-    }
-
-    return {
-      ...existingData,
-      allMessageSeen,
-    };
+    return existingData;
   }
 
   const newData = await prisma.thoughtTalkRoom.create({

@@ -20,7 +20,7 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
       skip: decodedAfter && decodedAfter > 1 ? 1 : 0,
       cursor: decodedAfter ? { id: decodedAfter } : undefined,
       orderBy: {
-        id: "desc",
+        id: "asc",
       },
       include: {
         sender: true,
@@ -59,8 +59,10 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
   const pageInfo = {
     hasNextPage,
     hasPreviousPage,
-    startCursor: messages[0].id.toString(),
-    endCursor: messages[messages.length - 1].id.toString(),
+    startCursor: messages.length ? messages[0].id.toString() : null,
+    endCursor: messages.length
+      ? messages[messages.length - 1].id.toString()
+      : null,
   };
 
   const edges = messages.map((message) => ({

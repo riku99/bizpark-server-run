@@ -36,8 +36,6 @@ const start = async () => {
       schema: schemaWithResolvers,
       execute,
       subscribe,
-      onConnect: () => {},
-      onDisconnect: () => {},
     },
     {
       server: httpServer,
