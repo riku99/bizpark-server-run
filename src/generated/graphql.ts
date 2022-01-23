@@ -47,7 +47,7 @@ export type CreateThoughtResponse = {
 };
 
 export type CreateThoughtTalkRoomMessageInput = {
-  roomId: Scalars['ID'];
+  roomId: Scalars['Int'];
   text: Scalars['String'];
 };
 
@@ -59,7 +59,7 @@ export type CreateUserInput = {
 
 export type CreateUserThoughtTalkRoomMessageSeenInput = {
   messageId: Scalars['Int'];
-  roomId: Scalars['ID'];
+  roomId: Scalars['Int'];
 };
 
 export enum CustomErrorResponseCode {
@@ -83,7 +83,7 @@ export type DeleteThoughtResponse = {
 };
 
 export type DeleteThoughtTalkRoomMemberInput = {
-  roomId: Scalars['ID'];
+  roomId: Scalars['Int'];
 };
 
 export type Follow = {
@@ -103,7 +103,7 @@ export enum Genre {
 export type GetThoughtTalkRoomMessagesInput = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
-  roomId: Scalars['ID'];
+  roomId: Scalars['Int'];
 };
 
 export type Image = {
@@ -350,7 +350,7 @@ export type QueryPickedThoughtsArgs = {
 
 
 export type QueryThoughtTalkRoomArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -411,7 +411,7 @@ export type ThoughtTalkRoom = {
   __typename?: 'ThoughtTalkRoom';
   allMessageSeen?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   members?: Maybe<Array<Maybe<ThoughtTalkRoomMember>>>;
   messages?: Maybe<ThoughtTalkRoomMessageConnection>;
   thought?: Maybe<Thought>;
@@ -436,7 +436,7 @@ export type ThoughtTalkRoomMessage = {
   __typename?: 'ThoughtTalkRoomMessage';
   createdAt: Scalars['String'];
   id: Scalars['Int'];
-  roomId?: Maybe<Scalars['ID']>;
+  roomId?: Maybe<Scalars['Int']>;
   sender: User;
   text: Scalars['String'];
 };
@@ -844,7 +844,7 @@ export type ThoughtEdgeResolvers<ContextType = Context, ParentType extends Resol
 export type ThoughtTalkRoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoom'] = ResolversParentTypes['ThoughtTalkRoom']> = {
   allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   members?: Resolver<Maybe<Array<Maybe<ResolversTypes['ThoughtTalkRoomMember']>>>, ParentType, ContextType>;
   messages?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessageConnection']>, ParentType, ContextType, RequireFields<ThoughtTalkRoomMessagesArgs, 'first'>>;
   thought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType>;
@@ -863,7 +863,7 @@ export type ThoughtTalkRoomMemberResolvers<ContextType = Context, ParentType ext
 export type ThoughtTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessage'] = ResolversParentTypes['ThoughtTalkRoomMessage']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  roomId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   sender?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

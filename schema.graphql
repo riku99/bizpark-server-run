@@ -136,7 +136,7 @@ type ThoughtTalkRoomMessage {
   text: String!
   createdAt: String!
   sender: User!
-  roomId: ID
+  roomId: Int
 }
 
 type ThoughtTalkRoomMember {
@@ -147,7 +147,7 @@ type ThoughtTalkRoomMember {
 }
 
 type ThoughtTalkRoom {
-  id: ID!
+  id: Int!
   thought: Thought
   createdAt: String
   updatedAt: String
@@ -167,7 +167,7 @@ type ThoughtTalkRoomMessageConnection {
 }
 
 input GetThoughtTalkRoomMessagesInput {
-  roomId: ID!
+  roomId: Int!
   first: Int
   after: String
 }
@@ -189,7 +189,7 @@ type Query {
   follows(first: Int!, after: String, q: String): UserConnection!
   blockingUsers: [User]!
   thoughtTalkRooms: [ThoughtTalkRoom]!
-  thoughtTalkRoom(id: ID!): ThoughtTalkRoom!
+  thoughtTalkRoom(id: Int!): ThoughtTalkRoom!
 }
 
 input CreateUserInput {
@@ -271,16 +271,16 @@ input JoinTalkInput {
 
 input CreateThoughtTalkRoomMessageInput {
   text: String!
-  roomId: ID!
+  roomId: Int!
 }
 
 input CreateUserThoughtTalkRoomMessageSeenInput {
   messageId: Int!
-  roomId: ID!
+  roomId: Int!
 }
 
 input DeleteThoughtTalkRoomMemberInput {
-  roomId: ID!
+  roomId: Int!
 }
 
 type Mutation {
