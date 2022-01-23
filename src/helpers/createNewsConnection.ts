@@ -29,8 +29,8 @@ export const createNewsConnection = async ({
   const pageInfo = {
     hasNextPage,
     hasPreviousPage,
-    startCursor: news[0].cursor,
-    endCursor: news[news.length - 1].cursor.toString(),
+    startCursor: news.length ? news[0].cursor.toString() : null,
+    endCursor: news.length ? news[news.length - 1].cursor.toString() : null,
   };
 
   const convertedNews = news.map((n) => {
