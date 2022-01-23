@@ -310,5 +310,5 @@ type Mutation {
 }
 
 type Subscription {
-  thoughtTalkRoomMessageCreated: ThoughtTalkRoomMessage
+  thoughtTalkRoomMessageCreated(roomIds: [Int]!): ThoughtTalkRoomMessage
 }

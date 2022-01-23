@@ -19,6 +19,7 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     },
     include: {
       sender: true,
+      talkRoom: true,
     },
   });
 
