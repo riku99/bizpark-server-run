@@ -15,15 +15,6 @@ export const findThoughtsWithRelayStyle = async ({
   const data = await prisma.thought.findMany({
     where,
     include: {
-      contributor: {
-        include: {
-          follower: {
-            where: {
-              followerId: userId,
-            },
-          },
-        },
-      },
       picked: {
         where: {
           pickerId: userId,
