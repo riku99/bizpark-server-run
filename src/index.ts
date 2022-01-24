@@ -13,6 +13,7 @@ import { execute, subscribe } from "graphql";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { createServer } from "http";
 import { prisma } from "~/lib/prisma";
+import { verifyIdToken } from "~/auth/verifyIdToken";
 
 const schema = loadSchemaSync(join(__dirname, "../schema.graphql"), {
   loaders: [new GraphQLFileLoader()],
@@ -37,9 +38,22 @@ const start = async () => {
       schema: schemaWithResolvers,
       execute,
       subscribe,
-      onConnect: () => {
+      onConnect: async (connectionParams: any) => {
+        let requestUser;
+        const token = connectionParams.authToken?.replace(/^Bearer /, "");
+        const session = await verifyIdToken(token);
+        if (!session) {
+          requestUser = null;
+        } else {
+          requestUser = await prisma.user.findUnique({
+            where: {
+              uid: session.uid,
+            },
+          });
+        }
         return {
           prisma,
+          requestUser,
         };
       },
     },
