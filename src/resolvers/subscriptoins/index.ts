@@ -9,6 +9,7 @@ export const Subscription: SubscriptionResolvers = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(["THOUGHT_TALK_ROOM_MESSAGE_CREATED"]),
       (payload, variables) => {
+        // 参加しているトークルームか自分の投稿に対してのメッセージならパブリッシュする
         const send =
           payload.thoughtTalkRoomMessageCreated.contributorId ===
             variables.userId ||
