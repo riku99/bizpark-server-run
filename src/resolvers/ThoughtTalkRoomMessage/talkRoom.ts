@@ -11,15 +11,7 @@ export const talkRoom: ThoughtTalkRoomMessageResolvers["talkRoom"] = async (
         id: parent.id,
       },
     })
-    .talkRoom({
-      include: {
-        thought: {
-          include: {
-            contributor: true,
-          },
-        },
-      },
-    });
+    .talkRoom();
 
   return talkRoom;
 };

@@ -3,6 +3,7 @@ import { Resolvers } from "~/generated/graphql";
 import { Query } from "./queries";
 import { GraphQLUpload } from "graphql-upload";
 import { Subscription } from "./subscriptoins";
+import { Thought } from "./Thought";
 import { ThoughtTalkRoom } from "./ThoughtTalkRoom";
 import { ThoughtTalkRoomMessage } from "./ThoughtTalkRoomMessage";
 
@@ -14,4 +15,5 @@ export const resolvers: Resolvers = {
   Subscription,
   ThoughtTalkRoom,
   ThoughtTalkRoomMessage,
+  Thought,
 };
