@@ -9,10 +9,9 @@ export const Subscription: SubscriptionResolvers = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(["THOUGHT_TALK_ROOM_MESSAGE_CREATED"]),
       (payload, variables) => {
-        console.log(payload);
+        // console.log(payload);
         return variables.roomIds.some(
-          (id) => !!id
-          // (id) => id === payload.thoughtTalkRoomMessageCreated.talkRoom.id
+          (id) => id === payload.thoughtTalkRoomMessageCreated.roomId
         );
       }
     ),
