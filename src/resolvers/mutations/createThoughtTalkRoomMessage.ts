@@ -19,7 +19,6 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     },
     include: {
       sender: true,
-      talkRoom: true,
     },
   });
 
@@ -33,9 +32,7 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
   });
 
   pubsub.publish("THOUGHT_TALK_ROOM_MESSAGE_CREATED", {
-    thoughtTalkRoomMessageCreated: {
-      ...message,
-    },
+    thoughtTalkRoomMessageCreated: message,
   });
 
   return message;

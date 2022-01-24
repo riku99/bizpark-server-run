@@ -12,6 +12,7 @@ import { resolvers } from "~/resolvers";
 import { execute, subscribe } from "graphql";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { createServer } from "http";
+import { prisma } from "~/lib/prisma";
 
 const schema = loadSchemaSync(join(__dirname, "../schema.graphql"), {
   loaders: [new GraphQLFileLoader()],
@@ -36,6 +37,11 @@ const start = async () => {
       schema: schemaWithResolvers,
       execute,
       subscribe,
+      onConnect: () => {
+        return {
+          prisma,
+        };
+      },
     },
     {
       server: httpServer,

@@ -4,6 +4,7 @@ import { Query } from "./queries";
 import { GraphQLUpload } from "graphql-upload";
 import { Subscription } from "./subscriptoins";
 import { ThoughtTalkRoom } from "./ThoughtTalkRoom";
+import { ThoughtTalkRoomMessage } from "./ThoughtTalkRoomMessage";
 
 export const resolvers: Resolvers = {
   // @ts-ignore
@@ -12,4 +13,5 @@ export const resolvers: Resolvers = {
   Query,
   Subscription,
   ThoughtTalkRoom,
+  ThoughtTalkRoomMessage,
 };
