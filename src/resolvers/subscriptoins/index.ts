@@ -9,10 +9,13 @@ export const Subscription: SubscriptionResolvers = {
     subscribe: withFilter(
       () => pubsub.asyncIterator(["THOUGHT_TALK_ROOM_MESSAGE_CREATED"]),
       (payload, variables) => {
-        // console.log(payload);
-        return variables.roomIds.some(
-          (id) => id === payload.thoughtTalkRoomMessageCreated.roomId
-        );
+        const send =
+          payload.thoughtTalkRoomMessageCreated.contributorId ===
+            variables.userId ||
+          variables.roomIds.some(
+            (id) => id === payload.thoughtTalkRoomMessageCreated.roomId
+          );
+        return send;
       }
     ),
   },

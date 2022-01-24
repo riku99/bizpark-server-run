@@ -31,8 +31,24 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     },
   });
 
+  const thogutData = await prisma.thoughtTalkRoom.findUnique({
+    where: {
+      id: input.roomId,
+    },
+    select: {
+      thought: {
+        select: {
+          contributorId: true,
+        },
+      },
+    },
+  });
+
   pubsub.publish("THOUGHT_TALK_ROOM_MESSAGE_CREATED", {
-    thoughtTalkRoomMessageCreated: message,
+    thoughtTalkRoomMessageCreated: {
+      ...message,
+      contributorId: thogutData?.thought.contributorId,
+    },
   });
 
   return message;
