@@ -393,6 +393,7 @@ export type Subscription = {
 
 export type SubscriptionThoughtTalkRoomMessageCreatedArgs = {
   roomIds: Array<InputMaybe<Scalars['Int']>>;
+  userId: Scalars['ID'];
 };
 
 export type Thought = {
@@ -826,7 +827,7 @@ export type SubImageResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type SubscriptionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  thoughtTalkRoomMessageCreated?: SubscriptionResolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, "thoughtTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionThoughtTalkRoomMessageCreatedArgs, 'roomIds'>>;
+  thoughtTalkRoomMessageCreated?: SubscriptionResolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, "thoughtTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionThoughtTalkRoomMessageCreatedArgs, 'roomIds' | 'userId'>>;
 };
 
 export type ThoughtResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Thought'] = ResolversParentTypes['Thought']> = {

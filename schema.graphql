@@ -310,5 +310,8 @@ type Mutation {
 }
 
 type Subscription {
-  thoughtTalkRoomMessageCreated(roomIds: [Int]!): ThoughtTalkRoomMessage
+  thoughtTalkRoomMessageCreated(
+    roomIds: [Int]!
+    userId: ID!
+  ): ThoughtTalkRoomMessage
 }
