@@ -444,6 +444,7 @@ export type ThoughtTalkRoomMessage = {
   id: Scalars['Int'];
   roomId?: Maybe<Scalars['Int']>;
   sender: User;
+  talkRoom?: Maybe<ThoughtTalkRoom>;
   text: Scalars['String'];
 };
 
@@ -871,6 +872,7 @@ export type ThoughtTalkRoomMessageResolvers<ContextType = Context, ParentType ex
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   sender?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  talkRoom?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoom']>, ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

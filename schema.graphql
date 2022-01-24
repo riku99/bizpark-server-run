@@ -131,21 +131,6 @@ type UserConnection {
   pageInfo: PageInfo!
 }
 
-type ThoughtTalkRoomMessage {
-  id: Int!
-  text: String!
-  createdAt: String!
-  sender: User!
-  roomId: Int
-}
-
-type ThoughtTalkRoomMember {
-  id: ID!
-  createdAt: String
-  talkRoom: ThoughtTalkRoom
-  user: User
-}
-
 type ThoughtTalkRoom {
   id: Int!
   thought: Thought
@@ -154,6 +139,22 @@ type ThoughtTalkRoom {
   members: [ThoughtTalkRoomMember]
   messages(first: Int!, after: String): ThoughtTalkRoomMessageConnection
   allMessageSeen: Boolean
+}
+
+type ThoughtTalkRoomMessage {
+  id: Int!
+  text: String!
+  createdAt: String!
+  sender: User!
+  roomId: Int
+  talkRoom: ThoughtTalkRoom
+}
+
+type ThoughtTalkRoomMember {
+  id: ID!
+  createdAt: String
+  talkRoom: ThoughtTalkRoom
+  user: User
 }
 
 type ThoughtTalkRoomMessageEdge {
