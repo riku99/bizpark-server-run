@@ -452,7 +452,7 @@ export type ThoughtTalkRoomMemberConnection = {
 
 export type ThoughtTalkRoomMemberEdge = {
   __typename?: 'ThoughtTalkRoomMemberEdge';
-  cursur: Scalars['String'];
+  cursor: Scalars['String'];
   node?: Maybe<ThoughtTalkRoomMember>;
 };
 
@@ -896,7 +896,7 @@ export type ThoughtTalkRoomMemberConnectionResolvers<ContextType = Context, Pare
 };
 
 export type ThoughtTalkRoomMemberEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMemberEdge'] = ResolversParentTypes['ThoughtTalkRoomMemberEdge']> = {
-  cursur?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMember']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

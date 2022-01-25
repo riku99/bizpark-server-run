@@ -170,7 +170,7 @@ type ThoughtTalkRoomMember {
 
 type ThoughtTalkRoomMemberEdge {
   node: ThoughtTalkRoomMember
-  cursur: String!
+  cursor: String!
 }
 
 type ThoughtTalkRoomMemberConnection {

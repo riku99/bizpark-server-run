@@ -1,5 +1,6 @@
 import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
 import { createPageInfo } from "~/helpers/createPageInfo";
+import { Prisma } from "@prisma/client";
 
 const DEFAULT_TAKE_COUNT = 6;
 
@@ -15,18 +16,20 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
   const skip = after && after > 1 ? 1 : 0;
   const cursor = after ? { id: after } : undefined;
 
-  const members = await prisma.thoughtTalkRoom
+  const where: Prisma.ThoughtTalkRoomMemberWhereInput = {
+    userId: {
+      not: requestUser?.id,
+    },
+  };
+
+  const getMembers = prisma.thoughtTalkRoom
     .findUnique({
       where: {
         id: parent.id,
       },
     })
     .members({
-      where: {
-        userId: {
-          not: requestUser?.id,
-        },
-      },
+      where,
       include: {
         user: true,
       },
@@ -38,7 +41,22 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
       cursor,
     });
 
-  const count = members.length - (after ?? 0);
+  const getTotal = prisma.thoughtTalkRoom
+    .findUnique({
+      where: {
+        id: parent.id,
+      },
+    })
+    .members({
+      where,
+      select: {
+        id: true,
+      },
+    });
+
+  const [members, total] = await Promise.all([getMembers, getTotal]);
+
+  const count = members.length - (after ? total.length - after : 0);
   const pageInfo = createPageInfo({
     count,
     first,
