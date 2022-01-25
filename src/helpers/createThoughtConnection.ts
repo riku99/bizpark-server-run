@@ -1,4 +1,5 @@
 import { Thought } from "@prisma/client";
+import { createPageInfo } from "~/helpers/createPageInfo";
 
 type T = (Thought & {
   picked: {
@@ -23,26 +24,13 @@ export const createThoughtConnection = async ({
   first: number;
   thoughts: T;
 }) => {
-  let hasNextPage: boolean;
-  let hasPreviousPage: boolean;
-
-  if (after) {
-    hasNextPage = count - first > 0;
-    hasPreviousPage = true;
-  } else {
-    // afterがない。初回
-    hasNextPage = count > first;
-    hasPreviousPage = false;
-  }
-
-  const pageInfo = {
-    hasNextPage,
-    hasPreviousPage,
-    startCursor: thoughts.length ? thoughts[0].cursor : null,
-    endCursor: thoughts.length
-      ? thoughts[thoughts.length - 1].cursor.toString()
-      : null,
-  };
+  const pageInfo = createPageInfo({
+    count,
+    first,
+    after: !!after,
+    nodes: thoughts,
+    cursorKey: "cursor",
+  });
 
   const convertedThoughts = thoughts.map((t) => {
     const picked = !!t.picked.length;

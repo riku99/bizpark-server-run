@@ -438,6 +438,18 @@ export type ThoughtTalkRoomMember = {
   user?: Maybe<User>;
 };
 
+export type ThoughtTalkRoomMemberConnection = {
+  __typename?: 'ThoughtTalkRoomMemberConnection';
+  edges: Array<ThoughtTalkRoomMemberEdge>;
+  pageInfo: PageInfo;
+};
+
+export type ThoughtTalkRoomMemberEdge = {
+  __typename?: 'ThoughtTalkRoomMemberEdge';
+  cursur: Scalars['String'];
+  node?: Maybe<ThoughtTalkRoomMember>;
+};
+
 export type ThoughtTalkRoomMessage = {
   __typename?: 'ThoughtTalkRoomMessage';
   createdAt: Scalars['String'];
@@ -617,6 +629,8 @@ export type ResolversTypes = {
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtTalkRoom: ResolverTypeWrapper<ThoughtTalkRoom>;
   ThoughtTalkRoomMember: ResolverTypeWrapper<ThoughtTalkRoomMember>;
+  ThoughtTalkRoomMemberConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMemberEdge']> }>;
+  ThoughtTalkRoomMemberEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMemberEdge, 'node'> & { node?: Maybe<ResolversTypes['ThoughtTalkRoomMember']> }>;
   ThoughtTalkRoomMessage: ResolverTypeWrapper<ThoughtTalkRoomMessage>;
   ThoughtTalkRoomMessageConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMessageEdge']> }>;
   ThoughtTalkRoomMessageEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMessage'] }>;
@@ -670,6 +684,8 @@ export type ResolversParentTypes = {
   ThoughtEdge: Omit<ThoughtEdge, 'node'> & { node: ResolversParentTypes['Thought'] };
   ThoughtTalkRoom: ThoughtTalkRoom;
   ThoughtTalkRoomMember: ThoughtTalkRoomMember;
+  ThoughtTalkRoomMemberConnection: Omit<ThoughtTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMemberEdge']> };
+  ThoughtTalkRoomMemberEdge: Omit<ThoughtTalkRoomMemberEdge, 'node'> & { node?: Maybe<ResolversParentTypes['ThoughtTalkRoomMember']> };
   ThoughtTalkRoomMessage: ThoughtTalkRoomMessage;
   ThoughtTalkRoomMessageConnection: Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMessageEdge']> };
   ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
@@ -867,6 +883,18 @@ export type ThoughtTalkRoomMemberResolvers<ContextType = Context, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ThoughtTalkRoomMemberConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMemberConnection'] = ResolversParentTypes['ThoughtTalkRoomMemberConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['ThoughtTalkRoomMemberEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ThoughtTalkRoomMemberEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMemberEdge'] = ResolversParentTypes['ThoughtTalkRoomMemberEdge']> = {
+  cursur?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMember']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ThoughtTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessage'] = ResolversParentTypes['ThoughtTalkRoomMessage']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -959,6 +987,8 @@ export type Resolvers<ContextType = Context> = {
   ThoughtEdge?: ThoughtEdgeResolvers<ContextType>;
   ThoughtTalkRoom?: ThoughtTalkRoomResolvers<ContextType>;
   ThoughtTalkRoomMember?: ThoughtTalkRoomMemberResolvers<ContextType>;
+  ThoughtTalkRoomMemberConnection?: ThoughtTalkRoomMemberConnectionResolvers<ContextType>;
+  ThoughtTalkRoomMemberEdge?: ThoughtTalkRoomMemberEdgeResolvers<ContextType>;
   ThoughtTalkRoomMessage?: ThoughtTalkRoomMessageResolvers<ContextType>;
   ThoughtTalkRoomMessageConnection?: ThoughtTalkRoomMessageConnectionResolvers<ContextType>;
   ThoughtTalkRoomMessageEdge?: ThoughtTalkRoomMessageEdgeResolvers<ContextType>;

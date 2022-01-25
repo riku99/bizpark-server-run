@@ -2,9 +2,11 @@ import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
 
 export const members: ThoughtTalkRoomResolvers["members"] = async (
   parent,
-  _,
+  { first, after },
   { prisma, requestUser }
 ) => {
+  const decodedAfter = after ? Buffer.from(after, "base64").toString() : null;
+
   const members = await prisma.thoughtTalkRoom
     .findUnique({
       where: {

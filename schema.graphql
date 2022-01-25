@@ -137,6 +137,7 @@ type ThoughtTalkRoom {
   createdAt: String
   updatedAt: String
   members: [ThoughtTalkRoomMember]
+  # members(first: Int, after: String): ThoughtTalkRoomMemberConnection
   messages(first: Int!, after: String): ThoughtTalkRoomMessageConnection
   allMessageSeen: Boolean
 }
@@ -150,13 +151,6 @@ type ThoughtTalkRoomMessage {
   talkRoom: ThoughtTalkRoom
 }
 
-type ThoughtTalkRoomMember {
-  id: ID!
-  createdAt: String
-  talkRoom: ThoughtTalkRoom
-  user: User
-}
-
 type ThoughtTalkRoomMessageEdge {
   node: ThoughtTalkRoomMessage!
   cursor: String!
@@ -164,6 +158,23 @@ type ThoughtTalkRoomMessageEdge {
 
 type ThoughtTalkRoomMessageConnection {
   edges: [ThoughtTalkRoomMessageEdge!]!
+  pageInfo: PageInfo!
+}
+
+type ThoughtTalkRoomMember {
+  id: ID!
+  createdAt: String
+  talkRoom: ThoughtTalkRoom
+  user: User
+}
+
+type ThoughtTalkRoomMemberEdge {
+  node: ThoughtTalkRoomMember
+  cursur: String!
+}
+
+type ThoughtTalkRoomMemberConnection {
+  edges: [ThoughtTalkRoomMemberEdge!]!
   pageInfo: PageInfo!
 }
 

@@ -1,4 +1,5 @@
 import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
+import { createPageInfo } from "~/helpers/createPageInfo";
 
 export const messages: ThoughtTalkRoomResolvers["messages"] = async (
   parent,
@@ -45,25 +46,33 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
     });
   }
 
-  let hasNextPage: boolean;
-  let hasPreviousPage: boolean;
+  const pageInfo = createPageInfo({
+    count,
+    first,
+    after: !!decodedAfter,
+    nodes: messages,
+    cursorKey: "id",
+  });
 
-  if (decodedAfter) {
-    hasNextPage = count - first > 0;
-    hasPreviousPage = true;
-  } else {
-    hasNextPage = count > first;
-    hasPreviousPage = false;
-  }
+  // let hasNextPage: boolean;
+  // let hasPreviousPage: boolean;
 
-  const pageInfo = {
-    hasNextPage,
-    hasPreviousPage,
-    startCursor: messages.length ? messages[0].id.toString() : null,
-    endCursor: messages.length
-      ? messages[messages.length - 1].id.toString()
-      : null,
-  };
+  // if (decodedAfter) {
+  //   hasNextPage = count - first > 0;
+  //   hasPreviousPage = true;
+  // } else {
+  //   hasNextPage = count > first;
+  //   hasPreviousPage = false;
+  // }
+
+  // const pageInfo = {
+  //   hasNextPage,
+  //   hasPreviousPage,
+  //   startCursor: messages.length ? messages[0].id.toString() : null,
+  //   endCursor: messages.length
+  //     ? messages[messages.length - 1].id.toString()
+  //     : null,
+  // };
 
   const edges = messages.map((message) => ({
     node: message,
