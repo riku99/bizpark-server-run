@@ -1,4 +1,5 @@
 import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
+import { createPageInfo } from "~/helpers/createPageInfo";
 
 const DEFAULT_TAKE_COUNT = 6;
 
@@ -37,5 +38,22 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
       cursor,
     });
 
-  return members;
+  const count = members.length - (after ?? 0);
+  const pageInfo = createPageInfo({
+    count,
+    first,
+    after: !!after,
+    nodes: members,
+    cursorKey: "id",
+  });
+
+  const edges = members.map((member) => ({
+    node: member,
+    cursor: member.id.toString(),
+  }));
+
+  return {
+    edges,
+    pageInfo,
+  };
 };

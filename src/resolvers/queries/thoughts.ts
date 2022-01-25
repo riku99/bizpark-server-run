@@ -50,16 +50,10 @@ export const thoughts: QueryResolvers["thoughts"] = async (
     after: decodedAfter,
   });
 
-  let count: number;
-  if (decodedAfter) {
-    count = await prisma.thought.count({
-      where,
-    });
-  } else {
-    count = await prisma.thought.count({
-      where,
-    });
-  }
+  const totalCount = await prisma.thought.count({
+    where,
+  });
+  const count = totalCount - (decodedAfter ? totalCount - decodedAfter : 0);
 
   const connection = createThoughtConnection({
     thoughts,

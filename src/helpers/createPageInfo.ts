@@ -15,6 +15,7 @@ export const createPageInfo = ({
   let hasPreviousPage: boolean;
 
   if (after) {
+    console.log("hasNextPage is " + (count - first));
     hasNextPage = count - first > 0;
     hasPreviousPage = true;
   } else {
