@@ -162,7 +162,7 @@ type ThoughtTalkRoomMessageConnection {
 }
 
 type ThoughtTalkRoomMember {
-  id: ID!
+  id: Int!
   createdAt: String
   talkRoom: ThoughtTalkRoom
   user: User
