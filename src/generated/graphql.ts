@@ -418,10 +418,16 @@ export type ThoughtTalkRoom = {
   allMessageSeen?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  members?: Maybe<Array<Maybe<ThoughtTalkRoomMember>>>;
+  members?: Maybe<ThoughtTalkRoomMemberConnection>;
   messages?: Maybe<ThoughtTalkRoomMessageConnection>;
   thought?: Maybe<Thought>;
   updatedAt?: Maybe<Scalars['String']>;
+};
+
+
+export type ThoughtTalkRoomMembersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -868,7 +874,7 @@ export type ThoughtTalkRoomResolvers<ContextType = Context, ParentType extends R
   allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  members?: Resolver<Maybe<Array<Maybe<ResolversTypes['ThoughtTalkRoomMember']>>>, ParentType, ContextType>;
+  members?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMemberConnection']>, ParentType, ContextType, RequireFields<ThoughtTalkRoomMembersArgs, never>>;
   messages?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessageConnection']>, ParentType, ContextType, RequireFields<ThoughtTalkRoomMessagesArgs, 'first'>>;
   thought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

@@ -1,11 +1,18 @@
 import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
 
+const DEFAULT_TAKE_COUNT = 6;
+
 export const members: ThoughtTalkRoomResolvers["members"] = async (
   parent,
-  { first, after },
+  args,
   { prisma, requestUser }
 ) => {
-  const decodedAfter = after ? Buffer.from(after, "base64").toString() : null;
+  const after = args.after
+    ? Number(Buffer.from(args.after, "base64").toString())
+    : null;
+  const first = args.first ?? DEFAULT_TAKE_COUNT;
+  const skip = after && after > 1 ? 1 : 0;
+  const cursor = after ? { id: after } : undefined;
 
   const members = await prisma.thoughtTalkRoom
     .findUnique({
@@ -22,7 +29,12 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
       include: {
         user: true,
       },
-      take: 6,
+      orderBy: {
+        id: "desc",
+      },
+      take: first,
+      skip,
+      cursor,
     });
 
   return members;

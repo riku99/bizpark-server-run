@@ -136,8 +136,8 @@ type ThoughtTalkRoom {
   thought: Thought
   createdAt: String
   updatedAt: String
-  members: [ThoughtTalkRoomMember]
-  # members(first: Int, after: String): ThoughtTalkRoomMemberConnection
+  # members: [ThoughtTalkRoomMember]
+  members(first: Int, after: String): ThoughtTalkRoomMemberConnection
   messages(first: Int!, after: String): ThoughtTalkRoomMessageConnection
   allMessageSeen: Boolean
 }

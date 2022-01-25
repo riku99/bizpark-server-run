@@ -54,26 +54,6 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
     cursorKey: "id",
   });
 
-  // let hasNextPage: boolean;
-  // let hasPreviousPage: boolean;
-
-  // if (decodedAfter) {
-  //   hasNextPage = count - first > 0;
-  //   hasPreviousPage = true;
-  // } else {
-  //   hasNextPage = count > first;
-  //   hasPreviousPage = false;
-  // }
-
-  // const pageInfo = {
-  //   hasNextPage,
-  //   hasPreviousPage,
-  //   startCursor: messages.length ? messages[0].id.toString() : null,
-  //   endCursor: messages.length
-  //     ? messages[messages.length - 1].id.toString()
-  //     : null,
-  // };
-
   const edges = messages.map((message) => ({
     node: message,
     cursor: message.id.toString(),
