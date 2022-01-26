@@ -41,6 +41,21 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
       cursor,
     });
 
+  const getMemberMe = prisma.thoughtTalkRoom
+    .findUnique({
+      where: {
+        id: parent.id,
+      },
+    })
+    .members({
+      where: {
+        userId: requestUser?.id,
+      },
+      include: {
+        user: true,
+      },
+    });
+
   const getTotal = prisma.thoughtTalkRoom
     .findUnique({
       where: {
@@ -54,7 +69,14 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
       },
     });
 
-  const [members, total] = await Promise.all([getMembers, getTotal]);
+  const [members, memberMe, total] = await Promise.all([
+    getMembers,
+    getMemberMe,
+    getTotal,
+  ]);
+
+  // 自分を先頭にする
+  members.unshift(memberMe[0]);
 
   const count = members.length - (after ? total.length - after : 0);
   const pageInfo = createPageInfo({
