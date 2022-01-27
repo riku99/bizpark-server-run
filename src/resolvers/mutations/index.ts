@@ -17,7 +17,7 @@ import { unblock } from "./unblock";
 import { joinThoughtTalk } from "./joinThoughtTalk";
 import { createThoughtTalkRoomMessage } from "./createThoughtTalkRoomMessage";
 import { createUserThoughtTalkRoomMessageSeen } from "./createUserThoughtTalkRoomMessageSeen";
-import { deleteThoughtTalkRoomMember } from "./deleteThoughtTalkRoomMember";
+import { getOutThoughtTalkRoom } from "./getOutThoughtTalkRoom";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -38,5 +38,5 @@ export const Mutation: MutationResolvers = {
   joinThoughtTalk,
   createThoughtTalkRoomMessage,
   createUserThoughtTalkRoomMessageSeen,
-  deleteThoughtTalkRoomMember,
+  getOutThoughtTalkRoom,
 };

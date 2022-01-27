@@ -82,10 +82,6 @@ export type DeleteThoughtResponse = {
   id: Scalars['ID'];
 };
 
-export type DeleteThoughtTalkRoomMemberInput = {
-  roomId: Scalars['Int'];
-};
-
 export type Follow = {
   __typename?: 'Follow';
   followeeId: Scalars['ID'];
@@ -99,6 +95,10 @@ export enum Genre {
   Politics = 'POLITICS',
   Society = 'SOCIETY'
 }
+
+export type GetOutThoughtTalkRoomInput = {
+  roomId: Scalars['Int'];
+};
 
 export type GetThoughtTalkRoomMessagesInput = {
   after?: InputMaybe<Scalars['String']>;
@@ -154,8 +154,8 @@ export type Mutation = {
   deleteNewsPick: NewsPick;
   deletePick: Pick;
   deleteThought: DeleteThoughtResponse;
-  deleteThoughtTalkRoomMember?: Maybe<Scalars['Boolean']>;
   follow: User;
+  getOutThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   joinThoughtTalk: ThoughtTalkRoom;
   signOut: SignOutResponse;
   unblock: User;
@@ -216,13 +216,13 @@ export type MutationDeleteThoughtArgs = {
 };
 
 
-export type MutationDeleteThoughtTalkRoomMemberArgs = {
-  input: DeleteThoughtTalkRoomMemberInput;
+export type MutationFollowArgs = {
+  followeeId: Scalars['ID'];
 };
 
 
-export type MutationFollowArgs = {
-  followeeId: Scalars['ID'];
+export type MutationGetOutThoughtTalkRoomArgs = {
+  input: GetOutThoughtTalkRoomInput;
 };
 
 
@@ -607,9 +607,9 @@ export type ResolversTypes = {
   DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
   DeleteThoughtResponse: ResolverTypeWrapper<DeleteThoughtResponse>;
-  DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Follow: ResolverTypeWrapper<Follow>;
   Genre: ResolverTypeWrapper<Genre>;
+  GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
   GetThoughtTalkRoomMessagesInput: GetThoughtTalkRoomMessagesInput;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
@@ -664,8 +664,8 @@ export type ResolversParentTypes = {
   DeleteNewsPickInput: DeleteNewsPickInput;
   DeleteThoughtInput: DeleteThoughtInput;
   DeleteThoughtResponse: DeleteThoughtResponse;
-  DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Follow: Follow;
+  GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
   GetThoughtTalkRoomMessagesInput: GetThoughtTalkRoomMessagesInput;
   ID: Scalars['ID'];
   Image: Image;
@@ -765,8 +765,8 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationDeleteNewsPickArgs, 'input'>>;
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;
   deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
-  deleteThoughtTalkRoomMember?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteThoughtTalkRoomMemberArgs, 'input'>>;
   follow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
+  getOutThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutThoughtTalkRoomArgs, 'input'>>;
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;

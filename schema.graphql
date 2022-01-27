@@ -291,7 +291,11 @@ input CreateUserThoughtTalkRoomMessageSeenInput {
   roomId: Int!
 }
 
-input DeleteThoughtTalkRoomMemberInput {
+# input DeleteThoughtTalkRoomMemberInput {
+#   roomId: Int!
+# }
+
+input GetOutThoughtTalkRoomInput {
   roomId: Int!
 }
 
@@ -318,7 +322,7 @@ type Mutation {
   createUserThoughtTalkRoomMessageSeen(
     input: CreateUserThoughtTalkRoomMessageSeenInput!
   ): ThoughtTalkRoom!
-  deleteThoughtTalkRoomMember(input: DeleteThoughtTalkRoomMemberInput!): Boolean
+  getOutThoughtTalkRoom(input: GetOutThoughtTalkRoomInput!): Boolean
 }
 
 type Subscription {

@@ -4,7 +4,7 @@ import {
 } from "~/generated/graphql";
 import { ApolloError, ForbiddenError } from "apollo-server-express";
 
-export const deleteThoughtTalkRoomMember: MutationResolvers["deleteThoughtTalkRoomMember"] = async (
+export const getOutThoughtTalkRoom: MutationResolvers["getOutThoughtTalkRoom"] = async (
   _,
   { input },
   { prisma, requestUser }
