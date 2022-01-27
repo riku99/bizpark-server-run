@@ -104,6 +104,7 @@ model ThoughtTalkRoom {
   members ThoughtTalkRoomMember[]
 
   @@index([thoughtId])
+  @@index([updatedAt])
 }
 
 model ThoughtTalkRoomMessage {
@@ -117,7 +118,7 @@ model ThoughtTalkRoomMessage {
   talkRoom ThoughtTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   seen UserThoughtTalkRoomMessageSeen[]
 
-  @@index([roomId])
+  @@index([roomId, createdAt])
 }
 
 model UserThoughtTalkRoomMessageSeen {
@@ -139,7 +140,7 @@ model ThoughtTalkRoomMember {
   userId String
   createdAt DateTime @default(now())
 
-  talkRoom ThoughtTalkRoom @relation(fields: [talkRoomId], references: [id])
+  talkRoom ThoughtTalkRoom @relation(fields: [talkRoomId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id])
 
   @@index([talkRoomId])
