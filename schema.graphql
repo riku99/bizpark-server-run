@@ -136,7 +136,6 @@ type ThoughtTalkRoom {
   thought: Thought
   createdAt: String
   updatedAt: String
-  # members: [ThoughtTalkRoomMember]
   members(first: Int, after: String): ThoughtTalkRoomMemberConnection
   messages(first: Int!, after: String): ThoughtTalkRoomMessageConnection
   allMessageSeen: Boolean
@@ -291,12 +290,13 @@ input CreateUserThoughtTalkRoomMessageSeenInput {
   roomId: Int!
 }
 
-# input DeleteThoughtTalkRoomMemberInput {
-#   roomId: Int!
-# }
-
 input GetOutThoughtTalkRoomInput {
   roomId: Int!
+}
+
+input DeleteThoughtTalkRoomMemberInput {
+  roomId: Int!
+  userId: ID!
 }
 
 type Mutation {
@@ -323,6 +323,9 @@ type Mutation {
     input: CreateUserThoughtTalkRoomMessageSeenInput!
   ): ThoughtTalkRoom!
   getOutThoughtTalkRoom(input: GetOutThoughtTalkRoomInput!): Boolean
+  deleteThoughtTalkRoomMember(
+    input: DeleteThoughtTalkRoomMemberInput!
+  ): ThoughtTalkRoom!
 }
 
 type Subscription {
