@@ -318,7 +318,7 @@ type Mutation {
   joinThoughtTalk(input: JoinTalkInput!): ThoughtTalkRoom!
   createThoughtTalkRoomMessage(
     input: CreateThoughtTalkRoomMessageInput!
-  ): ThoughtTalkRoomMessage!
+  ): ThoughtTalkRoomMessage
   createUserThoughtTalkRoomMessageSeen(
     input: CreateUserThoughtTalkRoomMessageSeenInput!
   ): ThoughtTalkRoom!

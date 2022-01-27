@@ -78,7 +78,7 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
   ]);
 
   // 自分を先頭にする
-  if (memberMe) {
+  if (memberMe?.length) {
     members.unshift(memberMe[0]);
   }
 

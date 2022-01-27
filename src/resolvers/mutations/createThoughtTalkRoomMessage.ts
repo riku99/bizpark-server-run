@@ -1,5 +1,8 @@
-import { MutationResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
+import {
+  MutationResolvers,
+  CustomErrorResponseCode,
+} from "~/generated/graphql";
+import { ForbiddenError, ApolloError } from "apollo-server-express";
 import { pubsub } from "~/lib/pubsub";
 
 export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkRoomMessage"] = async (
@@ -9,6 +12,20 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
+  }
+
+  const memberMe = await prisma.thoughtTalkRoomMember.findFirst({
+    where: {
+      talkRoomId: input.roomId,
+      userId: requestUser.id,
+    },
+  });
+
+  if (!memberMe) {
+    throw new ApolloError(
+      "トークルームから削除されています",
+      CustomErrorResponseCode.InvalidRequest
+    );
   }
 
   const message = await prisma.thoughtTalkRoomMessage.create({
@@ -31,7 +48,7 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     },
   });
 
-  const findThoughtData = await prisma.thoughtTalkRoom.findUnique({
+  const findThoughtData = prisma.thoughtTalkRoom.findUnique({
     where: {
       id: input.roomId,
     },
