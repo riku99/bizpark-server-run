@@ -19,6 +19,7 @@ import { createThoughtTalkRoomMessage } from "./createThoughtTalkRoomMessage";
 import { createUserThoughtTalkRoomMessageSeen } from "./createUserThoughtTalkRoomMessageSeen";
 import { getOutThoughtTalkRoom } from "./getOutThoughtTalkRoom";
 import { deleteThoughtTalkRoomMember } from "./deleteThoughtTalkRoomMember";
+import { deleteThoughtTalkRoom } from "./deleteThoughtTalkRoom";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -41,4 +42,5 @@ export const Mutation: MutationResolvers = {
   createUserThoughtTalkRoomMessageSeen,
   getOutThoughtTalkRoom,
   deleteThoughtTalkRoomMember,
+  deleteThoughtTalkRoom,
 };

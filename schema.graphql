@@ -330,7 +330,7 @@ type Mutation {
   deleteThoughtTalkRoomMember(
     input: DeleteThoughtTalkRoomMemberInput!
   ): ThoughtTalkRoom!
-  deleteThoughtTalkRoom(input: DeleteThoughtTalkRoomInput): Boolean
+  deleteThoughtTalkRoom(input: DeleteThoughtTalkRoomInput!): Boolean
 }
 
 type Subscription {
