@@ -14,16 +14,24 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     throw new ForbiddenError("auth error");
   }
 
-  const memberMe = await prisma.thoughtTalkRoomMember.findFirst({
+  const findTalkRoom = prisma.thoughtTalkRoom.findFirst({
+    where: {
+      id: input.roomId,
+    },
+  });
+
+  const findMemberMe = prisma.thoughtTalkRoomMember.findFirst({
     where: {
       talkRoomId: input.roomId,
       userId: requestUser.id,
     },
   });
 
-  if (!memberMe) {
+  const [talkRoom, memberMe] = await Promise.all([findTalkRoom, findMemberMe]);
+
+  if (!talkRoom || !memberMe) {
     throw new ApolloError(
-      "トークルームから削除されています",
+      "トークルームが見つかりません",
       CustomErrorResponseCode.InvalidRequest
     );
   }

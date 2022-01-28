@@ -31,7 +31,10 @@ export const thoughtTalkRoom: QueryResolvers["thoughtTalkRoom"] = async (
   });
 
   if (!talkRoom) {
-    throw new ApolloError("not found", CustomErrorResponseCode.NotFound);
+    throw new ApolloError(
+      "トークルームが見つかりません",
+      CustomErrorResponseCode.NotFound
+    );
   }
 
   return talkRoom;
