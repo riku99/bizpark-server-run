@@ -113,6 +113,7 @@ model ThoughtTalkRoomMessage {
   createdAt DateTime @default(now())
   senderId String
   roomId Int
+  replyTo Int?
 
   sender User @relation(fields: [senderId], references: [id])
   talkRoom ThoughtTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)

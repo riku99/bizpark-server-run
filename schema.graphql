@@ -148,6 +148,7 @@ type ThoughtTalkRoomMessage {
   sender: User!
   roomId: Int
   talkRoom: ThoughtTalkRoom
+  replyTo: ThoughtTalkRoomMessage
 }
 
 type ThoughtTalkRoomMessageEdge {
@@ -159,6 +160,8 @@ type ThoughtTalkRoomMessageConnection {
   edges: [ThoughtTalkRoomMessageEdge!]!
   pageInfo: PageInfo!
 }
+
+type ThoughtTalkRoomMessageReply
 
 type ThoughtTalkRoomMember {
   id: Int!

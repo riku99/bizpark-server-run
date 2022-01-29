@@ -481,6 +481,7 @@ export type ThoughtTalkRoomMessage = {
   __typename?: 'ThoughtTalkRoomMessage';
   createdAt: Scalars['String'];
   id: Scalars['Int'];
+  replyTo?: Maybe<ThoughtTalkRoomMessage>;
   roomId?: Maybe<Scalars['Int']>;
   sender: User;
   talkRoom?: Maybe<ThoughtTalkRoom>;
@@ -497,6 +498,10 @@ export type ThoughtTalkRoomMessageEdge = {
   __typename?: 'ThoughtTalkRoomMessageEdge';
   cursor: Scalars['String'];
   node: ThoughtTalkRoomMessage;
+};
+
+export type ThoughtTalkRoomMessageReply = {
+  __typename?: 'ThoughtTalkRoomMessageReply';
 };
 
 export type ThoughtsConnection = {
@@ -663,6 +668,7 @@ export type ResolversTypes = {
   ThoughtTalkRoomMessage: ResolverTypeWrapper<ThoughtTalkRoomMessage>;
   ThoughtTalkRoomMessageConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMessageEdge']> }>;
   ThoughtTalkRoomMessageEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMessage'] }>;
+  ThoughtTalkRoomMessageReply: ResolverTypeWrapper<ThoughtTalkRoomMessageReply>;
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
   UpdateMeInput: UpdateMeInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
@@ -720,6 +726,7 @@ export type ResolversParentTypes = {
   ThoughtTalkRoomMessage: ThoughtTalkRoomMessage;
   ThoughtTalkRoomMessageConnection: Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMessageEdge']> };
   ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
+  ThoughtTalkRoomMessageReply: ThoughtTalkRoomMessageReply;
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
   UpdateMeInput: UpdateMeInput;
   Upload: Scalars['Upload'];
@@ -931,6 +938,7 @@ export type ThoughtTalkRoomMemberEdgeResolvers<ContextType = Context, ParentType
 export type ThoughtTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessage'] = ResolversParentTypes['ThoughtTalkRoomMessage']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  replyTo?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, ParentType, ContextType>;
   roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   sender?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoom']>, ParentType, ContextType>;
@@ -947,6 +955,10 @@ export type ThoughtTalkRoomMessageConnectionResolvers<ContextType = Context, Par
 export type ThoughtTalkRoomMessageEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessageEdge'] = ResolversParentTypes['ThoughtTalkRoomMessageEdge']> = {
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['ThoughtTalkRoomMessage'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ThoughtTalkRoomMessageReplyResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessageReply'] = ResolversParentTypes['ThoughtTalkRoomMessageReply']> = {
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1025,6 +1037,7 @@ export type Resolvers<ContextType = Context> = {
   ThoughtTalkRoomMessage?: ThoughtTalkRoomMessageResolvers<ContextType>;
   ThoughtTalkRoomMessageConnection?: ThoughtTalkRoomMessageConnectionResolvers<ContextType>;
   ThoughtTalkRoomMessageEdge?: ThoughtTalkRoomMessageEdgeResolvers<ContextType>;
+  ThoughtTalkRoomMessageReply?: ThoughtTalkRoomMessageReplyResolvers<ContextType>;
   ThoughtsConnection?: ThoughtsConnectionResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   UploadThoughtImagesResponse?: UploadThoughtImagesResponseResolvers<ContextType>;
