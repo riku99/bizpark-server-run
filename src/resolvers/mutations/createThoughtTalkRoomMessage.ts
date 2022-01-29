@@ -41,6 +41,7 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
       text: input.text,
       roomId: input.roomId,
       senderId: requestUser.id,
+      replyTo: input.replyTo,
     },
     include: {
       sender: true,

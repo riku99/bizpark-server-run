@@ -161,8 +161,6 @@ type ThoughtTalkRoomMessageConnection {
   pageInfo: PageInfo!
 }
 
-type ThoughtTalkRoomMessageReply
-
 type ThoughtTalkRoomMember {
   id: Int!
   createdAt: String
@@ -286,6 +284,7 @@ input JoinTalkInput {
 input CreateThoughtTalkRoomMessageInput {
   text: String!
   roomId: Int!
+  replyTo: Int
 }
 
 input CreateUserThoughtTalkRoomMessageSeenInput {
