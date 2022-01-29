@@ -148,7 +148,7 @@ type ThoughtTalkRoomMessage {
   sender: User!
   roomId: Int
   talkRoom: ThoughtTalkRoom
-  replyTo: ThoughtTalkRoomMessage
+  replyMessage: ThoughtTalkRoomMessage
 }
 
 type ThoughtTalkRoomMessageEdge {

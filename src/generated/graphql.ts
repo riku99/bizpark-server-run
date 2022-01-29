@@ -481,7 +481,7 @@ export type ThoughtTalkRoomMessage = {
   __typename?: 'ThoughtTalkRoomMessage';
   createdAt: Scalars['String'];
   id: Scalars['Int'];
-  replyTo?: Maybe<ThoughtTalkRoomMessage>;
+  replyMessage?: Maybe<ThoughtTalkRoomMessage>;
   roomId?: Maybe<Scalars['Int']>;
   sender: User;
   talkRoom?: Maybe<ThoughtTalkRoom>;
@@ -938,7 +938,7 @@ export type ThoughtTalkRoomMemberEdgeResolvers<ContextType = Context, ParentType
 export type ThoughtTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMessage'] = ResolversParentTypes['ThoughtTalkRoomMessage']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  replyTo?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, ParentType, ContextType>;
+  replyMessage?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, ParentType, ContextType>;
   roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   sender?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoom']>, ParentType, ContextType>;

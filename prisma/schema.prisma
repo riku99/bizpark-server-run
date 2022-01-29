@@ -117,10 +117,24 @@ model ThoughtTalkRoomMessage {
 
   sender User @relation(fields: [senderId], references: [id])
   talkRoom ThoughtTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  replyMessage ThoughtTalkRoomMessage? @relation("Reply", fields: [replyTo], references: [id])
+  replyBy ThoughtTalkRoomMessage? @relation("Reply")
+
   seen UserThoughtTalkRoomMessageSeen[]
 
   @@index([roomId, createdAt])
 }
+
+// model ThoughtTalkRoomMessageReply {
+//   id Int @id @default(autoincrement())
+//   replyBy Int
+//   replyTo Int
+
+//   replyByMessage ThoughtTalkRoomMessage @relation("replyBy", fields: [replyBy], references: [id])
+//   replyToMessage ThoughtTalkRoomMessage @relation("replyTo", fields: [replyTo], references: [id])
+
+//   @@index([replyBy])
+// }
 
 model UserThoughtTalkRoomMessageSeen {
   id String @id @default(uuid())
