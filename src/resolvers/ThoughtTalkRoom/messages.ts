@@ -23,9 +23,6 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
       orderBy: {
         id: "desc",
       },
-      include: {
-        sender: true,
-      },
     });
 
   let count: number;
