@@ -118,7 +118,7 @@ model ThoughtTalkRoomMessage {
   sender User @relation(fields: [senderId], references: [id])
   talkRoom ThoughtTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   replyMessage ThoughtTalkRoomMessage? @relation("Reply", fields: [replyTo], references: [id])
-  replyBy ThoughtTalkRoomMessage? @relation("Reply")
+  replyBy ThoughtTalkRoomMessage[] @relation("Reply")
 
   seen UserThoughtTalkRoomMessageSeen[]
 
