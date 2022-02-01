@@ -27,6 +27,7 @@ model User {
   thoughts Thought[]
   thoughtTalkRoomMessages ThoughtTalkRoomMessage[]
   thoughtTalkRooms ThoughtTalkRoomMember[]
+  seenThoughtTalkRoomMessages UserThoughtTalkRoomMessageSeen[]
 
   senderOneOnOneRoom OneOnOneRoom[] @relation("sender")
   recipirntOneOnOneRoom OneOnOneRoom[] @relation("recipient")
@@ -40,8 +41,10 @@ model User {
 
   follow Follow[] @relation("follow")
   follower Follow[] @relation("follower")
-
-  seenThoughtTalkRoomMessages UserThoughtTalkRoomMessageSeen[]
+  
+  newsTalkRoomMessages NewsTalkRoomMessage[]
+  seenNewsTalkRoomMessages UserNewsTalkRoomMessageSeen[]
+  newsTalkRooms NewsTalkRoomMember[]
 }
 
 model Thought {
@@ -87,6 +90,8 @@ model News {
   cursor Int @default(autoincrement()) @unique 
   isPicked Boolean @default(false) // ピックされてないものは削除するのでそのためのフラグ
   apiSource String? // どのAPIから取得したデータか
+
+  talkRooms NewsTalkRoom[]
 
   picked NewsPick[]
 
@@ -145,6 +150,66 @@ model ThoughtTalkRoomMember {
   createdAt DateTime @default(now())
 
   talkRoom ThoughtTalkRoom @relation(fields: [talkRoomId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([talkRoomId])
+  @@index([userId])
+  @@unique([talkRoomId, userId])
+}
+
+model NewsTalkRoom {
+  id Int @id @default(autoincrement())
+  newsId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  news News @relation(fields: [newsId], references: [id], onDelete: Cascade)
+
+  messages NewsTalkRoomMessage[]
+  members NewsTalkRoomMember[]
+
+  @@index([newsId])
+  @@index([updatedAt])
+}
+
+model NewsTalkRoomMessage {
+  id Int @id @default(autoincrement())
+  text String
+  createdAt DateTime @default(now())
+  senderId String
+  roomId Int
+  replyTo Int?
+
+  sender User @relation(fields: [senderId], references: [id])
+  talkRoom NewsTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  
+  replyMessage NewsTalkRoomMessage? @relation("ReplyMessage", fields: [replyTo], references: [id])
+  replyBy NewsTalkRoomMessage[] @relation("ReplyMessage")
+
+  seen UserNewsTalkRoomMessageSeen[]
+
+  @@index([roomId])
+}
+
+model UserNewsTalkRoomMessageSeen {
+  id Int @id @default(autoincrement()) 
+  userId String
+  messageId Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message NewsTalkRoomMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([userId, messageId])
+}
+
+model NewsTalkRoomMember {
+  id Int @id @default(autoincrement())
+  talkRoomId Int
+  userId String
+  createdAt DateTime @default(now())
+
+  talkRoom NewsTalkRoom @relation(fields: [talkRoomId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id])
 
   @@index([talkRoomId])
