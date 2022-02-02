@@ -365,6 +365,18 @@ export type NewsTalkRoomMessage = TalkRoomMessage & {
   text: Scalars['String'];
 };
 
+export type NewsTalkRoomMessageConnection = {
+  __typename?: 'NewsTalkRoomMessageConnection';
+  edges: Array<NewsTalkRoomMessageEdge>;
+  pageInfo: PageInfo;
+};
+
+export type NewsTalkRoomMessageEdge = {
+  __typename?: 'NewsTalkRoomMessageEdge';
+  cursor: Scalars['String'];
+  node: NewsTalkRoomMessage;
+};
+
 export type PageInfo = {
   __typename?: 'PageInfo';
   endCursor?: Maybe<Scalars['String']>;
@@ -727,6 +739,8 @@ export type ResolversTypes = {
   NewsTalkRoomMemberConnection: ResolverTypeWrapper<Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversTypes['NewsTalkRoomMemberEdge']> }>;
   NewsTalkRoomMemberEdge: ResolverTypeWrapper<Omit<NewsTalkRoomMemberEdge, 'node'> & { node: ResolversTypes['NewsTalkRoomMember'] }>;
   NewsTalkRoomMessage: ResolverTypeWrapper<NewsTalkRoomMessage>;
+  NewsTalkRoomMessageConnection: ResolverTypeWrapper<Omit<NewsTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['NewsTalkRoomMessageEdge']> }>;
+  NewsTalkRoomMessageEdge: ResolverTypeWrapper<Omit<NewsTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['NewsTalkRoomMessage'] }>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
   Query: ResolverTypeWrapper<{}>;
@@ -792,6 +806,8 @@ export type ResolversParentTypes = {
   NewsTalkRoomMemberConnection: Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsTalkRoomMemberEdge']> };
   NewsTalkRoomMemberEdge: Omit<NewsTalkRoomMemberEdge, 'node'> & { node: ResolversParentTypes['NewsTalkRoomMember'] };
   NewsTalkRoomMessage: NewsTalkRoomMessage;
+  NewsTalkRoomMessageConnection: Omit<NewsTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsTalkRoomMessageEdge']> };
+  NewsTalkRoomMessageEdge: Omit<NewsTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['NewsTalkRoomMessage'] };
   PageInfo: PageInfo;
   Pick: Pick;
   Query: {};
@@ -965,6 +981,18 @@ export type NewsTalkRoomMessageResolvers<ContextType = Context, ParentType exten
   sender?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsTalkRoomMessageConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsTalkRoomMessageConnection'] = ResolversParentTypes['NewsTalkRoomMessageConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['NewsTalkRoomMessageEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsTalkRoomMessageEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsTalkRoomMessageEdge'] = ResolversParentTypes['NewsTalkRoomMessageEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['NewsTalkRoomMessage'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1174,6 +1202,8 @@ export type Resolvers<ContextType = Context> = {
   NewsTalkRoomMemberConnection?: NewsTalkRoomMemberConnectionResolvers<ContextType>;
   NewsTalkRoomMemberEdge?: NewsTalkRoomMemberEdgeResolvers<ContextType>;
   NewsTalkRoomMessage?: NewsTalkRoomMessageResolvers<ContextType>;
+  NewsTalkRoomMessageConnection?: NewsTalkRoomMessageConnectionResolvers<ContextType>;
+  NewsTalkRoomMessageEdge?: NewsTalkRoomMessageEdgeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
