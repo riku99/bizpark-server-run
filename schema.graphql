@@ -363,6 +363,7 @@ type Mutation {
     input: DeleteThoughtTalkRoomMemberInput!
   ): ThoughtTalkRoom!
   deleteThoughtTalkRoom(input: DeleteThoughtTalkRoomInput!): Boolean
+  joinNewsTalkRoom(input: JoinNewsTalkRoomInput!): NewsTalkRoom!
 }
 
 type Subscription {

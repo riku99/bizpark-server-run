@@ -166,6 +166,7 @@ export type Mutation = {
   deleteThoughtTalkRoomMember: ThoughtTalkRoom;
   follow: User;
   getOutThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
+  joinNewsTalkRoom: NewsTalkRoom;
   joinThoughtTalk: ThoughtTalkRoom;
   signOut: SignOutResponse;
   unblock: User;
@@ -243,6 +244,11 @@ export type MutationFollowArgs = {
 
 export type MutationGetOutThoughtTalkRoomArgs = {
   input: GetOutThoughtTalkRoomInput;
+};
+
+
+export type MutationJoinNewsTalkRoomArgs = {
+  input: JoinNewsTalkRoomInput;
 };
 
 
@@ -836,6 +842,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteThoughtTalkRoomMember?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationDeleteThoughtTalkRoomMemberArgs, 'input'>>;
   follow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
   getOutThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutThoughtTalkRoomArgs, 'input'>>;
+  joinNewsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinNewsTalkRoomArgs, 'input'>>;
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
