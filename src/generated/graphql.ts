@@ -358,6 +358,7 @@ export type NewsTalkRoomMessage = TalkRoomMessage & {
   __typename?: 'NewsTalkRoomMessage';
   createdAt: Scalars['String'];
   id: Scalars['Int'];
+  replyMessage?: Maybe<NewsTalkRoomMessage>;
   roomId?: Maybe<Scalars['Int']>;
   sender?: Maybe<User>;
   talkRoom?: Maybe<NewsTalkRoom>;
@@ -959,6 +960,7 @@ export type NewsTalkRoomMemberEdgeResolvers<ContextType = Context, ParentType ex
 export type NewsTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsTalkRoomMessage'] = ResolversParentTypes['NewsTalkRoomMessage']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  replyMessage?: Resolver<Maybe<ResolversTypes['NewsTalkRoomMessage']>, ParentType, ContextType>;
   roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   sender?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;

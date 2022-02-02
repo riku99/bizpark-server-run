@@ -235,6 +235,16 @@ type NewsTalkRoomMemberConnection {
   pageInfo: PageInfo!
 }
 
+type NewsTalkRoomMessage implements TalkRoomMessage {
+  id: Int!
+  text: String!
+  createdAt: String!
+  sender: User
+  roomId: Int
+  talkRoom: NewsTalkRoom
+  replyMessage: NewsTalkRoomMessage
+}
+
 type Query {
   thoughts(
     genre: Genre
