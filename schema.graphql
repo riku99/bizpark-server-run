@@ -193,10 +193,21 @@ type ThoughtTalkRoomMemberConnection {
   pageInfo: PageInfo!
 }
 
-input GetThoughtTalkRoomMessagesInput {
-  roomId: Int!
-  first: Int
-  after: String
+type NewsTalkRoom implements TalkRoom {
+  id: Int!
+  news: News
+  createdAt: String
+  updatedAt: String
+  allMessageSeen: Boolean
+}
+
+type NewsTalkRoomMessage implements TalkRoomMessage {
+  id: Int!
+  text: String!
+  createdAt: String!
+  sender: User
+  roomId: Int
+  talkRoom: NewsTalkRoom
 }
 
 type Query {

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick, Image, News, NewsGenre, NewsPick, User, Follow, ThoughtTalkRoomMessage, ThoughtTalkRoom, ThoughtTalkRoomMember } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image, News, NewsGenre, NewsPick, User, Follow, ThoughtTalkRoomMessage, ThoughtTalkRoom, ThoughtTalkRoomMember, NewsTalkRoom, NewsTalkRoomMessage } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -107,12 +107,6 @@ export enum Genre {
 }
 
 export type GetOutThoughtTalkRoomInput = {
-  roomId: Scalars['Int'];
-};
-
-export type GetThoughtTalkRoomMessagesInput = {
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
   roomId: Scalars['Int'];
 };
 
@@ -312,6 +306,25 @@ export type NewsPick = {
   __typename?: 'NewsPick';
   id: Scalars['ID'];
   newsId: Scalars['ID'];
+};
+
+export type NewsTalkRoom = TalkRoom & {
+  __typename?: 'NewsTalkRoom';
+  allMessageSeen?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  news?: Maybe<News>;
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export type NewsTalkRoomMessage = TalkRoomMessage & {
+  __typename?: 'NewsTalkRoomMessage';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  roomId?: Maybe<Scalars['Int']>;
+  sender?: Maybe<User>;
+  talkRoom?: Maybe<NewsTalkRoom>;
+  text: Scalars['String'];
 };
 
 export type PageInfo = {
@@ -650,7 +663,6 @@ export type ResolversTypes = {
   Follow: ResolverTypeWrapper<Follow>;
   Genre: ResolverTypeWrapper<Genre>;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
-  GetThoughtTalkRoomMessagesInput: GetThoughtTalkRoomMessagesInput;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
   ImageInput: ImageInput;
@@ -664,6 +676,8 @@ export type ResolversTypes = {
   NewsEdge: ResolverTypeWrapper<Omit<NewsEdge, 'node'> & { node: ResolversTypes['News'] }>;
   NewsGenre: ResolverTypeWrapper<NewsGenre>;
   NewsPick: ResolverTypeWrapper<NewsPick>;
+  NewsTalkRoom: ResolverTypeWrapper<NewsTalkRoom>;
+  NewsTalkRoomMessage: ResolverTypeWrapper<NewsTalkRoomMessage>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
   Query: ResolverTypeWrapper<{}>;
@@ -671,8 +685,8 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
   Subscription: ResolverTypeWrapper<{}>;
-  TalkRoom: ResolversTypes['ThoughtTalkRoom'];
-  TalkRoomMessage: ResolversTypes['ThoughtTalkRoomMessage'];
+  TalkRoom: ResolversTypes['NewsTalkRoom'] | ResolversTypes['ThoughtTalkRoom'];
+  TalkRoomMessage: ResolversTypes['NewsTalkRoomMessage'] | ResolversTypes['ThoughtTalkRoomMessage'];
   Thought: ResolverTypeWrapper<Thought>;
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtTalkRoom: ResolverTypeWrapper<ThoughtTalkRoom>;
@@ -710,7 +724,6 @@ export type ResolversParentTypes = {
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Follow: Follow;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
-  GetThoughtTalkRoomMessagesInput: GetThoughtTalkRoomMessagesInput;
   ID: Scalars['ID'];
   Image: Image;
   ImageInput: ImageInput;
@@ -723,6 +736,8 @@ export type ResolversParentTypes = {
   NewsConnection: Omit<NewsConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsEdge']> };
   NewsEdge: Omit<NewsEdge, 'node'> & { node: ResolversParentTypes['News'] };
   NewsPick: NewsPick;
+  NewsTalkRoom: NewsTalkRoom;
+  NewsTalkRoomMessage: NewsTalkRoomMessage;
   PageInfo: PageInfo;
   Pick: Pick;
   Query: {};
@@ -730,8 +745,8 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   SubImage: SubImage;
   Subscription: {};
-  TalkRoom: ResolversParentTypes['ThoughtTalkRoom'];
-  TalkRoomMessage: ResolversParentTypes['ThoughtTalkRoomMessage'];
+  TalkRoom: ResolversParentTypes['NewsTalkRoom'] | ResolversParentTypes['ThoughtTalkRoom'];
+  TalkRoomMessage: ResolversParentTypes['NewsTalkRoomMessage'] | ResolversParentTypes['ThoughtTalkRoomMessage'];
   Thought: Thought;
   ThoughtEdge: Omit<ThoughtEdge, 'node'> & { node: ResolversParentTypes['Thought'] };
   ThoughtTalkRoom: ThoughtTalkRoom;
@@ -856,6 +871,25 @@ export type NewsPickResolvers<ContextType = Context, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type NewsTalkRoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsTalkRoom'] = ResolversParentTypes['NewsTalkRoom']> = {
+  allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  news?: Resolver<Maybe<ResolversTypes['News']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsTalkRoomMessage'] = ResolversParentTypes['NewsTalkRoomMessage']> = {
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  sender?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  talkRoom?: Resolver<Maybe<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type PageInfoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -902,7 +936,7 @@ export type SubscriptionResolvers<ContextType = Context, ParentType extends Reso
 };
 
 export type TalkRoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TalkRoom'] = ResolversParentTypes['TalkRoom']> = {
-  __resolveType: TypeResolveFn<'ThoughtTalkRoom', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'NewsTalkRoom' | 'ThoughtTalkRoom', ParentType, ContextType>;
   allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -910,7 +944,7 @@ export type TalkRoomResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type TalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TalkRoomMessage'] = ResolversParentTypes['TalkRoomMessage']> = {
-  __resolveType: TypeResolveFn<'ThoughtTalkRoomMessage', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'NewsTalkRoomMessage' | 'ThoughtTalkRoomMessage', ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -1049,6 +1083,8 @@ export type Resolvers<ContextType = Context> = {
   NewsEdge?: NewsEdgeResolvers<ContextType>;
   NewsGenre?: NewsGenreResolvers;
   NewsPick?: NewsPickResolvers<ContextType>;
+  NewsTalkRoom?: NewsTalkRoomResolvers<ContextType>;
+  NewsTalkRoomMessage?: NewsTalkRoomMessageResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
