@@ -44,6 +44,13 @@ interface TalkRoomMessage {
   roomId: Int
 }
 
+interface TalkRoomMember {
+  id: Int!
+  createdAt: String
+  user: User
+  talkRoom: TalkRoom
+}
+
 type Image {
   id: ID!
   url: String!
@@ -176,7 +183,7 @@ type ThoughtTalkRoomMessageConnection {
   pageInfo: PageInfo!
 }
 
-type ThoughtTalkRoomMember {
+type ThoughtTalkRoomMember implements TalkRoomMember {
   id: Int!
   createdAt: String
   talkRoom: ThoughtTalkRoom
@@ -184,7 +191,7 @@ type ThoughtTalkRoomMember {
 }
 
 type ThoughtTalkRoomMemberEdge {
-  node: ThoughtTalkRoomMember
+  node: ThoughtTalkRoomMember!
   cursor: String!
 }
 
@@ -199,6 +206,7 @@ type NewsTalkRoom implements TalkRoom {
   createdAt: String
   updatedAt: String
   allMessageSeen: Boolean
+  members(first: Int, after: String): NewsTalkRoomMemberConnection
 }
 
 type NewsTalkRoomMessage implements TalkRoomMessage {
@@ -208,6 +216,23 @@ type NewsTalkRoomMessage implements TalkRoomMessage {
   sender: User
   roomId: Int
   talkRoom: NewsTalkRoom
+}
+
+type NewsTalkRoomMember implements TalkRoomMember {
+  id: Int!
+  createdAt: String
+  user: User
+  talkRoom: NewsTalkRoom
+}
+
+type NewsTalkRoomMemberEdge {
+  node: NewsTalkRoomMember!
+  cursor: String!
+}
+
+type NewsTalkRoomMemberConnection {
+  edges: [NewsTalkRoomMemberEdge!]!
+  pageInfo: PageInfo!
 }
 
 type Query {

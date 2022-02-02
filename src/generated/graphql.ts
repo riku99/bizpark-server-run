@@ -323,8 +323,35 @@ export type NewsTalkRoom = TalkRoom & {
   allMessageSeen?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
+  members?: Maybe<NewsTalkRoomMemberConnection>;
   news?: Maybe<News>;
   updatedAt?: Maybe<Scalars['String']>;
+};
+
+
+export type NewsTalkRoomMembersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+};
+
+export type NewsTalkRoomMember = TalkRoomMember & {
+  __typename?: 'NewsTalkRoomMember';
+  createdAt?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  talkRoom?: Maybe<NewsTalkRoom>;
+  user?: Maybe<User>;
+};
+
+export type NewsTalkRoomMemberConnection = {
+  __typename?: 'NewsTalkRoomMemberConnection';
+  edges: Array<NewsTalkRoomMemberEdge>;
+  pageInfo: PageInfo;
+};
+
+export type NewsTalkRoomMemberEdge = {
+  __typename?: 'NewsTalkRoomMemberEdge';
+  cursor: Scalars['String'];
+  node: NewsTalkRoomMember;
 };
 
 export type NewsTalkRoomMessage = TalkRoomMessage & {
@@ -448,6 +475,13 @@ export type TalkRoom = {
   updatedAt?: Maybe<Scalars['String']>;
 };
 
+export type TalkRoomMember = {
+  createdAt?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  talkRoom?: Maybe<TalkRoom>;
+  user?: Maybe<User>;
+};
+
 export type TalkRoomMessage = {
   createdAt: Scalars['String'];
   id: Scalars['Int'];
@@ -496,7 +530,7 @@ export type ThoughtTalkRoomMessagesArgs = {
   first: Scalars['Int'];
 };
 
-export type ThoughtTalkRoomMember = {
+export type ThoughtTalkRoomMember = TalkRoomMember & {
   __typename?: 'ThoughtTalkRoomMember';
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
@@ -513,7 +547,7 @@ export type ThoughtTalkRoomMemberConnection = {
 export type ThoughtTalkRoomMemberEdge = {
   __typename?: 'ThoughtTalkRoomMemberEdge';
   cursor: Scalars['String'];
-  node?: Maybe<ThoughtTalkRoomMember>;
+  node: ThoughtTalkRoomMember;
 };
 
 export type ThoughtTalkRoomMessage = TalkRoomMessage & {
@@ -688,6 +722,9 @@ export type ResolversTypes = {
   NewsGenre: ResolverTypeWrapper<NewsGenre>;
   NewsPick: ResolverTypeWrapper<NewsPick>;
   NewsTalkRoom: ResolverTypeWrapper<NewsTalkRoom>;
+  NewsTalkRoomMember: ResolverTypeWrapper<Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversTypes['NewsTalkRoom']>, user?: Maybe<ResolversTypes['User']> }>;
+  NewsTalkRoomMemberConnection: ResolverTypeWrapper<Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversTypes['NewsTalkRoomMemberEdge']> }>;
+  NewsTalkRoomMemberEdge: ResolverTypeWrapper<Omit<NewsTalkRoomMemberEdge, 'node'> & { node: ResolversTypes['NewsTalkRoomMember'] }>;
   NewsTalkRoomMessage: ResolverTypeWrapper<NewsTalkRoomMessage>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
@@ -697,13 +734,14 @@ export type ResolversTypes = {
   SubImage: ResolverTypeWrapper<SubImage>;
   Subscription: ResolverTypeWrapper<{}>;
   TalkRoom: ResolversTypes['NewsTalkRoom'] | ResolversTypes['ThoughtTalkRoom'];
+  TalkRoomMember: ResolversTypes['NewsTalkRoomMember'] | ResolversTypes['ThoughtTalkRoomMember'];
   TalkRoomMessage: ResolversTypes['NewsTalkRoomMessage'] | ResolversTypes['ThoughtTalkRoomMessage'];
   Thought: ResolverTypeWrapper<Thought>;
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtTalkRoom: ResolverTypeWrapper<ThoughtTalkRoom>;
   ThoughtTalkRoomMember: ResolverTypeWrapper<ThoughtTalkRoomMember>;
   ThoughtTalkRoomMemberConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMemberEdge']> }>;
-  ThoughtTalkRoomMemberEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMemberEdge, 'node'> & { node?: Maybe<ResolversTypes['ThoughtTalkRoomMember']> }>;
+  ThoughtTalkRoomMemberEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMemberEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMember'] }>;
   ThoughtTalkRoomMessage: ResolverTypeWrapper<ThoughtTalkRoomMessage>;
   ThoughtTalkRoomMessageConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMessageEdge']> }>;
   ThoughtTalkRoomMessageEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMessage'] }>;
@@ -749,6 +787,9 @@ export type ResolversParentTypes = {
   NewsEdge: Omit<NewsEdge, 'node'> & { node: ResolversParentTypes['News'] };
   NewsPick: NewsPick;
   NewsTalkRoom: NewsTalkRoom;
+  NewsTalkRoomMember: Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversParentTypes['NewsTalkRoom']>, user?: Maybe<ResolversParentTypes['User']> };
+  NewsTalkRoomMemberConnection: Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsTalkRoomMemberEdge']> };
+  NewsTalkRoomMemberEdge: Omit<NewsTalkRoomMemberEdge, 'node'> & { node: ResolversParentTypes['NewsTalkRoomMember'] };
   NewsTalkRoomMessage: NewsTalkRoomMessage;
   PageInfo: PageInfo;
   Pick: Pick;
@@ -758,13 +799,14 @@ export type ResolversParentTypes = {
   SubImage: SubImage;
   Subscription: {};
   TalkRoom: ResolversParentTypes['NewsTalkRoom'] | ResolversParentTypes['ThoughtTalkRoom'];
+  TalkRoomMember: ResolversParentTypes['NewsTalkRoomMember'] | ResolversParentTypes['ThoughtTalkRoomMember'];
   TalkRoomMessage: ResolversParentTypes['NewsTalkRoomMessage'] | ResolversParentTypes['ThoughtTalkRoomMessage'];
   Thought: Thought;
   ThoughtEdge: Omit<ThoughtEdge, 'node'> & { node: ResolversParentTypes['Thought'] };
   ThoughtTalkRoom: ThoughtTalkRoom;
   ThoughtTalkRoomMember: ThoughtTalkRoomMember;
   ThoughtTalkRoomMemberConnection: Omit<ThoughtTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMemberEdge']> };
-  ThoughtTalkRoomMemberEdge: Omit<ThoughtTalkRoomMemberEdge, 'node'> & { node?: Maybe<ResolversParentTypes['ThoughtTalkRoomMember']> };
+  ThoughtTalkRoomMemberEdge: Omit<ThoughtTalkRoomMemberEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMember'] };
   ThoughtTalkRoomMessage: ThoughtTalkRoomMessage;
   ThoughtTalkRoomMessageConnection: Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMessageEdge']> };
   ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
@@ -888,8 +930,29 @@ export type NewsTalkRoomResolvers<ContextType = Context, ParentType extends Reso
   allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  members?: Resolver<Maybe<ResolversTypes['NewsTalkRoomMemberConnection']>, ParentType, ContextType, RequireFields<NewsTalkRoomMembersArgs, never>>;
   news?: Resolver<Maybe<ResolversTypes['News']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsTalkRoomMemberResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsTalkRoomMember'] = ResolversParentTypes['NewsTalkRoomMember']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  talkRoom?: Resolver<Maybe<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsTalkRoomMemberConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsTalkRoomMemberConnection'] = ResolversParentTypes['NewsTalkRoomMemberConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['NewsTalkRoomMemberEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsTalkRoomMemberEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsTalkRoomMemberEdge'] = ResolversParentTypes['NewsTalkRoomMemberEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['NewsTalkRoomMember'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -956,6 +1019,14 @@ export type TalkRoomResolvers<ContextType = Context, ParentType extends Resolver
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type TalkRoomMemberResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TalkRoomMember'] = ResolversParentTypes['TalkRoomMember']> = {
+  __resolveType: TypeResolveFn<'NewsTalkRoomMember' | 'ThoughtTalkRoomMember', ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  talkRoom?: Resolver<Maybe<ResolversTypes['TalkRoom']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+};
+
 export type TalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TalkRoomMessage'] = ResolversParentTypes['TalkRoomMessage']> = {
   __resolveType: TypeResolveFn<'NewsTalkRoomMessage' | 'ThoughtTalkRoomMessage', ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1009,7 +1080,7 @@ export type ThoughtTalkRoomMemberConnectionResolvers<ContextType = Context, Pare
 
 export type ThoughtTalkRoomMemberEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtTalkRoomMemberEdge'] = ResolversParentTypes['ThoughtTalkRoomMemberEdge']> = {
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  node?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMember']>, ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['ThoughtTalkRoomMember'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1097,6 +1168,9 @@ export type Resolvers<ContextType = Context> = {
   NewsGenre?: NewsGenreResolvers;
   NewsPick?: NewsPickResolvers<ContextType>;
   NewsTalkRoom?: NewsTalkRoomResolvers<ContextType>;
+  NewsTalkRoomMember?: NewsTalkRoomMemberResolvers<ContextType>;
+  NewsTalkRoomMemberConnection?: NewsTalkRoomMemberConnectionResolvers<ContextType>;
+  NewsTalkRoomMemberEdge?: NewsTalkRoomMemberEdgeResolvers<ContextType>;
   NewsTalkRoomMessage?: NewsTalkRoomMessageResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
@@ -1105,6 +1179,7 @@ export type Resolvers<ContextType = Context> = {
   SubImage?: SubImageResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   TalkRoom?: TalkRoomResolvers<ContextType>;
+  TalkRoomMember?: TalkRoomMemberResolvers<ContextType>;
   TalkRoomMessage?: TalkRoomMessageResolvers<ContextType>;
   Thought?: ThoughtResolvers<ContextType>;
   ThoughtEdge?: ThoughtEdgeResolvers<ContextType>;
