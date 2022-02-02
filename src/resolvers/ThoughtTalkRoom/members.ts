@@ -2,6 +2,7 @@ import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
 import { createPageInfo } from "~/helpers/createPageInfo";
 import { Prisma } from "@prisma/client";
 import { createPagenationValues } from "~/helpers/createPageNationValues";
+import { createEdges } from "~/helpers/createEdges";
 
 const DEFAULT_TAKE_COUNT = 6;
 
@@ -10,10 +11,12 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
   args,
   { prisma, requestUser }
 ) => {
+  const cursorKey = "id";
+
   const { after, take, skip, cursor } = createPagenationValues({
     after: args.after,
     first: args.first ?? DEFAULT_TAKE_COUNT,
-    cursorKey: "id",
+    cursorKey,
   });
 
   const where: Prisma.ThoughtTalkRoomMemberWhereInput = {
@@ -92,13 +95,17 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
     first: take,
     after: !!after,
     nodes: members,
-    cursorKey: "id",
+    cursorKey,
   });
 
-  const edges = members.map((member) => ({
-    node: member,
-    cursor: member.id.toString(),
-  }));
+  // const edges = members.map((member) => ({
+  //   node: member,
+  //   cursor: member.id.toString(),
+  // }));
+  const edges = createEdges<typeof members[number], typeof cursorKey>({
+    nodes: members,
+    cursorKey,
+  });
 
   return {
     edges,

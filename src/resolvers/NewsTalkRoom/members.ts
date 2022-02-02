@@ -1,6 +1,7 @@
 import { NewsTalkRoomResolvers } from "~/generated/graphql";
 import { createPagenationValues } from "~/helpers/createPageNationValues";
 import { Prisma } from "@prisma/client";
+import { createPageInfo } from "~/helpers/createPageInfo";
 
 const DEFAULT_TAKE_COUNT = 6;
 
@@ -52,6 +53,9 @@ export const members: NewsTalkRoomResolvers["members"] = async (
           where: {
             userId: requestUser?.id,
           },
+          include: {
+            user: true,
+          },
         })
     : undefined;
 
@@ -62,7 +66,12 @@ export const members: NewsTalkRoomResolvers["members"] = async (
       },
     })
     .members({
-      where,
+      where: {
+        ...where,
+        id: {
+          lt: after ?? undefined,
+        },
+      },
       select: {
         id: true,
       },
@@ -78,4 +87,12 @@ export const members: NewsTalkRoomResolvers["members"] = async (
   if (memberMe?.length) {
     members.unshift(memberMe[0]);
   }
+
+  const pageInfo = createPageInfo({
+    count: total.length,
+    first: take,
+    after: !!after,
+    nodes: members,
+    cursorKey,
+  });
 };
