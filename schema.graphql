@@ -207,6 +207,7 @@ type NewsTalkRoom implements TalkRoom {
   updatedAt: String
   allMessageSeen: Boolean
   members(first: Int, after: String): NewsTalkRoomMemberConnection
+  messages(first: Int, after: String): NewsTalkRoomMessageConnection
 }
 
 type NewsTalkRoomMessage implements TalkRoomMessage {

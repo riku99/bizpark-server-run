@@ -324,12 +324,19 @@ export type NewsTalkRoom = TalkRoom & {
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   members?: Maybe<NewsTalkRoomMemberConnection>;
+  messages?: Maybe<NewsTalkRoomMessageConnection>;
   news?: Maybe<News>;
   updatedAt?: Maybe<Scalars['String']>;
 };
 
 
 export type NewsTalkRoomMembersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type NewsTalkRoomMessagesArgs = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
 };
@@ -948,6 +955,7 @@ export type NewsTalkRoomResolvers<ContextType = Context, ParentType extends Reso
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   members?: Resolver<Maybe<ResolversTypes['NewsTalkRoomMemberConnection']>, ParentType, ContextType, RequireFields<NewsTalkRoomMembersArgs, never>>;
+  messages?: Resolver<Maybe<ResolversTypes['NewsTalkRoomMessageConnection']>, ParentType, ContextType, RequireFields<NewsTalkRoomMessagesArgs, never>>;
   news?: Resolver<Maybe<ResolversTypes['News']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
