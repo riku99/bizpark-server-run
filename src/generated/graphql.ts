@@ -27,7 +27,7 @@ export type CreateNewsPickInput = {
 
 export type CreateNewsPickResponse = {
   __typename?: 'CreateNewsPickResponse';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 export type CreatePickInput = {
@@ -308,8 +308,8 @@ export enum NewsGenre {
 
 export type NewsPick = {
   __typename?: 'NewsPick';
-  id: Scalars['ID'];
-  newsId: Scalars['ID'];
+  id: Scalars['Int'];
+  newsId: Scalars['Int'];
 };
 
 export type NewsTalkRoom = TalkRoom & {
@@ -773,7 +773,7 @@ export type ResolversParentTypes = {
 };
 
 export type CreateNewsPickResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateNewsPickResponse'] = ResolversParentTypes['CreateNewsPickResponse']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -872,8 +872,8 @@ export type NewsEdgeResolvers<ContextType = Context, ParentType extends Resolver
 export type NewsGenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, TECHNOLOGY?: any }, ResolversTypes['NewsGenre']>;
 
 export type NewsPickResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsPick'] = ResolversParentTypes['NewsPick']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  newsId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  newsId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

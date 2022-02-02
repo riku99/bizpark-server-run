@@ -81,8 +81,8 @@ type Pick {
 }
 
 type NewsPick {
-  id: ID!
-  newsId: ID!
+  id: Int!
+  newsId: Int!
 }
 
 type Thought {
@@ -285,7 +285,7 @@ input CreateNewsPickInput {
 }
 
 type CreateNewsPickResponse {
-  id: ID!
+  id: Int!
 }
 
 input DeleteNewsPickInput {
