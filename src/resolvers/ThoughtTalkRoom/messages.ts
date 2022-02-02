@@ -1,60 +1,61 @@
 import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
 import { createPageInfo } from "~/helpers/createPageInfo";
+import { createPagenationValues } from "~/helpers/createPageNationValues";
+import { createEdges } from "~/helpers/createEdges";
 
 export const messages: ThoughtTalkRoomResolvers["messages"] = async (
   parent,
-  { first, after },
+  args,
   { prisma, requestUser }
 ) => {
-  const decodedAfter = after
-    ? Number(Buffer.from(after, "base64").toString())
-    : null;
+  const cursorKey = "id";
 
-  const messages = await prisma.thoughtTalkRoom
+  const { after, take, skip, cursor } = createPagenationValues({
+    after: args.after,
+    first: args.first,
+    cursorKey,
+  });
+
+  const getMessages = prisma.thoughtTalkRoom
     .findUnique({
       where: {
         id: parent.id,
       },
     })
     .messages({
-      take: first,
-      skip: decodedAfter && decodedAfter > 1 ? 1 : 0,
-      cursor: decodedAfter ? { id: decodedAfter } : undefined,
+      take,
+
+      skip,
+
+      cursor,
       orderBy: {
         id: "desc",
       },
     });
 
-  let count: number;
-  if (decodedAfter) {
-    count = await prisma.thoughtTalkRoomMessage.count({
-      where: {
-        roomId: parent.id,
-        id: {
-          lt: decodedAfter,
-        },
+  const getCount = prisma.thoughtTalkRoomMessage.count({
+    where: {
+      roomId: parent.id,
+      id: {
+        lt: after ?? undefined,
       },
-    });
-  } else {
-    count = await prisma.thoughtTalkRoomMessage.count({
-      where: {
-        roomId: parent.id,
-      },
-    });
-  }
+    },
+  });
+
+  const [messages, count] = await Promise.all([getMessages, getCount]);
 
   const pageInfo = createPageInfo({
     count,
-    first,
-    after: !!decodedAfter,
+    first: take,
+    after: !!after,
     nodes: messages,
-    cursorKey: "id",
+    cursorKey,
   });
 
-  const edges = messages.map((message) => ({
-    node: message,
-    cursor: message.id.toString(),
-  }));
+  const edges = createEdges<typeof messages[number], typeof cursorKey>({
+    nodes: messages,
+    cursorKey,
+  });
 
   return {
     edges,
