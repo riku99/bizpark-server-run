@@ -47,7 +47,7 @@ interface TalkRoomMessage {
 interface TalkRoomMember {
   id: Int!
   createdAt: String
-  user: User
+  user: User!
   talkRoom: TalkRoom
 }
 
@@ -187,7 +187,7 @@ type ThoughtTalkRoomMember implements TalkRoomMember {
   id: Int!
   createdAt: String
   talkRoom: ThoughtTalkRoom
-  user: User
+  user: User!
 }
 
 type ThoughtTalkRoomMemberEdge {
@@ -221,7 +221,7 @@ type NewsTalkRoomMessage implements TalkRoomMessage {
 type NewsTalkRoomMember implements TalkRoomMember {
   id: Int!
   createdAt: String
-  user: User
+  user: User!
   talkRoom: NewsTalkRoom
 }
 

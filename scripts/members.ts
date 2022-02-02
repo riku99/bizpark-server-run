@@ -2,9 +2,9 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// 一時的なseedaスクリプトだよ
+// 一時的なseedスクリプトだよ
 const createThoughtTalkRoomMembers = async () => {
-  const userIds = [...Array(30).keys()];
+  const userIds = [...Array(100).keys()];
   for (const id of userIds) {
     try {
       const u = await prisma.user.create({
@@ -17,7 +17,7 @@ const createThoughtTalkRoomMembers = async () => {
 
       await prisma.thoughtTalkRoomMember.create({
         data: {
-          talkRoomId: 11,
+          talkRoomId: 1,
           userId: u.id,
         },
       });

@@ -65,7 +65,12 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
       },
     })
     .members({
-      where,
+      where: {
+        ...where,
+        id: {
+          lt: after ?? undefined,
+        },
+      },
       select: {
         id: true,
       },
@@ -82,9 +87,8 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
     members.unshift(memberMe[0]);
   }
 
-  const count = members.length - (after ? total.length - after : 0);
   const pageInfo = createPageInfo({
-    count,
+    count: total.length,
     first: take,
     after: !!after,
     nodes: members,

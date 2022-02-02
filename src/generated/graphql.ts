@@ -339,7 +339,7 @@ export type NewsTalkRoomMember = TalkRoomMember & {
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   talkRoom?: Maybe<NewsTalkRoom>;
-  user?: Maybe<User>;
+  user: User;
 };
 
 export type NewsTalkRoomMemberConnection = {
@@ -479,7 +479,7 @@ export type TalkRoomMember = {
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   talkRoom?: Maybe<TalkRoom>;
-  user?: Maybe<User>;
+  user: User;
 };
 
 export type TalkRoomMessage = {
@@ -535,7 +535,7 @@ export type ThoughtTalkRoomMember = TalkRoomMember & {
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   talkRoom?: Maybe<ThoughtTalkRoom>;
-  user?: Maybe<User>;
+  user: User;
 };
 
 export type ThoughtTalkRoomMemberConnection = {
@@ -722,7 +722,7 @@ export type ResolversTypes = {
   NewsGenre: ResolverTypeWrapper<NewsGenre>;
   NewsPick: ResolverTypeWrapper<NewsPick>;
   NewsTalkRoom: ResolverTypeWrapper<NewsTalkRoom>;
-  NewsTalkRoomMember: ResolverTypeWrapper<Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversTypes['NewsTalkRoom']>, user?: Maybe<ResolversTypes['User']> }>;
+  NewsTalkRoomMember: ResolverTypeWrapper<Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversTypes['NewsTalkRoom']>, user: ResolversTypes['User'] }>;
   NewsTalkRoomMemberConnection: ResolverTypeWrapper<Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversTypes['NewsTalkRoomMemberEdge']> }>;
   NewsTalkRoomMemberEdge: ResolverTypeWrapper<Omit<NewsTalkRoomMemberEdge, 'node'> & { node: ResolversTypes['NewsTalkRoomMember'] }>;
   NewsTalkRoomMessage: ResolverTypeWrapper<NewsTalkRoomMessage>;
@@ -787,7 +787,7 @@ export type ResolversParentTypes = {
   NewsEdge: Omit<NewsEdge, 'node'> & { node: ResolversParentTypes['News'] };
   NewsPick: NewsPick;
   NewsTalkRoom: NewsTalkRoom;
-  NewsTalkRoomMember: Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversParentTypes['NewsTalkRoom']>, user?: Maybe<ResolversParentTypes['User']> };
+  NewsTalkRoomMember: Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversParentTypes['NewsTalkRoom']>, user: ResolversParentTypes['User'] };
   NewsTalkRoomMemberConnection: Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsTalkRoomMemberEdge']> };
   NewsTalkRoomMemberEdge: Omit<NewsTalkRoomMemberEdge, 'node'> & { node: ResolversParentTypes['NewsTalkRoomMember'] };
   NewsTalkRoomMessage: NewsTalkRoomMessage;
@@ -940,7 +940,7 @@ export type NewsTalkRoomMemberResolvers<ContextType = Context, ParentType extend
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1024,7 +1024,7 @@ export type TalkRoomMemberResolvers<ContextType = Context, ParentType extends Re
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['TalkRoom']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
 };
 
 export type TalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TalkRoomMessage'] = ResolversParentTypes['TalkRoomMessage']> = {
@@ -1068,7 +1068,7 @@ export type ThoughtTalkRoomMemberResolvers<ContextType = Context, ParentType ext
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoom']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
