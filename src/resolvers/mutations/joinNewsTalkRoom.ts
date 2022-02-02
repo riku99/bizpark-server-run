@@ -20,6 +20,17 @@ export const joinNewsTalkRoom: MutationResolvers["joinNewsTalkRoom"] = async (
   });
 
   if (existingTalkRoom) {
+    try {
+      await prisma.newsTalkRoomMember.create({
+        data: {
+          talkRoomId: existingTalkRoom.id,
+          userId: requestUser.id,
+        },
+      });
+    } catch (e) {
+      // ユニークエラー出てもエラースローする必要ない
+    }
+
     return existingTalkRoom;
   }
 
@@ -28,6 +39,15 @@ export const joinNewsTalkRoom: MutationResolvers["joinNewsTalkRoom"] = async (
       newsId: input.newsId,
     },
   });
+
+  try {
+    await prisma.newsTalkRoomMember.create({
+      data: {
+        talkRoomId: newTalkRoom.id,
+        userId: requestUser.id,
+      },
+    });
+  } catch (e) {}
 
   return newTalkRoom;
 };
