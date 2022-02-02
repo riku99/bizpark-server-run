@@ -96,7 +96,7 @@ type Thought {
 }
 
 type News {
-  id: ID!
+  id: Int!
   title: String!
   link: String!
   image: String
@@ -281,7 +281,7 @@ type DeleteThoughtResponse {
 }
 
 input CreateNewsPickInput {
-  newsId: ID!
+  newsId: Int!
 }
 
 type CreateNewsPickResponse {
@@ -289,7 +289,7 @@ type CreateNewsPickResponse {
 }
 
 input DeleteNewsPickInput {
-  newsId: ID!
+  newsId: Int!
 }
 
 input UpdateMeInput {
@@ -329,6 +329,10 @@ input DeleteThoughtTalkRoomMemberInput {
 
 input DeleteThoughtTalkRoomInput {
   talkRoomId: Int!
+}
+
+input JoinNewsTalkRoomInput {
+  newsId: Int!
 }
 
 type Mutation {

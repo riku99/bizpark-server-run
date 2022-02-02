@@ -22,7 +22,7 @@ export type Scalars = {
 };
 
 export type CreateNewsPickInput = {
-  newsId: Scalars['ID'];
+  newsId: Scalars['Int'];
 };
 
 export type CreateNewsPickResponse = {
@@ -71,7 +71,7 @@ export enum CustomErrorResponseCode {
 }
 
 export type DeleteNewsPickInput = {
-  newsId: Scalars['ID'];
+  newsId: Scalars['Int'];
 };
 
 export type DeleteThoughtInput = {
@@ -127,6 +127,10 @@ export type ImageInput = {
 export type InitialResponse = {
   __typename?: 'InitialResponse';
   me: User;
+};
+
+export type JoinNewsTalkRoomInput = {
+  newsId: Scalars['Int'];
 };
 
 export type JoinTalkInput = {
@@ -275,7 +279,7 @@ export type News = {
   __typename?: 'News';
   articleCreatedAt?: Maybe<Scalars['String']>;
   genre: NewsGenre;
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   image?: Maybe<Scalars['String']>;
   link: Scalars['String'];
   picked: Scalars['Boolean'];
@@ -668,6 +672,7 @@ export type ResolversTypes = {
   ImageInput: ImageInput;
   InitialResponse: ResolverTypeWrapper<Omit<InitialResponse, 'me'> & { me: ResolversTypes['User'] }>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
   Me: ResolverTypeWrapper<User>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -729,6 +734,7 @@ export type ResolversParentTypes = {
   ImageInput: ImageInput;
   InitialResponse: Omit<InitialResponse, 'me'> & { me: ResolversParentTypes['User'] };
   Int: Scalars['Int'];
+  JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
   Me: User;
   Mutation: {};
@@ -842,7 +848,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
 export type NewsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {
   articleCreatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   genre?: Resolver<ResolversTypes['NewsGenre'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   picked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

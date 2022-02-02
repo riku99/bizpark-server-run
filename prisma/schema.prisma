@@ -79,7 +79,7 @@ model ThoughtImage {
 }
 
 model News {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   title String
   link String
@@ -159,7 +159,7 @@ model ThoughtTalkRoomMember {
 
 model NewsTalkRoom {
   id Int @id @default(autoincrement())
-  newsId String @unique
+  newsId Int @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -275,7 +275,7 @@ model NewsPick {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   pickerId String
-  newsId String
+  newsId Int
 
   picker User @relation(fields: [pickerId], references: [id], onDelete: Cascade)
   news News @relation(fields: [newsId], references: [id], onDelete: Cascade)
