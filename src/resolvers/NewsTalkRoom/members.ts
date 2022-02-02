@@ -2,6 +2,7 @@ import { NewsTalkRoomResolvers } from "~/generated/graphql";
 import { createPagenationValues } from "~/helpers/createPageNationValues";
 import { Prisma } from "@prisma/client";
 import { createPageInfo } from "~/helpers/createPageInfo";
+import { createEdges } from "~/helpers/createEdges";
 
 const DEFAULT_TAKE_COUNT = 6;
 
@@ -95,4 +96,14 @@ export const members: NewsTalkRoomResolvers["members"] = async (
     nodes: members,
     cursorKey,
   });
+
+  const edges = createEdges<typeof members[number], typeof cursorKey>({
+    nodes: members,
+    cursorKey,
+  });
+
+  return {
+    edges,
+    pageInfo,
+  };
 };

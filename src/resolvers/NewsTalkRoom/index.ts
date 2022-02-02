@@ -4,5 +4,5 @@ import { members } from "./members";
 
 export const NewsTalkRoom: NewsTalkRoomResolvers = {
   allMessageSeen,
-  // members,
+  members,
 };

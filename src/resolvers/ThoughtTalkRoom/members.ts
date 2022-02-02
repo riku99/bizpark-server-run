@@ -98,10 +98,6 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
     cursorKey,
   });
 
-  // const edges = members.map((member) => ({
-  //   node: member,
-  //   cursor: member.id.toString(),
-  // }));
   const edges = createEdges<typeof members[number], typeof cursorKey>({
     nodes: members,
     cursorKey,
