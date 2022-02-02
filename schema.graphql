@@ -29,6 +29,21 @@ type PageInfo {
   endCursor: String
 }
 
+interface TalkRoom {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  allMessageSeen: Boolean
+}
+
+interface TalkRoomMessage {
+  id: Int!
+  text: String!
+  createdAt: String!
+  sender: User
+  roomId: Int
+}
+
 type Image {
   id: ID!
   url: String!
@@ -131,7 +146,7 @@ type UserConnection {
   pageInfo: PageInfo!
 }
 
-type ThoughtTalkRoom {
+type ThoughtTalkRoom implements TalkRoom {
   id: Int!
   thought: Thought
   createdAt: String
@@ -141,7 +156,7 @@ type ThoughtTalkRoom {
   allMessageSeen: Boolean
 }
 
-type ThoughtTalkRoomMessage {
+type ThoughtTalkRoomMessage implements TalkRoomMessage {
   id: Int!
   text: String!
   createdAt: String!

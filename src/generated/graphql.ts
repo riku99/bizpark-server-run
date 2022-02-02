@@ -418,6 +418,21 @@ export type SubscriptionThoughtTalkRoomMessageCreatedArgs = {
   userId: Scalars['ID'];
 };
 
+export type TalkRoom = {
+  allMessageSeen?: Maybe<Scalars['Boolean']>;
+  createdAt?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  updatedAt?: Maybe<Scalars['String']>;
+};
+
+export type TalkRoomMessage = {
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  roomId?: Maybe<Scalars['Int']>;
+  sender?: Maybe<User>;
+  text: Scalars['String'];
+};
+
 export type Thought = {
   __typename?: 'Thought';
   contributor?: Maybe<User>;
@@ -435,7 +450,7 @@ export type ThoughtEdge = {
   node: Thought;
 };
 
-export type ThoughtTalkRoom = {
+export type ThoughtTalkRoom = TalkRoom & {
   __typename?: 'ThoughtTalkRoom';
   allMessageSeen?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['String']>;
@@ -478,7 +493,7 @@ export type ThoughtTalkRoomMemberEdge = {
   node?: Maybe<ThoughtTalkRoomMember>;
 };
 
-export type ThoughtTalkRoomMessage = {
+export type ThoughtTalkRoomMessage = TalkRoomMessage & {
   __typename?: 'ThoughtTalkRoomMessage';
   createdAt: Scalars['String'];
   id: Scalars['Int'];
@@ -656,6 +671,8 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
   Subscription: ResolverTypeWrapper<{}>;
+  TalkRoom: ResolversTypes['ThoughtTalkRoom'];
+  TalkRoomMessage: ResolversTypes['ThoughtTalkRoomMessage'];
   Thought: ResolverTypeWrapper<Thought>;
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtTalkRoom: ResolverTypeWrapper<ThoughtTalkRoom>;
@@ -713,6 +730,8 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   SubImage: SubImage;
   Subscription: {};
+  TalkRoom: ResolversParentTypes['ThoughtTalkRoom'];
+  TalkRoomMessage: ResolversParentTypes['ThoughtTalkRoomMessage'];
   Thought: Thought;
   ThoughtEdge: Omit<ThoughtEdge, 'node'> & { node: ResolversParentTypes['Thought'] };
   ThoughtTalkRoom: ThoughtTalkRoom;
@@ -882,6 +901,23 @@ export type SubscriptionResolvers<ContextType = Context, ParentType extends Reso
   thoughtTalkRoomMessageCreated?: SubscriptionResolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, "thoughtTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionThoughtTalkRoomMessageCreatedArgs, 'roomIds' | 'userId'>>;
 };
 
+export type TalkRoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TalkRoom'] = ResolversParentTypes['TalkRoom']> = {
+  __resolveType: TypeResolveFn<'ThoughtTalkRoom', ParentType, ContextType>;
+  allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type TalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TalkRoomMessage'] = ResolversParentTypes['TalkRoomMessage']> = {
+  __resolveType: TypeResolveFn<'ThoughtTalkRoomMessage', ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  sender?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
 export type ThoughtResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Thought'] = ResolversParentTypes['Thought']> = {
   contributor?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1019,6 +1055,8 @@ export type Resolvers<ContextType = Context> = {
   SignOutResponse?: SignOutResponseResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  TalkRoom?: TalkRoomResolvers<ContextType>;
+  TalkRoomMessage?: TalkRoomMessageResolvers<ContextType>;
   Thought?: ThoughtResolvers<ContextType>;
   ThoughtEdge?: ThoughtEdgeResolvers<ContextType>;
   ThoughtTalkRoom?: ThoughtTalkRoomResolvers<ContextType>;
