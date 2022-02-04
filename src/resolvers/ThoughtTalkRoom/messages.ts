@@ -24,9 +24,7 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
     })
     .messages({
       take,
-
       skip,
-
       cursor,
       orderBy: {
         id: "desc",
