@@ -266,6 +266,7 @@ type Query {
   thoughtTalkRooms: [ThoughtTalkRoom]!
   thoughtTalkRoom(id: Int!): ThoughtTalkRoom!
   newsTalkRooms: [NewsTalkRoom!]!
+  newsTalkRoom(id: Int!): NewsTalkRoom!
 }
 
 input CreateUserInput {

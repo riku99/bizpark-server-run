@@ -10,7 +10,7 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
     throw new ForbiddenError("auth error");
   }
 
-  // 「自分が発言したトークルーム」のみを取得
+  // 自分が発言したトークルーム && 3日以内に更新されている もののみを取得するようにする
   const talkRooms = await prisma.thoughtTalkRoom.findMany({
     where: {
       members: {
