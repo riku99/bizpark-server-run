@@ -11,6 +11,7 @@ import { follows } from "./follows";
 import { blockingUsers } from "./blockingUsers";
 import { thoughtTalkRooms } from "./thoguhtTalkRooms";
 import { thoughtTalkRoom } from "./thoughtTalkRoom";
+import { newsTalkRooms } from "./newsTalkRooms";
 
 export const Query: QueryResolvers = {
   thoughts,
@@ -25,4 +26,5 @@ export const Query: QueryResolvers = {
   blockingUsers,
   thoughtTalkRooms,
   thoughtTalkRoom,
+  newsTalkRooms,
 };

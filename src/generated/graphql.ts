@@ -405,6 +405,7 @@ export type Query = {
   initialData: InitialResponse;
   me: Me;
   news?: Maybe<NewsConnection>;
+  newsTalkRooms: Array<NewsTalkRoom>;
   pickedNews: NewsConnection;
   pickedThoughts: ThoughtsConnection;
   thoughtTalkRoom: ThoughtTalkRoom;
@@ -1024,6 +1025,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   initialData?: Resolver<ResolversTypes['InitialResponse'], ParentType, ContextType>;
   me?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
+  newsTalkRooms?: Resolver<Array<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
   pickedNews?: Resolver<ResolversTypes['NewsConnection'], ParentType, ContextType, RequireFields<QueryPickedNewsArgs, 'first'>>;
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;
   thoughtTalkRoom?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<QueryThoughtTalkRoomArgs, 'id'>>;
