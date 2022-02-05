@@ -19,5 +19,14 @@ export const createNewsTalkRoomMessage: MutationResolvers["createNewsTalkRoomMes
     },
   });
 
+  await prisma.newsTalkRoom.update({
+    where: {
+      id: input.talkRoomId,
+    },
+    data: {
+      updatedAt: new Date(),
+    },
+  });
+
   return message;
 };

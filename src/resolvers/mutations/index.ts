@@ -22,6 +22,7 @@ import { deleteThoughtTalkRoomMember } from "./deleteThoughtTalkRoomMember";
 import { deleteThoughtTalkRoom } from "./deleteThoughtTalkRoom";
 import { joinNewsTalkRoom } from "./joinNewsTalkRoom";
 import { createNewsTalkRoomMessage } from "./createNewsTalkRoomMessage";
+import { createUserNewsTalkRoomMessageSeen } from "./createUserNewsTalkRoomMessageSeen";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -47,4 +48,5 @@ export const Mutation: MutationResolvers = {
   deleteThoughtTalkRoom,
   joinNewsTalkRoom,
   createNewsTalkRoomMessage,
+  createUserNewsTalkRoomMessageSeen,
 };

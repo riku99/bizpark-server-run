@@ -380,6 +380,11 @@ input CreateNewsTalkRoomMessageInput {
   replyTo: Int
 }
 
+input CreateUserNewsTalkRoomMessageSeenInput {
+  messageId: Int!
+  talkRoomId: Int!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -412,6 +417,9 @@ type Mutation {
   createNewsTalkRoomMessage(
     input: CreateNewsTalkRoomMessageInput!
   ): NewsTalkRoomMessage!
+  createUserNewsTalkRoomMessageSeen(
+    input: CreateUserNewsTalkRoomMessageSeenInput!
+  ): NewsTalkRoom!
 }
 
 type Subscription {
