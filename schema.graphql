@@ -374,6 +374,12 @@ input JoinNewsTalkRoomInput {
   newsId: Int!
 }
 
+input CreateNewsTalkRoomMessageInput {
+  text: String!
+  talkRoomId: Int!
+  replyTo: Int
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -403,6 +409,9 @@ type Mutation {
   ): ThoughtTalkRoom!
   deleteThoughtTalkRoom(input: DeleteThoughtTalkRoomInput!): Boolean
   joinNewsTalkRoom(input: JoinNewsTalkRoomInput!): NewsTalkRoom!
+  createNewsTalkRoomMessage(
+    input: CreateNewsTalkRoomMessageInput!
+  ): NewsTalkRoomMessage!
 }
 
 type Subscription {
