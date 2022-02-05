@@ -1,5 +1,9 @@
-import { MutationResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
+import {
+  MutationResolvers,
+  CustomErrorResponseCode,
+} from "~/generated/graphql";
+import { ForbiddenError, ApolloError } from "apollo-server-express";
+import { NOT_TALKROOM_FOUND } from "~/constants";
 
 export const createUserNewsTalkRoomMessageSeen: MutationResolvers["createUserNewsTalkRoomMessageSeen"] = async (
   _,
@@ -26,7 +30,10 @@ export const createUserNewsTalkRoomMessageSeen: MutationResolvers["createUserNew
   });
 
   if (!talkRoom) {
-    throw new Error();
+    throw new ApolloError(
+      NOT_TALKROOM_FOUND,
+      CustomErrorResponseCode.InvalidRequest
+    );
   }
 
   return talkRoom;

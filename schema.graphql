@@ -427,4 +427,5 @@ type Subscription {
     roomIds: [Int]!
     userId: ID!
   ): ThoughtTalkRoomMessage
+  newsTalkRoomMessageCreated(roomIds: [Int]!, userId: ID!): NewsTalkRoomMessage!
 }

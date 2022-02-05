@@ -4,7 +4,7 @@ import { ForbiddenError } from "apollo-server-express";
 export const createNewsTalkRoomMessage: MutationResolvers["createNewsTalkRoomMessage"] = async (
   _,
   { input },
-  { prisma, requestUser }
+  { prisma, requestUser, pubsub }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
@@ -26,6 +26,10 @@ export const createNewsTalkRoomMessage: MutationResolvers["createNewsTalkRoomMes
     data: {
       updatedAt: new Date(),
     },
+  });
+
+  pubsub.publish("NEWS_TALK_ROOM_MESSAGE_CREATED", {
+    newsTalkRoomMessageCreated: message,
   });
 
   return message;
