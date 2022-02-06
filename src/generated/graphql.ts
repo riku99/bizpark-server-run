@@ -117,6 +117,10 @@ export enum Genre {
   Society = 'SOCIETY'
 }
 
+export type GetOutNewsTalkRoomInput = {
+  talkRoomId: Scalars['Int'];
+};
+
 export type GetOutThoughtTalkRoomInput = {
   roomId: Scalars['Int'];
 };
@@ -178,6 +182,7 @@ export type Mutation = {
   deleteThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   deleteThoughtTalkRoomMember: ThoughtTalkRoom;
   follow: User;
+  getOutNewsTalkRoom?: Maybe<Scalars['Boolean']>;
   getOutThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   joinNewsTalkRoom: NewsTalkRoom;
   joinThoughtTalk: ThoughtTalkRoom;
@@ -262,6 +267,11 @@ export type MutationDeleteThoughtTalkRoomMemberArgs = {
 
 export type MutationFollowArgs = {
   followeeId: Scalars['ID'];
+};
+
+
+export type MutationGetOutNewsTalkRoomArgs = {
+  input: GetOutNewsTalkRoomInput;
 };
 
 
@@ -765,6 +775,7 @@ export type ResolversTypes = {
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Follow: ResolverTypeWrapper<Follow>;
   Genre: ResolverTypeWrapper<Genre>;
+  GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Image: ResolverTypeWrapper<Image>;
@@ -835,6 +846,7 @@ export type ResolversParentTypes = {
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Follow: Follow;
+  GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
   ID: Scalars['ID'];
   Image: Image;
@@ -950,6 +962,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteThoughtTalkRoomArgs, 'input'>>;
   deleteThoughtTalkRoomMember?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationDeleteThoughtTalkRoomMemberArgs, 'input'>>;
   follow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
+  getOutNewsTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutNewsTalkRoomArgs, 'input'>>;
   getOutThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutThoughtTalkRoomArgs, 'input'>>;
   joinNewsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinNewsTalkRoomArgs, 'input'>>;
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
