@@ -23,10 +23,7 @@ export const getOutThoughtTalkRoom: MutationResolvers["getOutThoughtTalkRoom"] =
       },
     });
   } catch (e) {
-    throw new ApolloError(
-      "既にトークルームが存在しません",
-      CustomErrorResponseCode.InvalidRequest
-    );
+    // 仮にトークルームが既に削除されている or 自分がメンバーから消されていても特にエラーを出す必要はない
   }
 
   return true;
