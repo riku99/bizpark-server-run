@@ -390,7 +390,7 @@ input GetOutNewsTalkRoomInput {
 }
 
 input RequestNewsTalkRoomMemberDeletionInput {
-  userId: ID!
+  memberId: Int! # UserのIDではなくNewsTalkRoomMemberのID
   talkRoomId: Int!
 }
 
