@@ -34,7 +34,7 @@ export const news: QueryResolvers["news"] = async (
     skip,
     cursor,
     orderBy: {
-      cursor: "desc",
+      id: "desc",
     },
   });
 
