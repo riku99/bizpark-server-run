@@ -58,7 +58,7 @@ type Image {
   height: Int
 }
 
-type ThuoghtImage {
+type ThoughtImage {
   id: ID!
   url: String!
   width: Int
@@ -106,7 +106,7 @@ type Thought {
   createdAt: String
   contributor: User
   picked: Boolean
-  images: [ThuoghtImage]!
+  images: [ThoughtImage]!
 }
 
 type News {
