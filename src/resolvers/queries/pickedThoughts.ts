@@ -1,66 +1,71 @@
 import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
-import { findThoughtsWithRelayStyle } from "~/models/thought";
-import { createThoughtConnection } from "~/helpers/createThoughtConnection";
+import { createPagenationValues } from "~/helpers/createPageNationValues";
+import { createPageInfo } from "~/helpers/createPageInfo";
+import { createEdges } from "~/helpers/createEdges";
+import { Prisma } from "@prisma/client";
+
+const CURSOR_KEY = "cursor";
 
 export const pickedThoughts: QueryResolvers["pickedThoughts"] = async (
   _,
-  { first, after },
+  args,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
   }
 
-  const decodedAfter = after
-    ? Number(Buffer.from(after, "base64").toString())
-    : null;
+  const { after, take, skip, cursor } = createPagenationValues({
+    after: args.after,
+    first: args.first,
+    cursorKey: CURSOR_KEY,
+  });
 
-  const thoughts = await findThoughtsWithRelayStyle({
-    where: {
-      picked: {
-        some: {
-          pickerId: requestUser.id,
-        },
+  const where: Prisma.ThoughtWhereInput = {
+    picked: {
+      some: {
+        pickerId: requestUser.id,
       },
     },
-    userId: requestUser.id,
-    first,
-    after: decodedAfter,
+  };
+
+  const getThoughts = prisma.thought.findMany({
+    where,
+    take,
+    skip,
+    cursor,
+    orderBy: {
+      cursor: "desc",
+    },
   });
 
-  let count: number;
-  if (decodedAfter) {
-    count = await prisma.thought.count({
-      where: {
-        picked: {
-          some: {
-            pickerId: requestUser.id,
-          },
-        },
-        cursor: {
-          lt: decodedAfter,
-        },
+  const getCount = prisma.thought.count({
+    where: {
+      ...where,
+      cursor: {
+        lt: after ?? undefined,
       },
-    });
-  } else {
-    count = await prisma.thought.count({
-      where: {
-        picked: {
-          some: {
-            pickerId: requestUser.id,
-          },
-        },
-      },
-    });
-  }
+    },
+  });
 
-  const connection = createThoughtConnection({
-    thoughts,
-    after: decodedAfter,
-    first,
+  const [thoughts, count] = await Promise.all([getThoughts, getCount]);
+
+  const pageInfo = createPageInfo({
     count,
+    first: take,
+    after: !!after,
+    nodes: thoughts,
+    cursorKey: CURSOR_KEY,
   });
 
-  return connection;
+  const edges = createEdges<typeof thoughts[number], typeof CURSOR_KEY>({
+    nodes: thoughts,
+    cursorKey: CURSOR_KEY,
+  });
+
+  return {
+    edges,
+    pageInfo,
+  };
 };

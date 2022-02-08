@@ -58,6 +58,13 @@ type Image {
   height: Int
 }
 
+type ThoughtImage {
+  id: ID!
+  url: String!
+  width: Int
+  height: Int
+}
+
 type User {
   id: ID!
   name: String!
@@ -99,7 +106,7 @@ type Thought {
   createdAt: String
   contributor: User
   picked: Boolean
-  images: [Image]!
+  images: [ThoughtImage]!
 }
 
 type News {
@@ -268,6 +275,7 @@ type Query {
   newsTalkRooms: [NewsTalkRoom!]!
   newsTalkRoom(id: Int!): NewsTalkRoom!
   oneNews(id: Int!): News!
+  thought(id: ID!): Thought!
 }
 
 input CreateUserInput {
