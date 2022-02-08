@@ -4,6 +4,7 @@ import {
 } from "~/generated/graphql";
 import { ForbiddenError, ApolloError } from "apollo-server-express";
 import { Prisma } from "@prisma/client";
+import { NOT_ENABLED_JOIN_TALK_ROOM } from "~/constants";
 
 export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
   _,
@@ -25,7 +26,7 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
 
   if (blocked) {
     throw new ApolloError(
-      "トークに参加することができませんでした",
+      NOT_ENABLED_JOIN_TALK_ROOM,
       CustomErrorResponseCode.InvalidRequest
     );
   }

@@ -28,9 +28,16 @@ export const requestNewsTalkRoomMemberDeletion: MutationResolvers["requestNewsTa
 
   // 既に申請されていた場合2件目の申請なので削除
   if (sameMemberRequest) {
-    await prisma.newsTalkRoomMember.delete({
+    const member = await prisma.newsTalkRoomMember.delete({
       where: {
         id: input.memberId,
+      },
+    });
+
+    await prisma.deletedUserFromNewsTalkRoom.create({
+      data: {
+        talkRoomId: input.talkRoomId,
+        userId: member.userId,
       },
     });
   } else {

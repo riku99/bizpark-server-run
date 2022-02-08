@@ -2,7 +2,8 @@ import {
   MutationResolvers,
   CustomErrorResponseCode,
 } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
+import { ForbiddenError, ApolloError } from "apollo-server-express";
+import { NOT_ENABLED_JOIN_TALK_ROOM } from "~/constants";
 
 export const joinNewsTalkRoom: MutationResolvers["joinNewsTalkRoom"] = async (
   _,
@@ -11,6 +12,22 @@ export const joinNewsTalkRoom: MutationResolvers["joinNewsTalkRoom"] = async (
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
+  }
+
+  const deleted = await prisma.deletedUserFromNewsTalkRoom.findFirst({
+    where: {
+      userId: requestUser.id,
+      talkRoom: {
+        newsId: input.newsId,
+      },
+    },
+  });
+
+  if (deleted) {
+    throw new ApolloError(
+      NOT_ENABLED_JOIN_TALK_ROOM,
+      CustomErrorResponseCode.InvalidRequest
+    );
   }
 
   const existingTalkRoom = await prisma.newsTalkRoom.findUnique({
