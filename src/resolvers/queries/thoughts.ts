@@ -3,27 +3,34 @@ import { ForbiddenError } from "apollo-server-express";
 import { findThoughtsWithRelayStyle } from "~/models/thought";
 import { createThoughtConnection } from "~/helpers/createThoughtConnection";
 import { Prisma } from "@prisma/client";
+import { createPagenationValues } from "~/helpers/createPageNationValues";
+import { createPageInfo } from "~/helpers/createPageInfo";
+import { createEdges } from "~/helpers/createEdges";
 
 const DEFAULT_TAKE_COUNT = 20;
+
+const CURSOR_KEY = "cursor";
 
 // 前にページネーションすることはないものとして実装する
 export const thoughts: QueryResolvers["thoughts"] = async (
   _,
-  { genre, first, after, follow },
+  args,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
   }
 
-  const decodedAfter = after
-    ? Number(Buffer.from(after, "base64").toString())
-    : null;
+  const { after, take, skip, cursor } = createPagenationValues({
+    after: args.after,
+    first: args.first ?? DEFAULT_TAKE_COUNT,
+    cursorKey: CURSOR_KEY,
+  });
 
   const where: Prisma.ThoughtWhereInput = {
-    genre: genre ?? undefined,
+    genre: args.genre ?? undefined,
     contributor: {
-      follower: follow
+      follower: args.follow
         ? {
             some: {
               followerId: requestUser.id,
@@ -43,24 +50,42 @@ export const thoughts: QueryResolvers["thoughts"] = async (
     },
   };
 
-  const thoughts = await findThoughtsWithRelayStyle({
+  const getThoughts = prisma.thought.findMany({
     where,
-    userId: requestUser.id,
-    first: first ?? DEFAULT_TAKE_COUNT,
-    after: decodedAfter,
+    take,
+    skip,
+    cursor,
+    orderBy: {
+      cursor: "desc",
+    },
   });
 
-  const totalCount = await prisma.thought.count({
-    where,
+  const getCount = prisma.thought.count({
+    where: {
+      ...where,
+      cursor: {
+        lt: after ?? undefined,
+      },
+    },
   });
-  const count = totalCount - (decodedAfter ? totalCount - decodedAfter : 0);
 
-  const connection = createThoughtConnection({
-    thoughts,
-    after: decodedAfter,
-    first: first ?? DEFAULT_TAKE_COUNT,
+  const [thoughts, count] = await Promise.all([getThoughts, getCount]);
+
+  const pageInfo = createPageInfo({
     count,
+    first: take,
+    after: !!after,
+    nodes: thoughts,
+    cursorKey: CURSOR_KEY,
   });
 
-  return connection;
+  const edges = createEdges<typeof thoughts[number], typeof CURSOR_KEY>({
+    nodes: thoughts,
+    cursorKey: CURSOR_KEY,
+  });
+
+  return {
+    edges,
+    pageInfo,
+  };
 };
