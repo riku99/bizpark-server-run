@@ -1,7 +1,5 @@
 import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
-import { findThoughtsWithRelayStyle } from "~/models/thought";
-import { createThoughtConnection } from "~/helpers/createThoughtConnection";
 import { Prisma } from "@prisma/client";
 import { createPagenationValues } from "~/helpers/createPageNationValues";
 import { createPageInfo } from "~/helpers/createPageInfo";
