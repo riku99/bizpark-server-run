@@ -267,6 +267,7 @@ type Query {
   thoughtTalkRoom(id: Int!): ThoughtTalkRoom!
   newsTalkRooms: [NewsTalkRoom!]!
   newsTalkRoom(id: Int!): NewsTalkRoom!
+  oneNews(id: Int!): News!
 }
 
 input CreateUserInput {

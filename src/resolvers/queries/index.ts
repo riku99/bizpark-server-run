@@ -13,6 +13,7 @@ import { thoughtTalkRooms } from "./thoguhtTalkRooms";
 import { thoughtTalkRoom } from "./thoughtTalkRoom";
 import { newsTalkRooms } from "./newsTalkRooms";
 import { newsTalkRoom } from "./newsTalkRoom";
+import { oneNews } from "./oneNews";
 
 export const Query: QueryResolvers = {
   thoughts,
@@ -29,4 +30,5 @@ export const Query: QueryResolvers = {
   thoughtTalkRoom,
   newsTalkRooms,
   newsTalkRoom,
+  oneNews,
 };
