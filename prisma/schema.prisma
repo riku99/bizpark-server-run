@@ -47,6 +47,8 @@ model User {
   newsTalkRooms NewsTalkRoomMember[]
 
   deleteRequestingNewsTalkRooms NewsTalkRoomMemberDeleteRequest[]
+
+  deletedNewsTalkRoom DeletedUserFromNewsTalkRoom[]
 }
 
 model Thought {
@@ -171,6 +173,7 @@ model NewsTalkRoom {
   members NewsTalkRoomMember[]
 
   deleteRequestedRooms NewsTalkRoomMemberDeleteRequest[]
+  deletedUser DeletedUserFromNewsTalkRoom[]
 
   @@index([newsId])
   @@index([updatedAt])
@@ -234,6 +237,17 @@ model NewsTalkRoomMemberDeleteRequest {
   requestUser User @relation(fields: [requestUserId], references: [id], onDelete: Cascade)
 
   @@unique([memberId, requestUserId])
+}
+
+model DeletedUserFromNewsTalkRoom {
+  id Int @id @default(autoincrement())
+  talkRoomId Int
+  userId String
+
+  talkRoom NewsTalkRoom @relation(fields: [talkRoomId], references: [id], onDelete: Cascade)
+  user     User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([talkRoomId, userId])
 }
 
 model OneOnOneRoom {
