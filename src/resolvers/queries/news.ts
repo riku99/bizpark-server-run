@@ -11,7 +11,7 @@ const CURSOR_KEY = "id";
 
 export const news: QueryResolvers["news"] = async (
   _,
-  argas,
+  args,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
@@ -19,12 +19,12 @@ export const news: QueryResolvers["news"] = async (
   }
 
   const where: Prisma.NewsWhereInput = {
-    genre: argas.genre,
+    genre: args.genre,
   };
 
   const { after, take, skip, cursor } = createPagenationValues({
-    after: argas.after,
-    first: argas.first ?? DEFAULT_TAKE_COUNT,
+    after: args.after,
+    first: args.first ?? DEFAULT_TAKE_COUNT,
     cursorKey: CURSOR_KEY,
   });
 
