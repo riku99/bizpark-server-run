@@ -20,6 +20,11 @@ import { createUserThoughtTalkRoomMessageSeen } from "./createUserThoughtTalkRoo
 import { getOutThoughtTalkRoom } from "./getOutThoughtTalkRoom";
 import { deleteThoughtTalkRoomMember } from "./deleteThoughtTalkRoomMember";
 import { deleteThoughtTalkRoom } from "./deleteThoughtTalkRoom";
+import { joinNewsTalkRoom } from "./joinNewsTalkRoom";
+import { createNewsTalkRoomMessage } from "./createNewsTalkRoomMessage";
+import { createUserNewsTalkRoomMessageSeen } from "./createUserNewsTalkRoomMessageSeen";
+import { getOutNewsTalkRoom } from "./getOutNewsTalkRoom";
+import { requestNewsTalkRoomMemberDeletion } from "./requestNewsTalkRoomMemberDeletion";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -43,4 +48,9 @@ export const Mutation: MutationResolvers = {
   getOutThoughtTalkRoom,
   deleteThoughtTalkRoomMember,
   deleteThoughtTalkRoom,
+  joinNewsTalkRoom,
+  createNewsTalkRoomMessage,
+  createUserNewsTalkRoomMessageSeen,
+  getOutNewsTalkRoom,
+  requestNewsTalkRoomMemberDeletion,
 };

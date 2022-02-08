@@ -11,3 +11,5 @@ export const getNews = async () => {
     getBingNews(),
   ]);
 };
+
+getNews();

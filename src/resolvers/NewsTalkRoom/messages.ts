@@ -1,22 +1,24 @@
-import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
-import { createPageInfo } from "~/helpers/createPageInfo";
+import { NewsTalkRoomResolvers } from "~/generated/graphql";
 import { createPagenationValues } from "~/helpers/createPageNationValues";
+import { createPageInfo } from "~/helpers/createPageInfo";
 import { createEdges } from "~/helpers/createEdges";
 
-export const messages: ThoughtTalkRoomResolvers["messages"] = async (
+const cursorKey = "id";
+
+const DEFAULT_TAKE_VALUE = 20;
+
+export const messages: NewsTalkRoomResolvers["messages"] = async (
   parent,
-  args,
+  arges,
   { prisma, requestUser }
 ) => {
-  const cursorKey = "id";
-
   const { after, take, skip, cursor } = createPagenationValues({
-    after: args.after,
-    first: args.first,
+    after: arges.after,
+    first: arges.first ?? DEFAULT_TAKE_VALUE,
     cursorKey,
   });
 
-  const getMessages = prisma.thoughtTalkRoom
+  const getMessages = prisma.newsTalkRoom
     .findUnique({
       where: {
         id: parent.id,
@@ -31,12 +33,12 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
       },
     });
 
-  const getCount = prisma.thoughtTalkRoomMessage.count({
+  const getCount = prisma.newsTalkRoomMessage.count({
     where: {
-      roomId: parent.id,
       id: {
         lt: after ?? undefined,
       },
+      roomId: parent.id,
     },
   });
 

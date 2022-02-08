@@ -2,10 +2,12 @@ import { prisma, Prisma } from "~/lib/prisma";
 import { verifyIdToken } from "~/auth/verifyIdToken";
 import type { ExpressContext } from "apollo-server-express";
 import { User } from "@prisma/client";
+import { pubsub } from "~/lib/pubsub";
 
 export type Context = {
   prisma: Prisma;
   requestUser: User | null;
+  pubsub: typeof pubsub;
 };
 
 type ContextFunction = (c: ExpressContext) => Promise<Context>;
@@ -32,5 +34,6 @@ export const context: ContextFunction = async ({ req }) => {
   return {
     prisma,
     requestUser,
+    pubsub,
   };
 };

@@ -6,6 +6,9 @@ import { Subscription } from "./subscriptoins";
 import { Thought } from "./Thought";
 import { ThoughtTalkRoom } from "./ThoughtTalkRoom";
 import { ThoughtTalkRoomMessage } from "./ThoughtTalkRoomMessage";
+import { NewsTalkRoom } from "./NewsTalkRoom";
+import { User } from "./User";
+import { NewsTalkRoomMessage } from "./NewsTalkRoomMessage";
 
 export const resolvers: Resolvers = {
   // @ts-ignore
@@ -16,4 +19,7 @@ export const resolvers: Resolvers = {
   ThoughtTalkRoom,
   ThoughtTalkRoomMessage,
   Thought,
+  NewsTalkRoom,
+  User,
+  NewsTalkRoomMessage,
 };

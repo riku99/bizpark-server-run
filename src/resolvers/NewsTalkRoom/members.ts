@@ -1,31 +1,30 @@
-import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { Prisma } from "@prisma/client";
+import { NewsTalkRoomResolvers } from "~/generated/graphql";
 import { createPagenationValues } from "~/helpers/createPageNationValues";
+import { Prisma } from "@prisma/client";
+import { createPageInfo } from "~/helpers/createPageInfo";
 import { createEdges } from "~/helpers/createEdges";
 
 const DEFAULT_TAKE_COUNT = 6;
 
-export const members: ThoughtTalkRoomResolvers["members"] = async (
+export const members: NewsTalkRoomResolvers["members"] = async (
   parent,
-  args,
-  { prisma, requestUser }
+  arges,
+  { requestUser, prisma }
 ) => {
   const cursorKey = "id";
-
   const { after, take, skip, cursor } = createPagenationValues({
-    after: args.after,
-    first: args.first ?? DEFAULT_TAKE_COUNT,
+    after: arges.after,
+    first: arges.first ?? DEFAULT_TAKE_COUNT,
     cursorKey,
   });
 
-  const where: Prisma.ThoughtTalkRoomMemberWhereInput = {
+  const where: Prisma.NewsTalkRoomMemberWhereInput = {
     userId: {
       not: requestUser?.id,
     },
   };
 
-  const getMembers = prisma.thoughtTalkRoom
+  const getMembers = prisma.newsTalkRoom
     .findUnique({
       where: {
         id: parent.id,
@@ -45,7 +44,7 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
     });
 
   const getMemberMe = !after
-    ? prisma.thoughtTalkRoom
+    ? prisma.newsTalkRoom
         .findUnique({
           where: {
             id: parent.id,
@@ -61,7 +60,7 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
         })
     : undefined;
 
-  const getTotal = prisma.thoughtTalkRoom
+  const getTotal = prisma.newsTalkRoom
     .findUnique({
       where: {
         id: parent.id,

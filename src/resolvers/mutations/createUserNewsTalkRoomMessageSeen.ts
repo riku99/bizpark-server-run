@@ -5,7 +5,7 @@ import {
 import { ForbiddenError, ApolloError } from "apollo-server-express";
 import { NOT_TALKROOM_FOUND } from "~/constants";
 
-export const createUserThoughtTalkRoomMessageSeen: MutationResolvers["createUserThoughtTalkRoomMessageSeen"] = async (
+export const createUserNewsTalkRoomMessageSeen: MutationResolvers["createUserNewsTalkRoomMessageSeen"] = async (
   _,
   { input },
   { prisma, requestUser }
@@ -14,9 +14,8 @@ export const createUserThoughtTalkRoomMessageSeen: MutationResolvers["createUser
     throw new ForbiddenError("auth error");
   }
 
-  // 同じメッセージデータが送られてくることもあるが、エラー出したくないのでハンドリング
   try {
-    await prisma.userThoughtTalkRoomMessageSeen.create({
+    await prisma.userNewsTalkRoomMessageSeen.create({
       data: {
         userId: requestUser.id,
         messageId: input.messageId,
@@ -24,9 +23,9 @@ export const createUserThoughtTalkRoomMessageSeen: MutationResolvers["createUser
     });
   } catch (e) {}
 
-  const talkRoom = await prisma.thoughtTalkRoom.findUnique({
+  const talkRoom = await prisma.newsTalkRoom.findUnique({
     where: {
-      id: input.roomId,
+      id: input.talkRoomId,
     },
   });
 
@@ -37,8 +36,5 @@ export const createUserThoughtTalkRoomMessageSeen: MutationResolvers["createUser
     );
   }
 
-  return {
-    ...talkRoom,
-    allMessageSeen: true,
-  };
+  return talkRoom;
 };

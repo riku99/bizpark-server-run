@@ -3,12 +3,12 @@ import {
   CustomErrorResponseCode,
 } from "~/generated/graphql";
 import { ForbiddenError, ApolloError } from "apollo-server-express";
-import { pubsub } from "~/lib/pubsub";
+import { NOT_TALKROOM_FOUND } from "~/constants";
 
 export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkRoomMessage"] = async (
   _,
   { input },
-  { prisma, requestUser }
+  { prisma, requestUser, pubsub }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
@@ -17,6 +17,14 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
   const findTalkRoom = prisma.thoughtTalkRoom.findFirst({
     where: {
       id: input.roomId,
+    },
+    select: {
+      id: true,
+      thought: {
+        select: {
+          contributorId: true,
+        },
+      },
     },
   });
 
@@ -31,7 +39,7 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
 
   if (!talkRoom || !memberMe) {
     throw new ApolloError(
-      "トークルームが見つかりません",
+      NOT_TALKROOM_FOUND,
       CustomErrorResponseCode.InvalidRequest
     );
   }
@@ -48,7 +56,7 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     },
   });
 
-  const update = prisma.thoughtTalkRoom.update({
+  await prisma.thoughtTalkRoom.update({
     where: {
       id: input.roomId,
     },
@@ -57,25 +65,10 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     },
   });
 
-  const findThoughtData = prisma.thoughtTalkRoom.findUnique({
-    where: {
-      id: input.roomId,
-    },
-    select: {
-      thought: {
-        select: {
-          contributorId: true,
-        },
-      },
-    },
-  });
-
-  const [, thogutData] = await Promise.all([update, findThoughtData]);
-
   pubsub.publish("THOUGHT_TALK_ROOM_MESSAGE_CREATED", {
     thoughtTalkRoomMessageCreated: {
       ...message,
-      contributorId: thogutData?.thought.contributorId,
+      contributorId: talkRoom.thought.contributorId,
     },
   });
 

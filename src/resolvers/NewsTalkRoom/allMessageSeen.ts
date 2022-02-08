@@ -1,11 +1,11 @@
-import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
+import { NewsTalkRoomResolvers } from "~/generated/graphql";
 
-export const allMessageSeen: ThoughtTalkRoomResolvers["allMessageSeen"] = async (
+export const allMessageSeen: NewsTalkRoomResolvers["allMessageSeen"] = async (
   parent,
   _,
   { requestUser, prisma }
 ) => {
-  const messages = await prisma.thoughtTalkRoom
+  const messages = await prisma.newsTalkRoom
     .findUnique({
       where: {
         id: parent.id,
@@ -27,7 +27,6 @@ export const allMessageSeen: ThoughtTalkRoomResolvers["allMessageSeen"] = async 
 
   let allMessageSeen = true;
 
-  // メッセージが存在していない場合「全て既読」と同じ状態でいい
   if (messages.length) {
     const lastMessage = messages[0];
 

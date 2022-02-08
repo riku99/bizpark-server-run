@@ -1,10 +1,7 @@
-import {
-  MutationResolvers,
-  CustomErrorResponseCode,
-} from "~/generated/graphql";
-import { ApolloError, ForbiddenError } from "apollo-server-express";
+import { MutationResolvers } from "~/generated/graphql";
+import { ForbiddenError } from "apollo-server-express";
 
-export const getOutThoughtTalkRoom: MutationResolvers["getOutThoughtTalkRoom"] = async (
+export const getOutNewsTalkRoom: MutationResolvers["getOutNewsTalkRoom"] = async (
   _,
   { input },
   { prisma, requestUser }
@@ -14,10 +11,10 @@ export const getOutThoughtTalkRoom: MutationResolvers["getOutThoughtTalkRoom"] =
   }
 
   try {
-    await prisma.thoughtTalkRoomMember.delete({
+    await prisma.newsTalkRoomMember.delete({
       where: {
         talkRoomId_userId: {
-          talkRoomId: input.roomId,
+          talkRoomId: input.talkRoomId,
           userId: requestUser.id,
         },
       },

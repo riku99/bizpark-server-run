@@ -2,22 +2,24 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// 一時的なseedaスクリプトだよ
+const salt = "klerjf";
+
+// 一時的なseedスクリプトだよ
 const createThoughtTalkRoomMembers = async () => {
-  const userIds = [...Array(30).keys()];
+  const userIds = [...Array(80).keys()];
   for (const id of userIds) {
     try {
       const u = await prisma.user.create({
         data: {
-          uid: "uidis" + id,
-          name: "seedUser" + id,
-          email: `address${id}@seed.com`,
+          uid: "uid" + id + salt,
+          name: "seedUser" + id + salt,
+          email: `address${id + salt}@seed.com`,
         },
       });
 
-      await prisma.thoughtTalkRoomMember.create({
+      await prisma.newsTalkRoomMember.create({
         data: {
-          talkRoomId: 11,
+          talkRoomId: 1,
           userId: u.id,
         },
       });

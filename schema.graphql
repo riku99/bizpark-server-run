@@ -29,6 +29,28 @@ type PageInfo {
   endCursor: String
 }
 
+interface TalkRoom {
+  id: Int!
+  createdAt: String
+  updatedAt: String
+  allMessageSeen: Boolean
+}
+
+interface TalkRoomMessage {
+  id: Int!
+  text: String!
+  createdAt: String!
+  sender: User
+  roomId: Int
+}
+
+interface TalkRoomMember {
+  id: Int!
+  createdAt: String
+  user: User!
+  talkRoom: TalkRoom
+}
+
 type Image {
   id: ID!
   url: String!
@@ -66,8 +88,8 @@ type Pick {
 }
 
 type NewsPick {
-  id: ID!
-  newsId: ID!
+  id: Int!
+  newsId: Int!
 }
 
 type Thought {
@@ -81,7 +103,7 @@ type Thought {
 }
 
 type News {
-  id: ID!
+  id: Int!
   title: String!
   link: String!
   image: String
@@ -131,7 +153,7 @@ type UserConnection {
   pageInfo: PageInfo!
 }
 
-type ThoughtTalkRoom {
+type ThoughtTalkRoom implements TalkRoom {
   id: Int!
   thought: Thought
   createdAt: String
@@ -141,7 +163,7 @@ type ThoughtTalkRoom {
   allMessageSeen: Boolean
 }
 
-type ThoughtTalkRoomMessage {
+type ThoughtTalkRoomMessage implements TalkRoomMessage {
   id: Int!
   text: String!
   createdAt: String!
@@ -161,15 +183,15 @@ type ThoughtTalkRoomMessageConnection {
   pageInfo: PageInfo!
 }
 
-type ThoughtTalkRoomMember {
+type ThoughtTalkRoomMember implements TalkRoomMember {
   id: Int!
   createdAt: String
   talkRoom: ThoughtTalkRoom
-  user: User
+  user: User!
 }
 
 type ThoughtTalkRoomMemberEdge {
-  node: ThoughtTalkRoomMember
+  node: ThoughtTalkRoomMember!
   cursor: String!
 }
 
@@ -178,10 +200,51 @@ type ThoughtTalkRoomMemberConnection {
   pageInfo: PageInfo!
 }
 
-input GetThoughtTalkRoomMessagesInput {
-  roomId: Int!
-  first: Int
-  after: String
+type NewsTalkRoom implements TalkRoom {
+  id: Int!
+  news: News
+  createdAt: String
+  updatedAt: String
+  allMessageSeen: Boolean
+  members(first: Int, after: String): NewsTalkRoomMemberConnection
+  messages(first: Int, after: String): NewsTalkRoomMessageConnection
+}
+
+type NewsTalkRoomMessage implements TalkRoomMessage {
+  id: Int!
+  text: String!
+  createdAt: String!
+  sender: User
+  roomId: Int
+  talkRoom: NewsTalkRoom
+  replyMessage: NewsTalkRoomMessage
+}
+
+type NewsTalkRoomMessageEdge {
+  node: NewsTalkRoomMessage!
+  cursor: String!
+}
+
+type NewsTalkRoomMessageConnection {
+  edges: [NewsTalkRoomMessageEdge!]!
+  pageInfo: PageInfo!
+}
+
+type NewsTalkRoomMember implements TalkRoomMember {
+  id: Int!
+  createdAt: String
+  user: User!
+  talkRoom: NewsTalkRoom
+}
+
+type NewsTalkRoomMemberEdge {
+  node: NewsTalkRoomMember!
+  cursor: String!
+}
+
+type NewsTalkRoomMemberConnection {
+  edges: [NewsTalkRoomMemberEdge!]!
+  pageInfo: PageInfo!
 }
 
 type Query {
@@ -202,6 +265,9 @@ type Query {
   blockingUsers: [User]!
   thoughtTalkRooms: [ThoughtTalkRoom]!
   thoughtTalkRoom(id: Int!): ThoughtTalkRoom!
+  newsTalkRooms: [NewsTalkRoom!]!
+  newsTalkRoom(id: Int!): NewsTalkRoom!
+  oneNews(id: Int!): News!
 }
 
 input CreateUserInput {
@@ -255,15 +321,15 @@ type DeleteThoughtResponse {
 }
 
 input CreateNewsPickInput {
-  newsId: ID!
+  newsId: Int!
 }
 
 type CreateNewsPickResponse {
-  id: ID!
+  id: Int!
 }
 
 input DeleteNewsPickInput {
-  newsId: ID!
+  newsId: Int!
 }
 
 input UpdateMeInput {
@@ -305,6 +371,30 @@ input DeleteThoughtTalkRoomInput {
   talkRoomId: Int!
 }
 
+input JoinNewsTalkRoomInput {
+  newsId: Int!
+}
+
+input CreateNewsTalkRoomMessageInput {
+  text: String!
+  talkRoomId: Int!
+  replyTo: Int
+}
+
+input CreateUserNewsTalkRoomMessageSeenInput {
+  messageId: Int!
+  talkRoomId: Int!
+}
+
+input GetOutNewsTalkRoomInput {
+  talkRoomId: Int!
+}
+
+input RequestNewsTalkRoomMemberDeletionInput {
+  memberId: Int! # UserのIDではなくNewsTalkRoomMemberのID
+  talkRoomId: Int!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -333,6 +423,17 @@ type Mutation {
     input: DeleteThoughtTalkRoomMemberInput!
   ): ThoughtTalkRoom!
   deleteThoughtTalkRoom(input: DeleteThoughtTalkRoomInput!): Boolean
+  joinNewsTalkRoom(input: JoinNewsTalkRoomInput!): NewsTalkRoom!
+  createNewsTalkRoomMessage(
+    input: CreateNewsTalkRoomMessageInput!
+  ): NewsTalkRoomMessage!
+  createUserNewsTalkRoomMessageSeen(
+    input: CreateUserNewsTalkRoomMessageSeenInput!
+  ): NewsTalkRoom!
+  getOutNewsTalkRoom(input: GetOutNewsTalkRoomInput!): Boolean
+  requestNewsTalkRoomMemberDeletion(
+    input: RequestNewsTalkRoomMemberDeletionInput!
+  ): Boolean
 }
 
 type Subscription {
@@ -340,4 +441,5 @@ type Subscription {
     roomIds: [Int]!
     userId: ID!
   ): ThoughtTalkRoomMessage
+  newsTalkRoomMessageCreated(roomIds: [Int]!, userId: ID!): NewsTalkRoomMessage!
 }
