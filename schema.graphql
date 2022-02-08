@@ -58,6 +58,13 @@ type Image {
   height: Int
 }
 
+type ThuoghtImage {
+  id: ID!
+  url: String!
+  width: Int
+  height: Int
+}
+
 type User {
   id: ID!
   name: String!
@@ -99,7 +106,7 @@ type Thought {
   createdAt: String
   contributor: User
   picked: Boolean
-  images: [Image]!
+  images: [ThuoghtImage]!
 }
 
 type News {
