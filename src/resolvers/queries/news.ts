@@ -1,56 +1,69 @@
 import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
-import { findNewsWithRelayStyle } from "~/models/news";
-import { createNewsConnection } from "~/helpers/createNewsConnection";
+import { Prisma } from "@prisma/client";
+import { createPagenationValues } from "~/helpers/createPageNationValues";
+import { createPageInfo } from "~/helpers/createPageInfo";
+import { createEdges } from "~/helpers/createEdges";
 
 const DEFAULT_TAKE_COUNT = 20;
 
+const CURSOR_KEY = "id";
+
 export const news: QueryResolvers["news"] = async (
   _,
-  { genre, after, first },
+  argas,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
   }
 
-  const decodedAfter = after
-    ? Number(Buffer.from(after, "base64").toString())
-    : null;
+  const where: Prisma.NewsWhereInput = {
+    genre: argas.genre,
+  };
 
-  const news = await findNewsWithRelayStyle({
-    where: {
-      genre,
+  const { after, take, skip, cursor } = createPagenationValues({
+    after: argas.after,
+    first: argas.first ?? DEFAULT_TAKE_COUNT,
+    cursorKey: CURSOR_KEY,
+  });
+
+  const getNews = prisma.news.findMany({
+    where,
+    take,
+    skip,
+    cursor,
+    orderBy: {
+      cursor: "desc",
     },
-    userId: requestUser.id,
-    first: first ?? DEFAULT_TAKE_COUNT,
-    after: decodedAfter,
   });
 
-  let count: number;
-  if (decodedAfter) {
-    count = await prisma.news.count({
-      where: {
-        genre,
-        cursor: {
-          lt: decodedAfter,
-        },
+  const getCount = prisma.news.count({
+    where: {
+      ...where,
+      id: {
+        lt: after ?? undefined,
       },
-    });
-  } else {
-    count = await prisma.news.count({
-      where: {
-        genre,
-      },
-    });
-  }
+    },
+  });
 
-  const connection = createNewsConnection({
-    news,
-    first: first ?? DEFAULT_TAKE_COUNT,
+  const [news, count] = await Promise.all([getNews, getCount]);
+
+  const pageInfo = createPageInfo({
     count,
-    after: decodedAfter,
+    first: take,
+    after: !!after,
+    nodes: news,
+    cursorKey: CURSOR_KEY,
   });
 
-  return connection;
+  const edges = createEdges<typeof news[number], typeof CURSOR_KEY>({
+    nodes: news,
+    cursorKey: CURSOR_KEY,
+  });
+
+  return {
+    edges,
+    pageInfo,
+  };
 };
