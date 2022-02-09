@@ -29,9 +29,9 @@ model User {
   thoughtTalkRooms ThoughtTalkRoomMember[]
   seenThoughtTalkRoomMessages UserThoughtTalkRoomMessageSeen[]
 
-  senderOneOnOneRoom OneOnOneRoom[] @relation("sender")
-  recipirntOneOnOneRoom OneOnOneRoom[] @relation("recipient")
-  oneOnOneMessages OneOnOneMessage[]
+  senderOneOnOneTalkRoom OneOnOneTalkRoom[] @relation("sender")
+  recipirntOneOnOneTalkRoom OneOnOneTalkRoom[] @relation("recipient")
+  OneOnOneTalkRoomMessages OneOnOneTalkRoomMessage[]
 
   blocks Block[] @relation("blocks")
   blocked Block[] @relation("blocked")
@@ -250,7 +250,7 @@ model DeletedUserFromNewsTalkRoom {
   @@index([talkRoomId, userId])
 }
 
-model OneOnOneRoom {
+model OneOnOneTalkRoom {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -260,12 +260,12 @@ model OneOnOneRoom {
   sender User @relation("sender", fields: [senderId], references: [id])
   recipient User @relation("recipient", fields: [recipientId], references: [id])
 
-  messages OneOnOneMessage[]
+  messages OneOnOneTalkRoomMessage[]
 
   @@index([senderId])
 }
 
-model OneOnOneMessage {
+model OneOnOneTalkRoomMessage {
   id String @id @default(uuid())
   text String
   createdAt DateTime @default(now())
@@ -273,7 +273,7 @@ model OneOnOneMessage {
   roomId String
 
   sender User @relation(fields: [senderId], references: [id])
-  room OneOnOneRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  room OneOnOneTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
   @@index([roomId])
 }
