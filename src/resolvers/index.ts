@@ -9,6 +9,8 @@ import { ThoughtTalkRoomMessage } from "./ThoughtTalkRoomMessage";
 import { NewsTalkRoom } from "./NewsTalkRoom";
 import { User } from "./User";
 import { NewsTalkRoomMessage } from "./NewsTalkRoomMessage";
+import { News } from "./News";
+import { NewsPick } from "./NewsPick";
 
 export const resolvers: Resolvers = {
   // @ts-ignore
@@ -22,4 +24,6 @@ export const resolvers: Resolvers = {
   NewsTalkRoom,
   User,
   NewsTalkRoomMessage,
+  News,
+  NewsPick,
 };

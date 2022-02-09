@@ -2,65 +2,68 @@ import { QueryResolvers } from "~/generated/graphql";
 import { ForbiddenError } from "apollo-server-express";
 import { findNewsWithRelayStyle } from "~/models/news";
 import { createNewsConnection } from "~/helpers/createNewsConnection";
+import { Prisma } from "@prisma/client";
+import { createPagenationValues } from "~/helpers/createPageNationValues";
+import { createPageInfo } from "~/helpers/createPageInfo";
+import { createEdges } from "~/helpers/createEdges";
+
+const CURSOR_KEY = "id";
 
 export const pickedNews: QueryResolvers["pickedNews"] = async (
   _,
-  { after, first },
+  args,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
   }
 
-  const decodedAfter = after
-    ? Number(Buffer.from(after, "base64").toString())
-    : null;
+  const where: Prisma.NewsPickWhereInput = {
+    pickerId: requestUser.id,
+  };
 
-  const news = await findNewsWithRelayStyle({
+  const { after, take, skip, cursor } = createPagenationValues({
+    after: args.after,
+    first: args.first,
+    cursorKey: CURSOR_KEY,
+  });
+
+  const getNews = prisma.newsPick.findMany({
+    where,
+    take,
+    skip,
+    cursor,
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  const getCount = prisma.newsPick.count({
     where: {
-      picked: {
-        some: {
-          pickerId: requestUser.id,
-        },
+      ...where,
+      id: {
+        lt: after ?? undefined,
       },
     },
-    first,
-    after: decodedAfter,
-    userId: requestUser.id,
   });
 
-  let count: number;
-  if (decodedAfter) {
-    count = await prisma.news.count({
-      where: {
-        picked: {
-          some: {
-            pickerId: requestUser.id,
-          },
-        },
-        cursor: {
-          lt: decodedAfter,
-        },
-      },
-    });
-  } else {
-    count = await prisma.news.count({
-      where: {
-        picked: {
-          some: {
-            pickerId: requestUser.id,
-          },
-        },
-      },
-    });
-  }
+  const [newsPick, count] = await Promise.all([getNews, getCount]);
 
-  const connection = createNewsConnection({
-    news,
-    first,
-    after: decodedAfter,
+  const pageInfo = createPageInfo({
     count,
+    first: take,
+    after: !!after,
+    nodes: newsPick,
+    cursorKey: CURSOR_KEY,
   });
 
-  return connection;
+  const edges = createEdges<typeof newsPick[number], typeof CURSOR_KEY>({
+    nodes: newsPick,
+    cursorKey: CURSOR_KEY,
+  });
+
+  return {
+    edges,
+    pageInfo,
+  };
 };

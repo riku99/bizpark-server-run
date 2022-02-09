@@ -15,6 +15,9 @@ export const deleteNewsPick: MutationResolvers["deleteNewsPick"] = async (
       newsId: input.newsId,
       pickerId: requestUser.id,
     },
+    include: {
+      news: true,
+    },
   });
 
   if (!newsPick) {
@@ -27,5 +30,5 @@ export const deleteNewsPick: MutationResolvers["deleteNewsPick"] = async (
     },
   });
 
-  return newsPick;
+  return newsPick.news;
 };

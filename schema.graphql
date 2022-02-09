@@ -94,11 +94,6 @@ type Pick {
   thoughtId: ID!
 }
 
-type NewsPick {
-  id: Int!
-  newsId: Int!
-}
-
 type Thought {
   id: ID!
   title: String
@@ -254,6 +249,23 @@ type NewsTalkRoomMemberConnection {
   pageInfo: PageInfo!
 }
 
+type NewsPick {
+  id: Int!
+  createdAt: String
+  picker: User
+  news: News
+}
+
+type NewsPickEdge {
+  node: NewsPick!
+  cursor: String!
+}
+
+type NewsPickConnection {
+  edges: [NewsPickEdge!]!
+  pageInfo: PageInfo!
+}
+
 type Query {
   thoughts(
     genre: Genre
@@ -266,7 +278,7 @@ type Query {
   me: Me!
   user(id: ID!): User!
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
-  pickedNews(first: Int!, after: String): NewsConnection!
+  pickedNews(first: Int!, after: String): NewsPickConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
   follows(first: Int!, after: String, q: String): UserConnection!
   blockingUsers: [User]!
@@ -412,7 +424,7 @@ type Mutation {
   createThought(input: CreateThoughtInput!): CreateThoughtResponse!
   deleteThought(input: DeleteThoughtInput!): DeleteThoughtResponse!
   createNewsPick(input: CreateNewsPickInput!): NewsPick!
-  deleteNewsPick(input: DeleteNewsPickInput!): NewsPick!
+  deleteNewsPick(input: DeleteNewsPickInput!): News!
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
   follow(followeeId: ID!): User!
