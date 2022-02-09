@@ -11,6 +11,7 @@ import { User } from "./User";
 import { NewsTalkRoomMessage } from "./NewsTalkRoomMessage";
 import { News } from "./News";
 import { NewsPick } from "./NewsPick";
+import { OneOnOneTalkRoom } from "./OneOnOneTalkRoom";
 
 export const resolvers: Resolvers = {
   // @ts-ignore
@@ -26,4 +27,5 @@ export const resolvers: Resolvers = {
   NewsTalkRoomMessage,
   News,
   NewsPick,
+  OneOnOneTalkRoom,
 };

@@ -266,6 +266,24 @@ type NewsPickConnection {
   pageInfo: PageInfo!
 }
 
+type OneOnOneTalkRoom implements TalkRoom {
+  id: Int!
+  createdAt: String!
+  updatedAt: String!
+  sender: User
+  recipient: User
+  allMessageSeen: Boolean
+}
+
+type OneOnOneTalkRoomMessage implements TalkRoomMessage {
+  id: Int!
+  text: String!
+  createdAt: String!
+  sender: User
+  roomId: Int
+  talkRoom: OneOnOneTalkRoom
+}
+
 type Query {
   thoughts(
     genre: Genre
@@ -415,6 +433,10 @@ input RequestNewsTalkRoomMemberDeletionInput {
   talkRoomId: Int!
 }
 
+input CreateOneOnOneTalkRoomInput {
+  recipientId: ID!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -454,6 +476,7 @@ type Mutation {
   requestNewsTalkRoomMemberDeletion(
     input: RequestNewsTalkRoomMemberDeletionInput!
   ): Boolean
+  createOneOnOneTalkRoom(input: CreateOneOnOneTalkRoomInput!): OneOnOneTalkRoom!
 }
 
 type Subscription {

@@ -251,7 +251,7 @@ model DeletedUserFromNewsTalkRoom {
 }
 
 model OneOnOneTalkRoom {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   senderId String
@@ -263,14 +263,16 @@ model OneOnOneTalkRoom {
   messages OneOnOneTalkRoomMessage[]
 
   @@index([senderId])
+  @@index([recipientId])
 }
 
 model OneOnOneTalkRoomMessage {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
   text String
   createdAt DateTime @default(now())
   senderId String
-  roomId String
+  roomId Int
+  seen Boolean?
 
   sender User @relation(fields: [senderId], references: [id])
   room OneOnOneTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)

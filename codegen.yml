@@ -29,3 +29,5 @@ generates:
         ThoughtTalkRoomMember: "@prisma/client/index.d#ThoughtTalkRoomMember"
         NewsTalkRoom: "@prisma/client/index.d#NewsTalkRoom"
         NewsTalkRoomMessage: "@prisma/client/index.d#NewsTalkRoomMessage"
+        OneOnOneTalkRoom: "@prisma/client/index.d#OneOnOneTalkRoom"
+        OneOnOneTalkRoomMessage: "@prisma/client/index.d#OneOnOneTalkRoomMessage"
