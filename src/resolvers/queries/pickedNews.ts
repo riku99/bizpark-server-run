@@ -18,12 +18,8 @@ export const pickedNews: QueryResolvers["pickedNews"] = async (
     throw new ForbiddenError("auth error");
   }
 
-  const where: Prisma.NewsWhereInput = {
-    picked: {
-      some: {
-        pickerId: requestUser.id,
-      },
-    },
+  const where: Prisma.NewsPickWhereInput = {
+    pickerId: requestUser.id,
   };
 
   const { after, take, skip, cursor } = createPagenationValues({
@@ -32,7 +28,7 @@ export const pickedNews: QueryResolvers["pickedNews"] = async (
     cursorKey: CURSOR_KEY,
   });
 
-  const getNews = prisma.news.findMany({
+  const getNews = prisma.newsPick.findMany({
     where,
     take,
     skip,
@@ -42,7 +38,7 @@ export const pickedNews: QueryResolvers["pickedNews"] = async (
     },
   });
 
-  const getCount = prisma.news.count({
+  const getCount = prisma.newsPick.count({
     where: {
       ...where,
       id: {
@@ -51,18 +47,18 @@ export const pickedNews: QueryResolvers["pickedNews"] = async (
     },
   });
 
-  const [news, count] = await Promise.all([getNews, getCount]);
+  const [newsPick, count] = await Promise.all([getNews, getCount]);
 
   const pageInfo = createPageInfo({
     count,
     first: take,
     after: !!after,
-    nodes: news,
+    nodes: newsPick,
     cursorKey: CURSOR_KEY,
   });
 
-  const edges = createEdges<typeof news[number], typeof CURSOR_KEY>({
-    nodes: news,
+  const edges = createEdges<typeof newsPick[number], typeof CURSOR_KEY>({
+    nodes: newsPick,
     cursorKey: CURSOR_KEY,
   });
 

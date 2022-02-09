@@ -353,8 +353,22 @@ export enum NewsGenre {
 
 export type NewsPick = {
   __typename?: 'NewsPick';
+  createdAt?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
-  newsId: Scalars['Int'];
+  news?: Maybe<News>;
+  picker?: Maybe<User>;
+};
+
+export type NewsPickConnection = {
+  __typename?: 'NewsPickConnection';
+  edges: Array<NewsPickEdge>;
+  pageInfo: PageInfo;
+};
+
+export type NewsPickEdge = {
+  __typename?: 'NewsPickEdge';
+  cursor: Scalars['String'];
+  node: NewsPick;
 };
 
 export type NewsTalkRoom = TalkRoom & {
@@ -447,7 +461,7 @@ export type Query = {
   newsTalkRoom: NewsTalkRoom;
   newsTalkRooms: Array<NewsTalkRoom>;
   oneNews: News;
-  pickedNews: NewsConnection;
+  pickedNews: NewsPickConnection;
   pickedThoughts: ThoughtsConnection;
   thought: Thought;
   thoughtTalkRoom: ThoughtTalkRoom;
@@ -822,6 +836,8 @@ export type ResolversTypes = {
   NewsEdge: ResolverTypeWrapper<Omit<NewsEdge, 'node'> & { node: ResolversTypes['News'] }>;
   NewsGenre: ResolverTypeWrapper<NewsGenre>;
   NewsPick: ResolverTypeWrapper<NewsPick>;
+  NewsPickConnection: ResolverTypeWrapper<Omit<NewsPickConnection, 'edges'> & { edges: Array<ResolversTypes['NewsPickEdge']> }>;
+  NewsPickEdge: ResolverTypeWrapper<Omit<NewsPickEdge, 'node'> & { node: ResolversTypes['NewsPick'] }>;
   NewsTalkRoom: ResolverTypeWrapper<NewsTalkRoom>;
   NewsTalkRoomMember: ResolverTypeWrapper<Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversTypes['NewsTalkRoom']>, user: ResolversTypes['User'] }>;
   NewsTalkRoomMemberConnection: ResolverTypeWrapper<Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversTypes['NewsTalkRoomMemberEdge']> }>;
@@ -894,6 +910,8 @@ export type ResolversParentTypes = {
   NewsConnection: Omit<NewsConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsEdge']> };
   NewsEdge: Omit<NewsEdge, 'node'> & { node: ResolversParentTypes['News'] };
   NewsPick: NewsPick;
+  NewsPickConnection: Omit<NewsPickConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsPickEdge']> };
+  NewsPickEdge: Omit<NewsPickEdge, 'node'> & { node: ResolversParentTypes['NewsPick'] };
   NewsTalkRoom: NewsTalkRoom;
   NewsTalkRoomMember: Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversParentTypes['NewsTalkRoom']>, user: ResolversParentTypes['User'] };
   NewsTalkRoomMemberConnection: Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsTalkRoomMemberEdge']> };
@@ -1037,8 +1055,22 @@ export type NewsEdgeResolvers<ContextType = Context, ParentType extends Resolver
 export type NewsGenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, TECHNOLOGY?: any }, ResolversTypes['NewsGenre']>;
 
 export type NewsPickResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsPick'] = ResolversParentTypes['NewsPick']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  newsId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  news?: Resolver<Maybe<ResolversTypes['News']>, ParentType, ContextType>;
+  picker?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsPickConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsPickConnection'] = ResolversParentTypes['NewsPickConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['NewsPickEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NewsPickEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NewsPickEdge'] = ResolversParentTypes['NewsPickEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1119,7 +1151,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   newsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<QueryNewsTalkRoomArgs, 'id'>>;
   newsTalkRooms?: Resolver<Array<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
   oneNews?: Resolver<ResolversTypes['News'], ParentType, ContextType, RequireFields<QueryOneNewsArgs, 'id'>>;
-  pickedNews?: Resolver<ResolversTypes['NewsConnection'], ParentType, ContextType, RequireFields<QueryPickedNewsArgs, 'first'>>;
+  pickedNews?: Resolver<ResolversTypes['NewsPickConnection'], ParentType, ContextType, RequireFields<QueryPickedNewsArgs, 'first'>>;
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;
   thought?: Resolver<ResolversTypes['Thought'], ParentType, ContextType, RequireFields<QueryThoughtArgs, 'id'>>;
   thoughtTalkRoom?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<QueryThoughtTalkRoomArgs, 'id'>>;
@@ -1310,6 +1342,8 @@ export type Resolvers<ContextType = Context> = {
   NewsEdge?: NewsEdgeResolvers<ContextType>;
   NewsGenre?: NewsGenreResolvers;
   NewsPick?: NewsPickResolvers<ContextType>;
+  NewsPickConnection?: NewsPickConnectionResolvers<ContextType>;
+  NewsPickEdge?: NewsPickEdgeResolvers<ContextType>;
   NewsTalkRoom?: NewsTalkRoomResolvers<ContextType>;
   NewsTalkRoomMember?: NewsTalkRoomMemberResolvers<ContextType>;
   NewsTalkRoomMemberConnection?: NewsTalkRoomMemberConnectionResolvers<ContextType>;
