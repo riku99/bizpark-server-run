@@ -424,7 +424,7 @@ type Mutation {
   createThought(input: CreateThoughtInput!): CreateThoughtResponse!
   deleteThought(input: DeleteThoughtInput!): DeleteThoughtResponse!
   createNewsPick(input: CreateNewsPickInput!): NewsPick!
-  deleteNewsPick(input: DeleteNewsPickInput!): NewsPick!
+  deleteNewsPick(input: DeleteNewsPickInput!): News!
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
   follow(followeeId: ID!): User!
