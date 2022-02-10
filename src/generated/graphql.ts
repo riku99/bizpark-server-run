@@ -41,6 +41,7 @@ export type CreateOneOnOneTalkRoomInput = {
 };
 
 export type CreateOneOnOneTalkRoomMessageInput = {
+  replyTo?: InputMaybe<Scalars['Int']>;
   talkRoomId: Scalars['Int'];
   text: Scalars['String'];
 };

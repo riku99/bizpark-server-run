@@ -1,6 +1,6 @@
 import { OneOnOneTalkRoomMessageResolvers } from "~/generated/graphql";
 
-export const talKRoom: OneOnOneTalkRoomMessageResolvers["talkRoom"] = async (
+export const talkRoom: OneOnOneTalkRoomMessageResolvers["talkRoom"] = async (
   parent,
   _,
   { prisma }

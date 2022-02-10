@@ -32,6 +32,7 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTal
       roomId: input.talkRoomId,
       text: input.text,
       senderId: requestUser.id,
+      replyTo: input.replyTo,
     },
   });
 

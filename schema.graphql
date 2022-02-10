@@ -454,6 +454,7 @@ input CreateOneOnOneTalkRoomInput {
 input CreateOneOnOneTalkRoomMessageInput {
   text: String!
   talkRoomId: Int!
+  replyTo: Int
 }
 
 input SeenOneOnOneTalkRoomMessageInput {
