@@ -26,6 +26,7 @@ import { createUserNewsTalkRoomMessageSeen } from "./createUserNewsTalkRoomMessa
 import { getOutNewsTalkRoom } from "./getOutNewsTalkRoom";
 import { requestNewsTalkRoomMemberDeletion } from "./requestNewsTalkRoomMemberDeletion";
 import { createOneOnOneTalkRoom } from "./createOneOnOneTalkRoom";
+import { createOneOnOneTalkRoomMessage } from "./createOneOnOneTalkRoomMessage";
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -55,4 +56,5 @@ export const Mutation: MutationResolvers = {
   getOutNewsTalkRoom,
   requestNewsTalkRoomMemberDeletion,
   createOneOnOneTalkRoom,
+  createOneOnOneTalkRoomMessage,
 };

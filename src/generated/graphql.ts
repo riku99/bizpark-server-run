@@ -40,6 +40,11 @@ export type CreateOneOnOneTalkRoomInput = {
   recipientId: Scalars['ID'];
 };
 
+export type CreateOneOnOneTalkRoomMessageInput = {
+  talkRoomId: Scalars['Int'];
+  text: Scalars['String'];
+};
+
 export type CreatePickInput = {
   thoughtId: Scalars['String'];
 };
@@ -175,6 +180,7 @@ export type Mutation = {
   createNewsPick: NewsPick;
   createNewsTalkRoomMessage: NewsTalkRoomMessage;
   createOneOnOneTalkRoom: OneOnOneTalkRoom;
+  createOneOnOneTalkRoomMessage: OneOnOneTalkRoomMessage;
   createPick: Pick;
   createThought: CreateThoughtResponse;
   createThoughtTalkRoomMessage?: Maybe<ThoughtTalkRoomMessage>;
@@ -218,6 +224,11 @@ export type MutationCreateNewsTalkRoomMessageArgs = {
 
 export type MutationCreateOneOnOneTalkRoomArgs = {
   input: CreateOneOnOneTalkRoomInput;
+};
+
+
+export type MutationCreateOneOnOneTalkRoomMessageArgs = {
+  input: CreateOneOnOneTalkRoomMessageInput;
 };
 
 
@@ -862,6 +873,7 @@ export type ResolversTypes = {
   CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
   CreateNewsTalkRoomMessageInput: CreateNewsTalkRoomMessageInput;
   CreateOneOnOneTalkRoomInput: CreateOneOnOneTalkRoomInput;
+  CreateOneOnOneTalkRoomMessageInput: CreateOneOnOneTalkRoomMessageInput;
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
   CreateThoughtResponse: ResolverTypeWrapper<CreateThoughtResponse>;
@@ -944,6 +956,7 @@ export type ResolversParentTypes = {
   CreateNewsPickResponse: CreateNewsPickResponse;
   CreateNewsTalkRoomMessageInput: CreateNewsTalkRoomMessageInput;
   CreateOneOnOneTalkRoomInput: CreateOneOnOneTalkRoomInput;
+  CreateOneOnOneTalkRoomMessageInput: CreateOneOnOneTalkRoomMessageInput;
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
   CreateThoughtResponse: CreateThoughtResponse;
@@ -1070,6 +1083,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createNewsTalkRoomMessage?: Resolver<ResolversTypes['NewsTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateNewsTalkRoomMessageArgs, 'input'>>;
   createOneOnOneTalkRoom?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationCreateOneOnOneTalkRoomArgs, 'input'>>;
+  createOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateOneOnOneTalkRoomMessageArgs, 'input'>>;
   createPick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationCreatePickArgs, 'input'>>;
   createThought?: Resolver<ResolversTypes['CreateThoughtResponse'], ParentType, ContextType, RequireFields<MutationCreateThoughtArgs, 'input'>>;
   createThoughtTalkRoomMessage?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, ParentType, ContextType, RequireFields<MutationCreateThoughtTalkRoomMessageArgs, 'input'>>;

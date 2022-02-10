@@ -450,6 +450,11 @@ input CreateOneOnOneTalkRoomInput {
   recipientId: ID!
 }
 
+input CreateOneOnOneTalkRoomMessageInput {
+  text: String!
+  talkRoomId: Int!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -490,6 +495,9 @@ type Mutation {
     input: RequestNewsTalkRoomMemberDeletionInput!
   ): Boolean
   createOneOnOneTalkRoom(input: CreateOneOnOneTalkRoomInput!): OneOnOneTalkRoom!
+  createOneOnOneTalkRoomMessage(
+    input: CreateOneOnOneTalkRoomMessageInput!
+  ): OneOnOneTalkRoomMessage!
 }
 
 type Subscription {
