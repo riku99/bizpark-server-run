@@ -16,6 +16,7 @@ import { newsTalkRoom } from "./newsTalkRoom";
 import { oneNews } from "./oneNews";
 import { thought } from "./thought";
 import { oneOnOneTalkRooms } from "./oneOnOneTalkRooms";
+import { oneOnOneTalkRoom } from "./oneOnOneTalkRoom";
 
 export const Query: QueryResolvers = {
   thoughts,
@@ -35,4 +36,5 @@ export const Query: QueryResolvers = {
   oneNews,
   thought,
   oneOnOneTalkRooms,
+  oneOnOneTalkRoom,
 };
