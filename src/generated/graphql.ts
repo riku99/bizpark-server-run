@@ -485,6 +485,7 @@ export type OneOnOneTalkRoomMessage = TalkRoomMessage & {
   __typename?: 'OneOnOneTalkRoomMessage';
   createdAt: Scalars['String'];
   id: Scalars['Int'];
+  replyMessage?: Maybe<OneOnOneTalkRoomMessage>;
   roomId?: Maybe<Scalars['Int']>;
   sender?: Maybe<User>;
   talkRoom?: Maybe<OneOnOneTalkRoom>;
@@ -1237,6 +1238,7 @@ export type OneOnOneTalkRoomResolvers<ContextType = Context, ParentType extends 
 export type OneOnOneTalkRoomMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['OneOnOneTalkRoomMessage'] = ResolversParentTypes['OneOnOneTalkRoomMessage']> = {
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  replyMessage?: Resolver<Maybe<ResolversTypes['OneOnOneTalkRoomMessage']>, ParentType, ContextType>;
   roomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   sender?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['OneOnOneTalkRoom']>, ParentType, ContextType>;

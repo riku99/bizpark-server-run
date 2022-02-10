@@ -273,9 +273,13 @@ model OneOnOneTalkRoomMessage {
   senderId String
   roomId Int
   seen Boolean?
+  replyTo Int?
 
   sender User @relation(fields: [senderId], references: [id])
   room OneOnOneTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  replyMessage OneOnOneTalkRoomMessage? @relation("ReplyOneOnOneTalkRoomMessage", fields: [replyTo], references: [id])
+  replyBy OneOnOneTalkRoomMessage[] @relation("ReplyOneOnOneTalkRoomMessage")
 
   @@index([roomId])
 }

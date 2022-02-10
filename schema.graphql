@@ -283,6 +283,7 @@ type OneOnOneTalkRoomMessage implements TalkRoomMessage {
   sender: User
   roomId: Int
   talkRoom: OneOnOneTalkRoom
+  replyMessage: OneOnOneTalkRoomMessage
 }
 
 type OneOnOneTalkRoomMessageEdge {
