@@ -198,6 +198,7 @@ export type Mutation = {
   joinNewsTalkRoom: NewsTalkRoom;
   joinThoughtTalk: ThoughtTalkRoom;
   requestNewsTalkRoomMemberDeletion?: Maybe<Scalars['Boolean']>;
+  seenOneOnOneTalkRoomMessage: OneOnOneTalkRoom;
   signOut: SignOutResponse;
   unblock: User;
   unfollow: User;
@@ -314,6 +315,11 @@ export type MutationJoinThoughtTalkArgs = {
 
 export type MutationRequestNewsTalkRoomMemberDeletionArgs = {
   input: RequestNewsTalkRoomMemberDeletionInput;
+};
+
+
+export type MutationSeenOneOnOneTalkRoomMessageArgs = {
+  input: SeenOneOnOneTalkRoomMessageInput;
 };
 
 
@@ -606,6 +612,11 @@ export type QueryUserThoughtsArgs = {
 
 export type RequestNewsTalkRoomMemberDeletionInput = {
   memberId: Scalars['Int'];
+  talkRoomId: Scalars['Int'];
+};
+
+export type SeenOneOnOneTalkRoomMessageInput = {
+  messageId: Scalars['Int'];
   talkRoomId: Scalars['Int'];
 };
 
@@ -922,6 +933,7 @@ export type ResolversTypes = {
   Pick: ResolverTypeWrapper<Pick>;
   Query: ResolverTypeWrapper<{}>;
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
+  SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
   SignOutResponse: ResolverTypeWrapper<SignOutResponse>;
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
@@ -1002,6 +1014,7 @@ export type ResolversParentTypes = {
   Pick: Pick;
   Query: {};
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
+  SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
   SignOutResponse: SignOutResponse;
   String: Scalars['String'];
   SubImage: SubImage;
@@ -1101,6 +1114,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   joinNewsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinNewsTalkRoomArgs, 'input'>>;
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
   requestNewsTalkRoomMemberDeletion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRequestNewsTalkRoomMemberDeletionArgs, 'input'>>;
+  seenOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationSeenOneOnOneTalkRoomMessageArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
   unfollow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
