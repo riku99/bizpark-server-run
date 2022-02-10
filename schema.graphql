@@ -273,6 +273,7 @@ type OneOnOneTalkRoom implements TalkRoom {
   sender: User
   recipient: User
   allMessageSeen: Boolean
+  messages(first: Int, after: String): OneOnOneTalkRoomMessageConnection
 }
 
 type OneOnOneTalkRoomMessage implements TalkRoomMessage {
@@ -282,6 +283,16 @@ type OneOnOneTalkRoomMessage implements TalkRoomMessage {
   sender: User
   roomId: Int
   talkRoom: OneOnOneTalkRoom
+}
+
+type OneOnOneTalkRoomMessageEdge {
+  node: OneOnOneTalkRoomMessage!
+  cursor: String!
+}
+
+type OneOnOneTalkRoomMessageConnection {
+  edges: [OneOnOneTalkRoomMessageEdge!]!
+  pageInfo: PageInfo!
 }
 
 type Query {
@@ -306,6 +317,8 @@ type Query {
   newsTalkRoom(id: Int!): NewsTalkRoom!
   oneNews(id: Int!): News!
   thought(id: ID!): Thought!
+  oneOnOneTalkRooms: [OneOnOneTalkRoom]!
+  oneOnOneTalkRoom(id: Int!): OneOnOneTalkRoom!
 }
 
 input CreateUserInput {

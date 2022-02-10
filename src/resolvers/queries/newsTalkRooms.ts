@@ -7,10 +7,10 @@ export const newsTalkRooms: QueryResolvers["newsTalkRooms"] = async (
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new Error("aurh error");
+    throw new ForbiddenError("aurh error");
   }
 
-  // FIX: 自分が発言したトークルーム && 3日以内に更新されている もののみを取得するようにする
+  // FIX: 3日以内に更新されている もののみを取得するようにする
   const talkRooms = await prisma.newsTalkRoom.findMany({
     where: {
       members: {

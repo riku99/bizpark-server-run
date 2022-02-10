@@ -452,9 +452,16 @@ export type OneOnOneTalkRoom = TalkRoom & {
   allMessageSeen?: Maybe<Scalars['Boolean']>;
   createdAt: Scalars['String'];
   id: Scalars['Int'];
+  messages?: Maybe<OneOnOneTalkRoomMessageConnection>;
   recipient?: Maybe<User>;
   sender?: Maybe<User>;
   updatedAt: Scalars['String'];
+};
+
+
+export type OneOnOneTalkRoomMessagesArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 };
 
 export type OneOnOneTalkRoomMessage = TalkRoomMessage & {
@@ -465,6 +472,18 @@ export type OneOnOneTalkRoomMessage = TalkRoomMessage & {
   sender?: Maybe<User>;
   talkRoom?: Maybe<OneOnOneTalkRoom>;
   text: Scalars['String'];
+};
+
+export type OneOnOneTalkRoomMessageConnection = {
+  __typename?: 'OneOnOneTalkRoomMessageConnection';
+  edges: Array<OneOnOneTalkRoomMessageEdge>;
+  pageInfo: PageInfo;
+};
+
+export type OneOnOneTalkRoomMessageEdge = {
+  __typename?: 'OneOnOneTalkRoomMessageEdge';
+  cursor: Scalars['String'];
+  node: OneOnOneTalkRoomMessage;
 };
 
 export type PageInfo = {
@@ -491,6 +510,8 @@ export type Query = {
   newsTalkRoom: NewsTalkRoom;
   newsTalkRooms: Array<NewsTalkRoom>;
   oneNews: News;
+  oneOnOneTalkRoom: OneOnOneTalkRoom;
+  oneOnOneTalkRooms: Array<Maybe<OneOnOneTalkRoom>>;
   pickedNews: NewsPickConnection;
   pickedThoughts: ThoughtsConnection;
   thought: Thought;
@@ -522,6 +543,11 @@ export type QueryNewsTalkRoomArgs = {
 
 
 export type QueryOneNewsArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryOneOnOneTalkRoomArgs = {
   id: Scalars['Int'];
 };
 
@@ -878,6 +904,8 @@ export type ResolversTypes = {
   NewsTalkRoomMessageEdge: ResolverTypeWrapper<Omit<NewsTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['NewsTalkRoomMessage'] }>;
   OneOnOneTalkRoom: ResolverTypeWrapper<OneOnOneTalkRoom>;
   OneOnOneTalkRoomMessage: ResolverTypeWrapper<OneOnOneTalkRoomMessage>;
+  OneOnOneTalkRoomMessageConnection: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['OneOnOneTalkRoomMessageEdge']> }>;
+  OneOnOneTalkRoomMessageEdge: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['OneOnOneTalkRoomMessage'] }>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
   Query: ResolverTypeWrapper<{}>;
@@ -955,6 +983,8 @@ export type ResolversParentTypes = {
   NewsTalkRoomMessageEdge: Omit<NewsTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['NewsTalkRoomMessage'] };
   OneOnOneTalkRoom: OneOnOneTalkRoom;
   OneOnOneTalkRoomMessage: OneOnOneTalkRoomMessage;
+  OneOnOneTalkRoomMessageConnection: Omit<OneOnOneTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['OneOnOneTalkRoomMessageEdge']> };
+  OneOnOneTalkRoomMessageEdge: Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['OneOnOneTalkRoomMessage'] };
   PageInfo: PageInfo;
   Pick: Pick;
   Query: {};
@@ -1169,6 +1199,7 @@ export type OneOnOneTalkRoomResolvers<ContextType = Context, ParentType extends 
   allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  messages?: Resolver<Maybe<ResolversTypes['OneOnOneTalkRoomMessageConnection']>, ParentType, ContextType, RequireFields<OneOnOneTalkRoomMessagesArgs, never>>;
   recipient?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   sender?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1182,6 +1213,18 @@ export type OneOnOneTalkRoomMessageResolvers<ContextType = Context, ParentType e
   sender?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   talkRoom?: Resolver<Maybe<ResolversTypes['OneOnOneTalkRoom']>, ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type OneOnOneTalkRoomMessageConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['OneOnOneTalkRoomMessageConnection'] = ResolversParentTypes['OneOnOneTalkRoomMessageConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['OneOnOneTalkRoomMessageEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type OneOnOneTalkRoomMessageEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['OneOnOneTalkRoomMessageEdge'] = ResolversParentTypes['OneOnOneTalkRoomMessageEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['OneOnOneTalkRoomMessage'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1208,6 +1251,8 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   newsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<QueryNewsTalkRoomArgs, 'id'>>;
   newsTalkRooms?: Resolver<Array<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
   oneNews?: Resolver<ResolversTypes['News'], ParentType, ContextType, RequireFields<QueryOneNewsArgs, 'id'>>;
+  oneOnOneTalkRoom?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<QueryOneOnOneTalkRoomArgs, 'id'>>;
+  oneOnOneTalkRooms?: Resolver<Array<Maybe<ResolversTypes['OneOnOneTalkRoom']>>, ParentType, ContextType>;
   pickedNews?: Resolver<ResolversTypes['NewsPickConnection'], ParentType, ContextType, RequireFields<QueryPickedNewsArgs, 'first'>>;
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;
   thought?: Resolver<ResolversTypes['Thought'], ParentType, ContextType, RequireFields<QueryThoughtArgs, 'id'>>;
@@ -1410,6 +1455,8 @@ export type Resolvers<ContextType = Context> = {
   NewsTalkRoomMessageEdge?: NewsTalkRoomMessageEdgeResolvers<ContextType>;
   OneOnOneTalkRoom?: OneOnOneTalkRoomResolvers<ContextType>;
   OneOnOneTalkRoomMessage?: OneOnOneTalkRoomMessageResolvers<ContextType>;
+  OneOnOneTalkRoomMessageConnection?: OneOnOneTalkRoomMessageConnectionResolvers<ContextType>;
+  OneOnOneTalkRoomMessageEdge?: OneOnOneTalkRoomMessageEdgeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
