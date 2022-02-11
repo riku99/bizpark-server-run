@@ -15,9 +15,11 @@ export const oneOnOneTalkRoomMessageCreated: SubscriptionResolvers["oneOnOneTalk
       payload: PublishOneOnOneMessagePayload,
       variables: SubscriptionOneOnOneTalkRoomMessageCreatedArgs
     ) => {
+      payload.oneOnOneTalkRoomMessageCreated.talkRoom;
       return (
         payload.oneOnOneTalkRoomMessageCreated.messageRecipientId ===
-        variables.userId
+          variables.userId ||
+        payload.oneOnOneTalkRoomMessageCreated.senderId === variables.userId
       );
     }
   ),

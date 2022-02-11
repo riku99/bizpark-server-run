@@ -1,10 +1,10 @@
 import {
   MutationResolvers,
   CustomErrorResponseCode,
-  OneOnOneTalkRoomMessage,
 } from "~/generated/graphql";
 import { ForbiddenError, ApolloError } from "apollo-server-express";
 import { NOT_TALKROOM_FOUND } from "~/constants";
+import { OneOnOneTalkRoomMessage } from "@prisma/client";
 
 export type PublishOneOnOneMessagePayload = {
   oneOnOneTalkRoomMessageCreated: OneOnOneTalkRoomMessage & {
