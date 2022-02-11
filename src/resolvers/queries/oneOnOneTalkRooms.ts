@@ -21,6 +21,9 @@ export const oneOnOneTalkRooms: QueryResolvers["oneOnOneTalkRooms"] = async (
         },
       ],
     },
+    orderBy: {
+      updatedAt: "desc",
+    },
   });
 
   return talkRooms;

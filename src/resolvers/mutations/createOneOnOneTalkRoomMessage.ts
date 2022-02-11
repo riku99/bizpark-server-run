@@ -8,7 +8,7 @@ import { NOT_TALKROOM_FOUND } from "~/constants";
 export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTalkRoomMessage"] = async (
   _,
   { input },
-  { requestUser, prisma }
+  { requestUser, prisma, pubsub }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
@@ -45,7 +45,9 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTal
     },
   });
 
-  // publish
+  pubsub.publish("ONE_ON_ONE_TALK_ROOM_MESSAGE_CREATED", {
+    oneOnOneTalkRoomMessageCreated: message,
+  });
 
   return message;
 };

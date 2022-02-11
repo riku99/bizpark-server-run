@@ -516,4 +516,5 @@ type Subscription {
     userId: ID!
   ): ThoughtTalkRoomMessage
   newsTalkRoomMessageCreated(roomIds: [Int]!, userId: ID!): NewsTalkRoomMessage!
+  oneOnOneTalkRoomMessageCreated(userId: ID!): OneOnOneTalkRoomMessage!
 }

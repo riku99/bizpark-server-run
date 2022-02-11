@@ -637,12 +637,18 @@ export type SubImage = {
 export type Subscription = {
   __typename?: 'Subscription';
   newsTalkRoomMessageCreated: NewsTalkRoomMessage;
+  oneOnOneTalkRoomMessageCreated: OneOnOneTalkRoomMessage;
   thoughtTalkRoomMessageCreated?: Maybe<ThoughtTalkRoomMessage>;
 };
 
 
 export type SubscriptionNewsTalkRoomMessageCreatedArgs = {
   roomIds: Array<InputMaybe<Scalars['Int']>>;
+  userId: Scalars['ID'];
+};
+
+
+export type SubscriptionOneOnOneTalkRoomMessageCreatedArgs = {
   userId: Scalars['ID'];
 };
 
@@ -1308,6 +1314,7 @@ export type SubImageResolvers<ContextType = Context, ParentType extends Resolver
 
 export type SubscriptionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   newsTalkRoomMessageCreated?: SubscriptionResolver<ResolversTypes['NewsTalkRoomMessage'], "newsTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionNewsTalkRoomMessageCreatedArgs, 'roomIds' | 'userId'>>;
+  oneOnOneTalkRoomMessageCreated?: SubscriptionResolver<ResolversTypes['OneOnOneTalkRoomMessage'], "oneOnOneTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionOneOnOneTalkRoomMessageCreatedArgs, 'userId'>>;
   thoughtTalkRoomMessageCreated?: SubscriptionResolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, "thoughtTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionThoughtTalkRoomMessageCreatedArgs, 'roomIds' | 'userId'>>;
 };
 
