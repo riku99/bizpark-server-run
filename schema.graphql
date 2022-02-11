@@ -462,6 +462,10 @@ input SeenOneOnOneTalkRoomMessageInput {
   talkRoomId: Int!
 }
 
+input DeleteOneOnOneTalkRoonInput {
+  talkRoomId: Int!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -508,6 +512,7 @@ type Mutation {
   seenOneOnOneTalkRoomMessage(
     input: SeenOneOnOneTalkRoomMessageInput!
   ): OneOnOneTalkRoom!
+  deleteOneOnOneTalkRoom(input: DeleteOneOnOneTalkRoonInput!): Boolean
 }
 
 type Subscription {
