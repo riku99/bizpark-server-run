@@ -31,10 +31,7 @@ export const seenOneOnOneTalkRoomMessage: MutationResolvers["seenOneOnOneTalkRoo
     await prisma.oneOnOneTalkRoomMessage.updateMany({
       where: {
         id: input.messageId,
-        room: {
-          id: input.talkRoomId,
-          recipientId: requestUser.id,
-        },
+        roomId: input.talkRoomId,
       },
       data: {
         seen: true,
