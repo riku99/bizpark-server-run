@@ -1,9 +1,16 @@
 import {
   MutationResolvers,
   CustomErrorResponseCode,
+  OneOnOneTalkRoomMessage,
 } from "~/generated/graphql";
 import { ForbiddenError, ApolloError } from "apollo-server-express";
 import { NOT_TALKROOM_FOUND } from "~/constants";
+
+export type PublishOneOnOneMessagePayload = {
+  oneOnOneTalkRoomMessageCreated: OneOnOneTalkRoomMessage & {
+    messageRecipientId: string;
+  };
+};
 
 export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTalkRoomMessage"] = async (
   _,
@@ -27,6 +34,11 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTal
     );
   }
 
+  const messageRecipientId =
+    talkRoom.senderId === requestUser.id
+      ? talkRoom.recipientId
+      : talkRoom.senderId;
+
   const message = await prisma.oneOnOneTalkRoomMessage.create({
     data: {
       roomId: input.talkRoomId,
@@ -46,7 +58,10 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTal
   });
 
   pubsub.publish("ONE_ON_ONE_TALK_ROOM_MESSAGE_CREATED", {
-    oneOnOneTalkRoomMessageCreated: message,
+    oneOnOneTalkRoomMessageCreated: {
+      ...message,
+      messageRecipientId,
+    },
   });
 
   return message;
