@@ -16,6 +16,31 @@ export const userThoughts: QueryResolvers["userThoughts"] = async (
     throw new ForbiddenError("auth error");
   }
 
+  const blockingOrBlocked = await prisma.block.findFirst({
+    where: {
+      OR: [
+        {
+          blockTo: requestUser.id,
+          blockBy: args.userId,
+        },
+        {
+          blockTo: args.userId,
+          blockBy: requestUser.id,
+        },
+      ],
+    },
+  });
+
+  if (blockingOrBlocked) {
+    return {
+      edges: [],
+      pageInfo: {
+        hasNextPage: false,
+        hasPreviousPage: false,
+      },
+    };
+  }
+
   const where: Prisma.ThoughtWhereInput = {
     contributorId: args.userId,
   };
