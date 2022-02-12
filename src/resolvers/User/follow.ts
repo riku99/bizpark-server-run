@@ -17,7 +17,7 @@ export const follow: UserResolvers["follow"] = async (
     })
     .follower({
       where: {
-        id: requestUser?.id,
+        followerId: requestUser.id,
       },
     });
 

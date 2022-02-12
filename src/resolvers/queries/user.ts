@@ -14,18 +14,6 @@ export const user: QueryResolvers["user"] = async (
     where: {
       id,
     },
-    include: {
-      follower: {
-        where: {
-          followerId: requestUser.id,
-        },
-      },
-      blocked: {
-        where: {
-          blockBy: requestUser.id,
-        },
-      },
-    },
   });
 
   if (!user) {
@@ -35,13 +23,5 @@ export const user: QueryResolvers["user"] = async (
     );
   }
 
-  const follow = !!user.follower.length;
-  const blocking = !!user.blocked.length;
-  const { follower, ...userData } = user;
-
-  return {
-    ...userData,
-    follow,
-    blocking,
-  };
+  return user;
 };
