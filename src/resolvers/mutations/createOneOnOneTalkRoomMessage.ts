@@ -34,6 +34,33 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTal
     );
   }
 
+  const sendToUserId =
+    requestUser.id === talkRoom.senderId
+      ? talkRoom.recipientId
+      : talkRoom.senderId;
+
+  const blockedOrBlocking = await prisma.block.findFirst({
+    where: {
+      OR: [
+        {
+          blockTo: requestUser.id,
+          blockBy: sendToUserId,
+        },
+        {
+          blockTo: sendToUserId,
+          blockBy: requestUser.id,
+        },
+      ],
+    },
+  });
+
+  if (blockedOrBlocking) {
+    throw new ApolloError(
+      "メッセージを送信することができませんでした",
+      CustomErrorResponseCode.InvalidRequest
+    );
+  }
+
   const messageRecipientId =
     talkRoom.senderId === requestUser.id
       ? talkRoom.recipientId

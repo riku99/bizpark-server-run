@@ -1,5 +1,8 @@
-import { MutationResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
+import {
+  MutationResolvers,
+  CustomErrorResponseCode,
+} from "~/generated/graphql";
+import { ForbiddenError, ApolloError } from "apollo-server-express";
 
 export const createOneOnOneTalkRoom: MutationResolvers["createOneOnOneTalkRoom"] = async (
   _,
@@ -8,6 +11,28 @@ export const createOneOnOneTalkRoom: MutationResolvers["createOneOnOneTalkRoom"]
 ) => {
   if (!requestUser) {
     throw new ForbiddenError("auth error");
+  }
+
+  const blockingOrBlocked = await prisma.block.findFirst({
+    where: {
+      OR: [
+        {
+          blockTo: requestUser.id,
+          blockBy: input.recipientId,
+        },
+        {
+          blockTo: input.recipientId,
+          blockBy: requestUser.id,
+        },
+      ],
+    },
+  });
+
+  if (blockingOrBlocked) {
+    throw new ApolloError(
+      "トークルームを作成できませんでした",
+      CustomErrorResponseCode.InvalidRequest
+    );
   }
 
   const existingTalkRoom = await prisma.oneOnOneTalkRoom.findFirst({

@@ -20,6 +20,9 @@ export const oneOnOneTalkRooms: QueryResolvers["oneOnOneTalkRooms"] = async (
           recipientId: requestUser.id,
         },
       ],
+      messages: {
+        some: {}, // 「少なくとも1つはMessageを持つ」 を表す
+      },
     },
     orderBy: {
       updatedAt: "desc",
