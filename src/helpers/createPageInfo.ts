@@ -7,7 +7,7 @@ export const createPageInfo = ({
 }: {
   count: number;
   first: number;
-  after: boolean;
+  after: boolean | string | number | null;
   nodes: any[];
   cursorKey: string;
 }) => {
