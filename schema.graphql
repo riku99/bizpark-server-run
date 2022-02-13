@@ -296,6 +296,13 @@ type OneOnOneTalkRoomMessageConnection {
   pageInfo: PageInfo!
 }
 
+type DeviceToken {
+  id: Int!
+  token: String!
+  createdAt: String!
+  user: User
+}
+
 type Query {
   thoughts(
     genre: Genre
@@ -466,6 +473,11 @@ input DeleteOneOnOneTalkRoonInput {
   talkRoomId: Int!
 }
 
+input AddDeviceTokenInput {
+  oldToken: String
+  newToken: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -513,6 +525,7 @@ type Mutation {
     input: SeenOneOnOneTalkRoomMessageInput!
   ): OneOnOneTalkRoom!
   deleteOneOnOneTalkRoom(input: DeleteOneOnOneTalkRoonInput!): Boolean
+  addDeviceToken(input: AddDeviceTokenInput!): Boolean
 }
 
 type Subscription {
