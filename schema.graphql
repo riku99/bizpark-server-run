@@ -22,6 +22,18 @@ enum CustomErrorResponseCode {
   NOT_FOUND
 }
 
+enum PushNotificationDataKind {
+  THOUGHT_TALK_ROOM_MESSAGE
+  NEWS_TALK_ROOM_MESSAGE
+  ONE_ON_ONE_TALK_ROOM_MESSAGE
+}
+
+type PushNotificationMessage {
+  type: PushNotificationDataKind!
+  id: String!
+  roomId: String!
+}
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!

@@ -548,6 +548,19 @@ export type Pick = {
   thoughtId: Scalars['ID'];
 };
 
+export enum PushNotificationDataKind {
+  NewsTalkRoomMessage = 'NEWS_TALK_ROOM_MESSAGE',
+  OneOnOneTalkRoomMessage = 'ONE_ON_ONE_TALK_ROOM_MESSAGE',
+  ThoughtTalkRoomMessage = 'THOUGHT_TALK_ROOM_MESSAGE'
+}
+
+export type PushNotificationMessage = {
+  __typename?: 'PushNotificationMessage';
+  id: Scalars['String'];
+  roomId: Scalars['String'];
+  type: PushNotificationDataKind;
+};
+
 export type Query = {
   __typename?: 'Query';
   blockingUsers: Array<Maybe<User>>;
@@ -971,6 +984,8 @@ export type ResolversTypes = {
   OneOnOneTalkRoomMessageEdge: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['OneOnOneTalkRoomMessage'] }>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
+  PushNotificationDataKind: PushNotificationDataKind;
+  PushNotificationMessage: ResolverTypeWrapper<PushNotificationMessage>;
   Query: ResolverTypeWrapper<{}>;
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
@@ -1055,6 +1070,7 @@ export type ResolversParentTypes = {
   OneOnOneTalkRoomMessageEdge: Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['OneOnOneTalkRoomMessage'] };
   PageInfo: PageInfo;
   Pick: Pick;
+  PushNotificationMessage: PushNotificationMessage;
   Query: {};
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
@@ -1324,6 +1340,13 @@ export type PickResolvers<ContextType = Context, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PushNotificationMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PushNotificationMessage'] = ResolversParentTypes['PushNotificationMessage']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  roomId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['PushNotificationDataKind'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   blockingUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
   follows?: Resolver<ResolversTypes['UserConnection'], ParentType, ContextType, RequireFields<QueryFollowsArgs, 'first'>>;
@@ -1543,6 +1566,7 @@ export type Resolvers<ContextType = Context> = {
   OneOnOneTalkRoomMessageEdge?: OneOnOneTalkRoomMessageEdgeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
+  PushNotificationMessage?: PushNotificationMessageResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignOutResponse?: SignOutResponseResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;

@@ -1,10 +1,13 @@
 import {
   MutationResolvers,
   CustomErrorResponseCode,
-} from "~/generated/graphql";
-import { ForbiddenError, ApolloError } from "apollo-server-express";
-import { NOT_TALKROOM_FOUND } from "~/constants";
-import { OneOnOneTalkRoomMessage } from "@prisma/client";
+  PushNotificationMessage,
+  PushNotificationDataKind,
+} from '~/generated/graphql';
+import { ForbiddenError, ApolloError } from 'apollo-server-express';
+import { NOT_TALKROOM_FOUND } from '~/constants';
+import { OneOnOneTalkRoomMessage } from '@prisma/client';
+import admin from 'firebase-admin';
 
 export type PublishOneOnOneMessagePayload = {
   oneOnOneTalkRoomMessageCreated: OneOnOneTalkRoomMessage & {
@@ -12,13 +15,13 @@ export type PublishOneOnOneMessagePayload = {
   };
 };
 
-export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTalkRoomMessage"] = async (
+export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTalkRoomMessage'] = async (
   _,
   { input },
   { requestUser, prisma, pubsub }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
   }
 
   const talkRoom = await prisma.oneOnOneTalkRoom.findUnique({
@@ -56,7 +59,7 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTal
 
   if (blockedOrBlocking) {
     throw new ApolloError(
-      "メッセージを送信することができませんでした",
+      'メッセージを送信することができませんでした',
       CustomErrorResponseCode.InvalidRequest
     );
   }
@@ -84,7 +87,36 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers["createOneOnOneTal
     },
   });
 
-  pubsub.publish("ONE_ON_ONE_TALK_ROOM_MESSAGE_CREATED", {
+  const deviceTokens = await prisma.deviceToken
+    .findMany({
+      where: {
+        userId: sendToUserId,
+      },
+      select: {
+        token: true,
+      },
+    })
+    .then((tokens) => tokens.map(({ token }) => token));
+
+  const notificationData: PushNotificationMessage = {
+    type: PushNotificationDataKind.OneOnOneTalkRoomMessage,
+    id: JSON.stringify(message.id),
+    roomId: JSON.stringify(message.roomId),
+  };
+
+  await admin.messaging().sendToDevice(
+    deviceTokens,
+    {
+      notification: {
+        title: 'メッセージが届きました',
+        sound: 'default',
+      },
+      data: notificationData,
+    },
+    { contentAvailable: true, priority: 'high' }
+  );
+
+  pubsub.publish('ONE_ON_ONE_TALK_ROOM_MESSAGE_CREATED', {
     oneOnOneTalkRoomMessageCreated: {
       ...message,
       messageRecipientId,
