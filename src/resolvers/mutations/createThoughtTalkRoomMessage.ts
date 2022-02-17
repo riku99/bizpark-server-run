@@ -93,7 +93,7 @@ export const createThoughtTalkRoomMessage: MutationResolvers['createThoughtTalkR
       })
       .sender();
 
-    if (replyMessageUser) {
+    if (replyMessageUser && replyMessageUser.loggedIn) {
       const isReplyMessageUserIncludedMember = talkRoom.members.some(
         (member) => member.userId === replyMessageUser.id
       );

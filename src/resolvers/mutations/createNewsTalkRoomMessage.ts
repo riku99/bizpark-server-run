@@ -84,7 +84,7 @@ export const createNewsTalkRoomMessage: MutationResolvers['createNewsTalkRoomMes
       })
       .sender();
 
-    if (replyMessageUser) {
+    if (replyMessageUser && replyMessageUser.loggedIn) {
       const isReplyMessageUserIncluded = talkRoom.members.some(
         (member) => member.userId === replyMessageUser.id
       );
