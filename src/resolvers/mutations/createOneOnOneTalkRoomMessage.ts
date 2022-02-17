@@ -88,6 +88,13 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     },
   });
 
+  pubsub.publish('ONE_ON_ONE_TALK_ROOM_MESSAGE_CREATED', {
+    oneOnOneTalkRoomMessageCreated: {
+      ...message,
+      messageRecipientId,
+    },
+  });
+
   const deviceTokens = await getDeviceTokens(sendToUserId);
 
   const notificationData: PushNotificationMessage = {
@@ -96,24 +103,19 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     roomId: JSON.stringify(message.roomId),
   };
 
-  await sendFcm(
-    deviceTokens,
-    {
-      notification: {
-        title: 'メッセージが届きました',
-        sound: 'default',
+  if (deviceTokens.length) {
+    await sendFcm(
+      deviceTokens,
+      {
+        notification: {
+          title: 'メッセージが届きました',
+          sound: 'default',
+        },
+        data: notificationData,
       },
-      data: notificationData,
-    },
-    { contentAvailable: true, priority: 'high' }
-  );
-
-  pubsub.publish('ONE_ON_ONE_TALK_ROOM_MESSAGE_CREATED', {
-    oneOnOneTalkRoomMessageCreated: {
-      ...message,
-      messageRecipientId,
-    },
-  });
+      { contentAvailable: true, priority: 'high' }
+    );
+  }
 
   return message;
 };

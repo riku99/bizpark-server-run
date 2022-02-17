@@ -1,17 +1,21 @@
 import {
   MutationResolvers,
   CustomErrorResponseCode,
-} from "~/generated/graphql";
-import { ForbiddenError, ApolloError } from "apollo-server-express";
-import { NOT_TALKROOM_FOUND } from "~/constants";
+  PushNotificationMessage,
+  PushNotificationDataKind,
+} from '~/generated/graphql';
+import { ForbiddenError, ApolloError } from 'apollo-server-express';
+import { NOT_TALKROOM_FOUND } from '~/constants';
+import { sendFcm } from '~/helpers/sendFcm';
+import { getDeviceTokens } from '~/helpers/getDeviceTokens';
 
-export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkRoomMessage"] = async (
+export const createThoughtTalkRoomMessage: MutationResolvers['createThoughtTalkRoomMessage'] = async (
   _,
   { input },
   { prisma, requestUser, pubsub }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
   }
 
   const findTalkRoom = prisma.thoughtTalkRoom.findFirst({
@@ -23,6 +27,11 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
       thought: {
         select: {
           contributorId: true,
+        },
+      },
+      members: {
+        select: {
+          userId: true,
         },
       },
     },
@@ -65,12 +74,58 @@ export const createThoughtTalkRoomMessage: MutationResolvers["createThoughtTalkR
     },
   });
 
-  pubsub.publish("THOUGHT_TALK_ROOM_MESSAGE_CREATED", {
+  pubsub.publish('THOUGHT_TALK_ROOM_MESSAGE_CREATED', {
     thoughtTalkRoomMessageCreated: {
       ...message,
       contributorId: talkRoom.thought.contributorId,
     },
   });
+
+  if (input.replyTo) {
+    const replyMessageUser = await prisma.thoughtTalkRoomMessage
+      .findUnique({
+        where: {
+          id: input.replyTo,
+        },
+        select: {
+          id: true,
+        },
+      })
+      .sender();
+
+    if (replyMessageUser) {
+      const isReplyMessageUserIncludedMember = talkRoom.members.some(
+        (member) => member.userId === replyMessageUser.id
+      );
+
+      if (isReplyMessageUserIncludedMember) {
+        const tokens = await getDeviceTokens(replyMessageUser.id);
+
+        if (tokens.length) {
+          const notificationData: PushNotificationMessage = {
+            type: PushNotificationDataKind.ThoughtTalkRoomMessage,
+            id: JSON.stringify(message.id),
+            roomId: JSON.stringify(message.roomId),
+          };
+
+          await sendFcm(
+            tokens,
+            {
+              notification: {
+                title: '返信が届きました',
+                sound: 'default',
+              },
+              data: notificationData,
+            },
+            {
+              contentAvailable: true,
+              priority: 'high',
+            }
+          );
+        }
+      }
+    }
+  }
 
   return message;
 };
