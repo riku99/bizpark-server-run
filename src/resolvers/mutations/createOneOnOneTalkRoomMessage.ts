@@ -95,26 +95,37 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     },
   });
 
-  const deviceTokens = await getDeviceTokens(sendToUserId);
+  const targetUser = await prisma.user.findUnique({
+    where: {
+      id: sendToUserId,
+    },
+    select: {
+      loggedIn: true,
+    },
+  });
 
-  const notificationData: PushNotificationMessage = {
-    type: PushNotificationDataKind.OneOnOneTalkRoomMessage,
-    id: JSON.stringify(message.id),
-    roomId: JSON.stringify(message.roomId),
-  };
+  if (targetUser?.loggedIn) {
+    const deviceTokens = await getDeviceTokens(sendToUserId);
 
-  if (deviceTokens.length) {
-    await sendFcm(
-      deviceTokens,
-      {
-        notification: {
-          title: 'メッセージが届きました',
-          sound: 'default',
+    const notificationData: PushNotificationMessage = {
+      type: PushNotificationDataKind.OneOnOneTalkRoomMessage,
+      id: JSON.stringify(message.id),
+      roomId: JSON.stringify(message.roomId),
+    };
+
+    if (deviceTokens.length) {
+      await sendFcm(
+        deviceTokens,
+        {
+          notification: {
+            title: 'メッセージが届きました',
+            sound: 'default',
+          },
+          data: notificationData,
         },
-        data: notificationData,
-      },
-      { contentAvailable: true, priority: 'high' }
-    );
+        { contentAvailable: true, priority: 'high' }
+      );
+    }
   }
 
   return message;
