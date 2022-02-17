@@ -7,7 +7,8 @@ import {
 import { ForbiddenError, ApolloError } from 'apollo-server-express';
 import { NOT_TALKROOM_FOUND } from '~/constants';
 import { OneOnOneTalkRoomMessage } from '@prisma/client';
-import admin from 'firebase-admin';
+import { getDeviceTokens } from '~/helpers/getDeviceTokens';
+import { sendFcm } from '~/helpers/sendFcm';
 
 export type PublishOneOnOneMessagePayload = {
   oneOnOneTalkRoomMessageCreated: OneOnOneTalkRoomMessage & {
@@ -87,16 +88,7 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     },
   });
 
-  const deviceTokens = await prisma.deviceToken
-    .findMany({
-      where: {
-        userId: sendToUserId,
-      },
-      select: {
-        token: true,
-      },
-    })
-    .then((tokens) => tokens.map(({ token }) => token));
+  const deviceTokens = await getDeviceTokens(sendToUserId);
 
   const notificationData: PushNotificationMessage = {
     type: PushNotificationDataKind.OneOnOneTalkRoomMessage,
@@ -104,7 +96,7 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     roomId: JSON.stringify(message.roomId),
   };
 
-  await admin.messaging().sendToDevice(
+  await sendFcm(
     deviceTokens,
     {
       notification: {
