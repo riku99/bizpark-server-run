@@ -49,6 +49,8 @@ model User {
   deleteRequestingNewsTalkRooms NewsTalkRoomMemberDeleteRequest[]
 
   deletedNewsTalkRoom DeletedUserFromNewsTalkRoom[]
+
+  deviceTokens DeviceToken[]
 }
 
 model Thought {
@@ -341,6 +343,15 @@ model Follow {
   @@unique([followerId, followeeId])
   @@index([followerId])
   @@index([cursor])
+}
+
+model DeviceToken {
+  id Int @id @default(autoincrement())
+  token String @unique()
+  userId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Genre {

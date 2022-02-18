@@ -1,33 +1,34 @@
 overwrite: true
-schema: "schema.graphql"
+schema: 'schema.graphql'
 generates:
   src/generated/graphql.ts:
     plugins:
       - add:
-          content: "// @ts-nocheck"
-      - "typescript"
-      - "typescript-resolvers"
+          content: '// @ts-nocheck'
+      - 'typescript'
+      - 'typescript-resolvers'
     config:
-      contextType: "../context#Context"
+      contextType: '../context#Context'
       scalars:
-        Void: "void"
-        Upload: "Promise<GraphQLFileUpload>"
+        Void: 'void'
+        Upload: 'Promise<GraphQLFileUpload>'
       mappers:
-        Thought: "@prisma/client/index.d#Thought"
-        Genre: "@prisma/client/index.d#Genre"
-        Pick: "@prisma/client/index.d#Pick"
-        Image: "@prisma/client/index.d#Image"
-        ThoughtImage: "@prisma/client/index.d#ThoughtImage"
-        News: "@prisma/client/index.d#News"
-        NewsGenre: "@prisma/client/index.d#NewsGenre"
-        NewsPick: "@prisma/client/index.d#NewsPick"
-        Me: "@prisma/client/index.d#User"
-        User: "@prisma/client/index.d#User"
-        Follow: "@prisma/client/index.d#Follow"
-        ThoughtTalkRoomMessage: "@prisma/client/index.d#ThoughtTalkRoomMessage"
-        ThoughtTalkRoom: "@prisma/client/index.d#ThoughtTalkRoom"
-        ThoughtTalkRoomMember: "@prisma/client/index.d#ThoughtTalkRoomMember"
-        NewsTalkRoom: "@prisma/client/index.d#NewsTalkRoom"
-        NewsTalkRoomMessage: "@prisma/client/index.d#NewsTalkRoomMessage"
-        OneOnOneTalkRoom: "@prisma/client/index.d#OneOnOneTalkRoom"
-        OneOnOneTalkRoomMessage: "@prisma/client/index.d#OneOnOneTalkRoomMessage"
+        Thought: '@prisma/client/index.d#Thought'
+        Genre: '@prisma/client/index.d#Genre'
+        Pick: '@prisma/client/index.d#Pick'
+        Image: '@prisma/client/index.d#Image'
+        ThoughtImage: '@prisma/client/index.d#ThoughtImage'
+        News: '@prisma/client/index.d#News'
+        NewsGenre: '@prisma/client/index.d#NewsGenre'
+        NewsPick: '@prisma/client/index.d#NewsPick'
+        Me: '@prisma/client/index.d#User'
+        User: '@prisma/client/index.d#User'
+        Follow: '@prisma/client/index.d#Follow'
+        ThoughtTalkRoomMessage: '@prisma/client/index.d#ThoughtTalkRoomMessage'
+        ThoughtTalkRoom: '@prisma/client/index.d#ThoughtTalkRoom'
+        ThoughtTalkRoomMember: '@prisma/client/index.d#ThoughtTalkRoomMember'
+        NewsTalkRoom: '@prisma/client/index.d#NewsTalkRoom'
+        NewsTalkRoomMessage: '@prisma/client/index.d#NewsTalkRoomMessage'
+        OneOnOneTalkRoom: '@prisma/client/index.d#OneOnOneTalkRoom'
+        OneOnOneTalkRoomMessage: '@prisma/client/index.d#OneOnOneTalkRoomMessage'
+        DeviceToken: '@prisma/client/index.d#DeviceToken'

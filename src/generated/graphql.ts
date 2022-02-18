@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick, Image, ThoughtImage, News, NewsGenre, NewsPick, User, Follow, ThoughtTalkRoomMessage, ThoughtTalkRoom, ThoughtTalkRoomMember, NewsTalkRoom, NewsTalkRoomMessage, OneOnOneTalkRoom, OneOnOneTalkRoomMessage } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image, ThoughtImage, News, NewsGenre, NewsPick, User, Follow, ThoughtTalkRoomMessage, ThoughtTalkRoom, ThoughtTalkRoomMember, NewsTalkRoom, NewsTalkRoomMessage, OneOnOneTalkRoom, OneOnOneTalkRoomMessage, DeviceToken } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -19,6 +19,11 @@ export type Scalars = {
   Float: number;
   Upload: Promise<GraphQLFileUpload>;
   Void: void;
+};
+
+export type AddDeviceTokenInput = {
+  newToken: Scalars['String'];
+  oldToken?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateNewsPickInput = {
@@ -117,6 +122,14 @@ export type DeleteThoughtTalkRoomMemberInput = {
   userId: Scalars['ID'];
 };
 
+export type DeviceToken = {
+  __typename?: 'DeviceToken';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  token: Scalars['String'];
+  user?: Maybe<User>;
+};
+
 export type Follow = {
   __typename?: 'Follow';
   followeeId: Scalars['ID'];
@@ -181,6 +194,7 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addDeviceToken?: Maybe<Scalars['Boolean']>;
   block: User;
   createNewsPick: NewsPick;
   createNewsTalkRoomMessage: NewsTalkRoomMessage;
@@ -211,6 +225,11 @@ export type Mutation = {
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
+};
+
+
+export type MutationAddDeviceTokenArgs = {
+  input: AddDeviceTokenInput;
 };
 
 
@@ -527,6 +546,19 @@ export type Pick = {
   __typename?: 'Pick';
   id: Scalars['ID'];
   thoughtId: Scalars['ID'];
+};
+
+export enum PushNotificationDataKind {
+  NewsTalkRoomMessage = 'NEWS_TALK_ROOM_MESSAGE',
+  OneOnOneTalkRoomMessage = 'ONE_ON_ONE_TALK_ROOM_MESSAGE',
+  ThoughtTalkRoomMessage = 'THOUGHT_TALK_ROOM_MESSAGE'
+}
+
+export type PushNotificationMessage = {
+  __typename?: 'PushNotificationMessage';
+  id: Scalars['String'];
+  roomId: Scalars['String'];
+  type: PushNotificationDataKind;
 };
 
 export type Query = {
@@ -897,6 +929,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  AddDeviceTokenInput: AddDeviceTokenInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
@@ -917,6 +950,7 @@ export type ResolversTypes = {
   DeleteThoughtResponse: ResolverTypeWrapper<DeleteThoughtResponse>;
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
+  DeviceToken: ResolverTypeWrapper<DeviceToken>;
   Follow: ResolverTypeWrapper<Follow>;
   Genre: ResolverTypeWrapper<Genre>;
   GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
@@ -950,6 +984,8 @@ export type ResolversTypes = {
   OneOnOneTalkRoomMessageEdge: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['OneOnOneTalkRoomMessage'] }>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
+  PushNotificationDataKind: PushNotificationDataKind;
+  PushNotificationMessage: ResolverTypeWrapper<PushNotificationMessage>;
   Query: ResolverTypeWrapper<{}>;
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
@@ -982,6 +1018,7 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  AddDeviceTokenInput: AddDeviceTokenInput;
   Boolean: Scalars['Boolean'];
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: CreateNewsPickResponse;
@@ -1001,6 +1038,7 @@ export type ResolversParentTypes = {
   DeleteThoughtResponse: DeleteThoughtResponse;
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
+  DeviceToken: DeviceToken;
   Follow: Follow;
   GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
@@ -1032,6 +1070,7 @@ export type ResolversParentTypes = {
   OneOnOneTalkRoomMessageEdge: Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['OneOnOneTalkRoomMessage'] };
   PageInfo: PageInfo;
   Pick: Pick;
+  PushNotificationMessage: PushNotificationMessage;
   Query: {};
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
@@ -1077,6 +1116,14 @@ export type DeleteThoughtResponseResolvers<ContextType = Context, ParentType ext
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type DeviceTokenResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeviceToken'] = ResolversParentTypes['DeviceToken']> = {
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type FollowResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Follow'] = ResolversParentTypes['Follow']> = {
   followeeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   followerId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -1112,6 +1159,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addDeviceToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddDeviceTokenArgs, 'input'>>;
   block?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationBlockArgs, 'blockTo'>>;
   createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createNewsTalkRoomMessage?: Resolver<ResolversTypes['NewsTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateNewsTalkRoomMessageArgs, 'input'>>;
@@ -1289,6 +1337,13 @@ export type PageInfoResolvers<ContextType = Context, ParentType extends Resolver
 export type PickResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Pick'] = ResolversParentTypes['Pick']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   thoughtId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PushNotificationMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PushNotificationMessage'] = ResolversParentTypes['PushNotificationMessage']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  roomId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['PushNotificationDataKind'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1484,6 +1539,7 @@ export type Resolvers<ContextType = Context> = {
   CreateNewsPickResponse?: CreateNewsPickResponseResolvers<ContextType>;
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
   DeleteThoughtResponse?: DeleteThoughtResponseResolvers<ContextType>;
+  DeviceToken?: DeviceTokenResolvers<ContextType>;
   Follow?: FollowResolvers<ContextType>;
   Genre?: GenreResolvers;
   Image?: ImageResolvers<ContextType>;
@@ -1510,6 +1566,7 @@ export type Resolvers<ContextType = Context> = {
   OneOnOneTalkRoomMessageEdge?: OneOnOneTalkRoomMessageEdgeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
+  PushNotificationMessage?: PushNotificationMessageResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignOutResponse?: SignOutResponseResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
