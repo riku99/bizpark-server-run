@@ -62,10 +62,6 @@ export type CreateThoughtInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
-export type CreateThoughtLikeInput = {
-  thoughtId: Scalars['String'];
-};
-
 export type CreateThoughtResponse = {
   __typename?: 'CreateThoughtResponse';
   id: Scalars['ID'];
@@ -181,6 +177,10 @@ export type JoinNewsTalkRoomInput = {
 
 export type JoinTalkInput = {
   contributorId: Scalars['String'];
+  thoughtId: Scalars['String'];
+};
+
+export type LikeThoughtInput = {
   thoughtId: Scalars['String'];
 };
 
@@ -350,7 +350,7 @@ export type MutationJoinThoughtTalkArgs = {
 
 
 export type MutationLikeThoughtArgs = {
-  input: CreateThoughtLikeInput;
+  input: LikeThoughtInput;
 };
 
 
@@ -959,7 +959,6 @@ export type ResolversTypes = {
   CreateOneOnOneTalkRoomMessageInput: CreateOneOnOneTalkRoomMessageInput;
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
-  CreateThoughtLikeInput: CreateThoughtLikeInput;
   CreateThoughtResponse: ResolverTypeWrapper<CreateThoughtResponse>;
   CreateThoughtTalkRoomMessageInput: CreateThoughtTalkRoomMessageInput;
   CreateUserInput: CreateUserInput;
@@ -984,6 +983,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
+  LikeThoughtInput: LikeThoughtInput;
   Me: ResolverTypeWrapper<User>;
   Mutation: ResolverTypeWrapper<{}>;
   News: ResolverTypeWrapper<News>;
@@ -1048,7 +1048,6 @@ export type ResolversParentTypes = {
   CreateOneOnOneTalkRoomMessageInput: CreateOneOnOneTalkRoomMessageInput;
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
-  CreateThoughtLikeInput: CreateThoughtLikeInput;
   CreateThoughtResponse: CreateThoughtResponse;
   CreateThoughtTalkRoomMessageInput: CreateThoughtTalkRoomMessageInput;
   CreateUserInput: CreateUserInput;
@@ -1071,6 +1070,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
+  LikeThoughtInput: LikeThoughtInput;
   Me: User;
   Mutation: {};
   News: News;
