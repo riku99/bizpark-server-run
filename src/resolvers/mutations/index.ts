@@ -30,6 +30,7 @@ import { createOneOnOneTalkRoomMessage } from './createOneOnOneTalkRoomMessage';
 import { seenOneOnOneTalkRoomMessage } from './seenOneOnOneTalkRoomMessage';
 import { deleteOneOnOneTalkRoom } from './deleteOneOnOneTalkRoom';
 import { addDeviceToken } from './addDeviceToken';
+import { likeThought } from './likeThought';
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -63,4 +64,5 @@ export const Mutation: MutationResolvers = {
   seenOneOnOneTalkRoomMessage,
   deleteOneOnOneTalkRoom,
   addDeviceToken,
+  likeThought,
 };

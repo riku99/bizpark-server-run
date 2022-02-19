@@ -62,6 +62,10 @@ export type CreateThoughtInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateThoughtLikeInput = {
+  thoughtId: Scalars['String'];
+};
+
 export type CreateThoughtResponse = {
   __typename?: 'CreateThoughtResponse';
   id: Scalars['ID'];
@@ -218,6 +222,7 @@ export type Mutation = {
   getOutThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   joinNewsTalkRoom: NewsTalkRoom;
   joinThoughtTalk: ThoughtTalkRoom;
+  likeThought?: Maybe<Thought>;
   requestNewsTalkRoomMemberDeletion?: Maybe<Scalars['Boolean']>;
   seenOneOnOneTalkRoomMessage: OneOnOneTalkRoom;
   signOut: Me;
@@ -341,6 +346,11 @@ export type MutationJoinNewsTalkRoomArgs = {
 
 export type MutationJoinThoughtTalkArgs = {
   input: JoinTalkInput;
+};
+
+
+export type MutationLikeThoughtArgs = {
+  input: CreateThoughtLikeInput;
 };
 
 
@@ -724,6 +734,7 @@ export type Thought = {
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   images: Array<Maybe<ThoughtImage>>;
+  liked?: Maybe<Scalars['Boolean']>;
   picked?: Maybe<Scalars['Boolean']>;
   text: Scalars['String'];
   title?: Maybe<Scalars['String']>;
@@ -948,6 +959,7 @@ export type ResolversTypes = {
   CreateOneOnOneTalkRoomMessageInput: CreateOneOnOneTalkRoomMessageInput;
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
+  CreateThoughtLikeInput: CreateThoughtLikeInput;
   CreateThoughtResponse: ResolverTypeWrapper<CreateThoughtResponse>;
   CreateThoughtTalkRoomMessageInput: CreateThoughtTalkRoomMessageInput;
   CreateUserInput: CreateUserInput;
@@ -1036,6 +1048,7 @@ export type ResolversParentTypes = {
   CreateOneOnOneTalkRoomMessageInput: CreateOneOnOneTalkRoomMessageInput;
   CreatePickInput: CreatePickInput;
   CreateThoughtInput: CreateThoughtInput;
+  CreateThoughtLikeInput: CreateThoughtLikeInput;
   CreateThoughtResponse: CreateThoughtResponse;
   CreateThoughtTalkRoomMessageInput: CreateThoughtTalkRoomMessageInput;
   CreateUserInput: CreateUserInput;
@@ -1191,6 +1204,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   getOutThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutThoughtTalkRoomArgs, 'input'>>;
   joinNewsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinNewsTalkRoomArgs, 'input'>>;
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
+  likeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationLikeThoughtArgs, 'input'>>;
   requestNewsTalkRoomMemberDeletion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRequestNewsTalkRoomMemberDeletionArgs, 'input'>>;
   seenOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationSeenOneOnOneTalkRoomMessageArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
@@ -1420,6 +1434,7 @@ export type ThoughtResolvers<ContextType = Context, ParentType extends Resolvers
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   images?: Resolver<Array<Maybe<ResolversTypes['ThoughtImage']>>, ParentType, ContextType>;
+  liked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   picked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

@@ -117,6 +117,7 @@ type Thought {
   contributor: User
   picked: Boolean
   images: [ThoughtImage]!
+  liked: Boolean
 }
 
 type News {
@@ -489,6 +490,10 @@ input AddDeviceTokenInput {
   newToken: String!
 }
 
+input CreateThoughtLikeInput {
+  thoughtId: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -537,6 +542,7 @@ type Mutation {
   ): OneOnOneTalkRoom!
   deleteOneOnOneTalkRoom(input: DeleteOneOnOneTalkRoonInput!): Boolean
   addDeviceToken(input: AddDeviceTokenInput!): Boolean
+  likeThought(input: CreateThoughtLikeInput!): Thought
 }
 
 type Subscription {
