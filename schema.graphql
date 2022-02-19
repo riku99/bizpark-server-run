@@ -88,6 +88,7 @@ type User {
   instagram: String
   follow: Boolean
   blocking: Boolean
+  pickedNews(first: Int, after: String): NewsPickConnection
 }
 
 type Me {

@@ -1,13 +1,13 @@
-import { NewsTalkRoomResolvers } from "~/generated/graphql";
-import { createPagenationValues } from "~/helpers/createPageNationValues";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { createEdges } from "~/helpers/createEdges";
+import { NewsTalkRoomResolvers } from '~/generated/graphql';
+import { createPagenationValues } from '~/helpers/createPagenationValues';
+import { createPageInfo } from '~/helpers/createPageInfo';
+import { createEdges } from '~/helpers/createEdges';
 
-const cursorKey = "id";
+const cursorKey = 'id';
 
 const DEFAULT_TAKE_VALUE = 20;
 
-export const messages: NewsTalkRoomResolvers["messages"] = async (
+export const messages: NewsTalkRoomResolvers['messages'] = async (
   parent,
   arges,
   { prisma, requestUser }
@@ -29,7 +29,7 @@ export const messages: NewsTalkRoomResolvers["messages"] = async (
       skip,
       cursor,
       orderBy: {
-        id: "desc",
+        id: 'desc',
       },
     });
 

@@ -1,17 +1,17 @@
-import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { Prisma } from "@prisma/client";
-import { createPagenationValues } from "~/helpers/createPageNationValues";
-import { createEdges } from "~/helpers/createEdges";
+import { ThoughtTalkRoomResolvers } from '~/generated/graphql';
+import { createPageInfo } from '~/helpers/createPageInfo';
+import { Prisma } from '@prisma/client';
+import { createPagenationValues } from '~/helpers/createPagenationValues';
+import { createEdges } from '~/helpers/createEdges';
 
 const DEFAULT_TAKE_COUNT = 6;
 
-export const members: ThoughtTalkRoomResolvers["members"] = async (
+export const members: ThoughtTalkRoomResolvers['members'] = async (
   parent,
   args,
   { prisma, requestUser }
 ) => {
-  const cursorKey = "id";
+  const cursorKey = 'id';
 
   const { after, take, skip, cursor } = createPagenationValues({
     after: args.after,
@@ -37,7 +37,7 @@ export const members: ThoughtTalkRoomResolvers["members"] = async (
         user: true,
       },
       orderBy: {
-        id: "desc",
+        id: 'desc',
       },
       take,
       skip,

@@ -1,13 +1,13 @@
-import { OneOnOneTalkRoomResolvers } from "~/generated/graphql";
-import { createPagenationValues } from "~/helpers/createPageNationValues";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { createEdges } from "~/helpers/createEdges";
+import { OneOnOneTalkRoomResolvers } from '~/generated/graphql';
+import { createPagenationValues } from '~/helpers/createPagenationValues';
+import { createPageInfo } from '~/helpers/createPageInfo';
+import { createEdges } from '~/helpers/createEdges';
 
 const DEFAULT_TAKE_VALUE = 20;
 
-const CURSOR_KEY = "id";
+const CURSOR_KEY = 'id';
 
-export const messages: OneOnOneTalkRoomResolvers["messages"] = async (
+export const messages: OneOnOneTalkRoomResolvers['messages'] = async (
   parent,
   arges,
   { prisma, requestUser }
@@ -29,7 +29,7 @@ export const messages: OneOnOneTalkRoomResolvers["messages"] = async (
       skip,
       cursor,
       orderBy: {
-        id: "desc",
+        id: 'desc',
       },
     });
 

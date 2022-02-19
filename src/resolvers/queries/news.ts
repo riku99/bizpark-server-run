@@ -1,21 +1,21 @@
-import { QueryResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
-import { Prisma } from "@prisma/client";
-import { createPagenationValues } from "~/helpers/createPageNationValues";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { createEdges } from "~/helpers/createEdges";
+import { QueryResolvers } from '~/generated/graphql';
+import { ForbiddenError } from 'apollo-server-express';
+import { Prisma } from '@prisma/client';
+import { createPagenationValues } from '~/helpers/createPagenationValues';
+import { createPageInfo } from '~/helpers/createPageInfo';
+import { createEdges } from '~/helpers/createEdges';
 
 const DEFAULT_TAKE_COUNT = 20;
 
-const CURSOR_KEY = "id";
+const CURSOR_KEY = 'id';
 
-export const news: QueryResolvers["news"] = async (
+export const news: QueryResolvers['news'] = async (
   _,
   args,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
   }
 
   const where: Prisma.NewsWhereInput = {
@@ -34,7 +34,7 @@ export const news: QueryResolvers["news"] = async (
     skip,
     cursor,
     orderBy: {
-      id: "desc",
+      id: 'desc',
     },
   });
 
