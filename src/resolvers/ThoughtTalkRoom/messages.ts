@@ -1,14 +1,14 @@
-import { ThoughtTalkRoomResolvers } from "~/generated/graphql";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { createPagenationValues } from "~/helpers/createPageNationValues";
-import { createEdges } from "~/helpers/createEdges";
+import { ThoughtTalkRoomResolvers } from '~/generated/graphql';
+import { createPageInfo } from '~/helpers/createPageInfo';
+import { createPagenationValues } from '~/helpers/createPagenationValues';
+import { createEdges } from '~/helpers/createEdges';
 
-export const messages: ThoughtTalkRoomResolvers["messages"] = async (
+export const messages: ThoughtTalkRoomResolvers['messages'] = async (
   parent,
   args,
   { prisma, requestUser }
 ) => {
-  const cursorKey = "id";
+  const cursorKey = 'id';
 
   const { after, take, skip, cursor } = createPagenationValues({
     after: args.after,
@@ -27,7 +27,7 @@ export const messages: ThoughtTalkRoomResolvers["messages"] = async (
       skip,
       cursor,
       orderBy: {
-        id: "desc",
+        id: 'desc',
       },
     });
 

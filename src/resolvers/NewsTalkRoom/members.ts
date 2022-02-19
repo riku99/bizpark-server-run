@@ -1,17 +1,17 @@
-import { NewsTalkRoomResolvers } from "~/generated/graphql";
-import { createPagenationValues } from "~/helpers/createPageNationValues";
-import { Prisma } from "@prisma/client";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { createEdges } from "~/helpers/createEdges";
+import { NewsTalkRoomResolvers } from '~/generated/graphql';
+import { createPagenationValues } from '~/helpers/createPagenationValues';
+import { Prisma } from '@prisma/client';
+import { createPageInfo } from '~/helpers/createPageInfo';
+import { createEdges } from '~/helpers/createEdges';
 
 const DEFAULT_TAKE_COUNT = 6;
 
-export const members: NewsTalkRoomResolvers["members"] = async (
+export const members: NewsTalkRoomResolvers['members'] = async (
   parent,
   arges,
   { requestUser, prisma }
 ) => {
-  const cursorKey = "id";
+  const cursorKey = 'id';
   const { after, take, skip, cursor } = createPagenationValues({
     after: arges.after,
     first: arges.first ?? DEFAULT_TAKE_COUNT,
@@ -36,7 +36,7 @@ export const members: NewsTalkRoomResolvers["members"] = async (
         user: true,
       },
       orderBy: {
-        id: "desc",
+        id: 'desc',
       },
       take,
       skip,

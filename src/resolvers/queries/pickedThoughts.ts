@@ -1,19 +1,19 @@
-import { QueryResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
-import { createPagenationValues } from "~/helpers/createPageNationValues";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { createEdges } from "~/helpers/createEdges";
-import { Prisma } from "@prisma/client";
+import { QueryResolvers } from '~/generated/graphql';
+import { ForbiddenError } from 'apollo-server-express';
+import { createPagenationValues } from '~/helpers/createPagenationValues';
+import { createPageInfo } from '~/helpers/createPageInfo';
+import { createEdges } from '~/helpers/createEdges';
+import { Prisma } from '@prisma/client';
 
-const CURSOR_KEY = "cursor";
+const CURSOR_KEY = 'cursor';
 
-export const pickedThoughts: QueryResolvers["pickedThoughts"] = async (
+export const pickedThoughts: QueryResolvers['pickedThoughts'] = async (
   _,
   args,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
   }
 
   const { after, take, skip, cursor } = createPagenationValues({
@@ -36,7 +36,7 @@ export const pickedThoughts: QueryResolvers["pickedThoughts"] = async (
     skip,
     cursor,
     orderBy: {
-      cursor: "desc",
+      cursor: 'desc',
     },
   });
 

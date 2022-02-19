@@ -841,7 +841,14 @@ export type User = {
   instagram?: Maybe<Scalars['String']>;
   linkedin?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  pickedNews: NewsPickConnection;
   twitter?: Maybe<Scalars['String']>;
+};
+
+
+export type UserPickedNewsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 };
 
 export type UserConnection = {
@@ -1505,6 +1512,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   instagram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  pickedNews?: Resolver<ResolversTypes['NewsPickConnection'], ParentType, ContextType, RequireFields<UserPickedNewsArgs, never>>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

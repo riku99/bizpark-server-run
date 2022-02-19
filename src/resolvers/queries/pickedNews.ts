@@ -1,21 +1,19 @@
-import { QueryResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
-import { findNewsWithRelayStyle } from "~/models/news";
-import { createNewsConnection } from "~/helpers/createNewsConnection";
-import { Prisma } from "@prisma/client";
-import { createPagenationValues } from "~/helpers/createPageNationValues";
-import { createPageInfo } from "~/helpers/createPageInfo";
-import { createEdges } from "~/helpers/createEdges";
+import { QueryResolvers } from '~/generated/graphql';
+import { ForbiddenError } from 'apollo-server-express';
+import { Prisma } from '@prisma/client';
+import { createPagenationValues } from '~/helpers/createPagenationValues';
+import { createPageInfo } from '~/helpers/createPageInfo';
+import { createEdges } from '~/helpers/createEdges';
 
-const CURSOR_KEY = "id";
+const CURSOR_KEY = 'id';
 
-export const pickedNews: QueryResolvers["pickedNews"] = async (
+export const pickedNews: QueryResolvers['pickedNews'] = async (
   _,
   args,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
   }
 
   const where: Prisma.NewsPickWhereInput = {
@@ -34,7 +32,7 @@ export const pickedNews: QueryResolvers["pickedNews"] = async (
     skip,
     cursor,
     orderBy: {
-      id: "desc",
+      id: 'desc',
     },
   });
 
