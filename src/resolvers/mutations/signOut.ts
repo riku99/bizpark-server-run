@@ -1,15 +1,15 @@
-import { MutationResolvers } from "~/generated/graphql";
+import { MutationResolvers } from '~/generated/graphql';
 
-export const signOut: MutationResolvers["signOut"] = async (
+export const signOut: MutationResolvers['signOut'] = async (
   _,
   __,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new Error("no user");
+    throw new Error('no user');
   }
 
-  await prisma.user.update({
+  const me = await prisma.user.update({
     where: {
       id: requestUser.id,
     },
@@ -18,7 +18,5 @@ export const signOut: MutationResolvers["signOut"] = async (
     },
   });
 
-  return {
-    id: requestUser.id,
-  };
+  return me;
 };

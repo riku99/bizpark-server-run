@@ -188,6 +188,7 @@ export type Me = {
   imageUrl?: Maybe<Scalars['String']>;
   instagram?: Maybe<Scalars['String']>;
   linkedin?: Maybe<Scalars['String']>;
+  loggedIn: Scalars['Boolean'];
   name: Scalars['String'];
   twitter?: Maybe<Scalars['String']>;
 };
@@ -219,7 +220,7 @@ export type Mutation = {
   joinThoughtTalk: ThoughtTalkRoom;
   requestNewsTalkRoomMemberDeletion?: Maybe<Scalars['Boolean']>;
   seenOneOnOneTalkRoomMessage: OneOnOneTalkRoom;
-  signOut: SignOutResponse;
+  signOut: Me;
   unblock: User;
   unfollow: User;
   updateMe: Me;
@@ -664,11 +665,6 @@ export type SeenOneOnOneTalkRoomMessageInput = {
   talkRoomId: Scalars['Int'];
 };
 
-export type SignOutResponse = {
-  __typename?: 'SignOutResponse';
-  id: Scalars['ID'];
-};
-
 export type SubImage = {
   __typename?: 'SubImage';
   height?: Maybe<Scalars['Int']>;
@@ -989,7 +985,6 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
-  SignOutResponse: ResolverTypeWrapper<SignOutResponse>;
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
   Subscription: ResolverTypeWrapper<{}>;
@@ -1074,7 +1069,6 @@ export type ResolversParentTypes = {
   Query: {};
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
-  SignOutResponse: SignOutResponse;
   String: Scalars['String'];
   SubImage: SubImage;
   Subscription: {};
@@ -1153,6 +1147,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   instagram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  loggedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1184,7 +1179,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
   requestNewsTalkRoomMemberDeletion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRequestNewsTalkRoomMemberDeletionArgs, 'input'>>;
   seenOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationSeenOneOnOneTalkRoomMessageArgs, 'input'>>;
-  signOut?: Resolver<ResolversTypes['SignOutResponse'], ParentType, ContextType>;
+  signOut?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
   unfollow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
@@ -1366,11 +1361,6 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, never>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;
-};
-
-export type SignOutResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SignOutResponse'] = ResolversParentTypes['SignOutResponse']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type SubImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SubImage'] = ResolversParentTypes['SubImage']> = {
@@ -1568,7 +1558,6 @@ export type Resolvers<ContextType = Context> = {
   Pick?: PickResolvers<ContextType>;
   PushNotificationMessage?: PushNotificationMessageResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  SignOutResponse?: SignOutResponseResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   TalkRoom?: TalkRoomResolvers<ContextType>;

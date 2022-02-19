@@ -92,6 +92,7 @@ type User {
 
 type Me {
   id: ID!
+  loggedIn: Boolean!
   name: String!
   bio: String
   imageUrl: String
@@ -351,10 +352,6 @@ input CreatePickInput {
   thoughtId: String!
 }
 
-type SignOutResponse {
-  id: ID!
-}
-
 # Imageはidなしの型を使いたい時があるのでidなしImageを定義
 type SubImage {
   url: String!
@@ -494,7 +491,7 @@ type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
   deletePick(thoughtId: ID!): Pick!
-  signOut: SignOutResponse!
+  signOut: Me!
   uploadThoughtImages(files: [Upload!]!): UploadThoughtImagesResponse!
   createThought(input: CreateThoughtInput!): CreateThoughtResponse!
   deleteThought(input: DeleteThoughtInput!): DeleteThoughtResponse!

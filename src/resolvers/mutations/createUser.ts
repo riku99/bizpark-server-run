@@ -1,11 +1,11 @@
 import {
   MutationResolvers,
   CustomErrorResponseCode,
-} from "~/generated/graphql";
-import { verifyIdToken } from "~/auth/verifyIdToken";
-import { ApolloError } from "apollo-server-express";
+} from '~/generated/graphql';
+import { verifyIdToken } from '~/auth/verifyIdToken';
+import { ApolloError } from 'apollo-server-express';
 
-export const createUser: MutationResolvers["createUser"] = async (
+export const createUser: MutationResolvers['createUser'] = async (
   _,
   { input },
   { prisma }
@@ -13,11 +13,11 @@ export const createUser: MutationResolvers["createUser"] = async (
   const session = await verifyIdToken(input.idToken);
 
   if (!session) {
-    throw new Error("Failed to get token.");
+    throw new Error('Failed to get token.');
   }
 
   if (!session.email) {
-    throw new Error("The email address does not exist.");
+    throw new Error('The email address does not exist.');
   }
 
   const existingUser = await prisma.user.findUnique({
@@ -28,7 +28,7 @@ export const createUser: MutationResolvers["createUser"] = async (
 
   if (existingUser) {
     throw new ApolloError(
-      "There is already a user.",
+      'There is already a user.',
       CustomErrorResponseCode.AlreadyUserExisting
     );
   }
