@@ -89,6 +89,7 @@ type User {
   follow: Boolean
   blocking: Boolean
   pickedNews(first: Int, after: String): NewsPickConnection
+  pickedThoughts(first: Int, after: String): ThoughtsConnection
 }
 
 type Me {

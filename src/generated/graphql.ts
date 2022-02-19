@@ -842,11 +842,18 @@ export type User = {
   linkedin?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   pickedNews?: Maybe<NewsPickConnection>;
+  pickedThoughts?: Maybe<ThoughtsConnection>;
   twitter?: Maybe<Scalars['String']>;
 };
 
 
 export type UserPickedNewsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type UserPickedThoughtsArgs = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
 };
@@ -1513,6 +1520,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pickedNews?: Resolver<Maybe<ResolversTypes['NewsPickConnection']>, ParentType, ContextType, RequireFields<UserPickedNewsArgs, never>>;
+  pickedThoughts?: Resolver<Maybe<ResolversTypes['ThoughtsConnection']>, ParentType, ContextType, RequireFields<UserPickedThoughtsArgs, never>>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
