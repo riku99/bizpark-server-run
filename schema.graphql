@@ -494,6 +494,10 @@ input LikeThoughtInput {
   thoughtId: String!
 }
 
+input UnLikeThoughtInput {
+  thoughtId: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -543,6 +547,7 @@ type Mutation {
   deleteOneOnOneTalkRoom(input: DeleteOneOnOneTalkRoonInput!): Boolean
   addDeviceToken(input: AddDeviceTokenInput!): Boolean
   likeThought(input: LikeThoughtInput!): Thought
+  unlikeThought(input: UnLikeThoughtInput!): Thought
 }
 
 type Subscription {
