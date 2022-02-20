@@ -4,7 +4,7 @@
 import puppeteer from 'puppeteer';
 import { prisma } from '../../../lib/prisma';
 import { NewsGenre } from '../../../generated/graphql';
-import { newsProvider } from '~/constants';
+import { newsProvider } from '../../../constants';
 
 const main = async () => {
   const browser = await puppeteer.launch({
