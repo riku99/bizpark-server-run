@@ -4,7 +4,7 @@ import { NewsGenre } from '../../src/generated/graphql';
 
 const main = async () => {
   const browser = await puppeteer.launch({
-    headless: false,
+    // headless: false,
   });
 
   const page = await browser.newPage();
@@ -31,7 +31,6 @@ const main = async () => {
     if (titleElm) {
       try {
         title = await (await titleElm.getProperty('textContent')).jsonValue();
-        console.log(title);
       } catch (e) {
         console.log(e);
       }
@@ -66,13 +65,17 @@ const main = async () => {
         provider: '日経ビジネス',
       };
 
-      data.push(d);
+      data.unshift(d);
     }
   }
 
-  await prisma.news.createMany({
-    data,
-  });
+  try {
+    await prisma.news.createMany({
+      data,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 
   await browser.close();
 };
