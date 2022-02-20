@@ -90,6 +90,7 @@ type User {
   blocking: Boolean
   pickedNews(first: Int, after: String): NewsPickConnection
   pickedThoughts(first: Int, after: String): ThoughtsConnection
+  likedThoughts(first: Int, after: String): ThoughtLikeConnection
 }
 
 type Me {
@@ -118,6 +119,23 @@ type Thought {
   picked: Boolean
   images: [ThoughtImage]!
   liked: Boolean
+}
+
+type ThoughtLike {
+  id: Int!
+  createdAt: String
+  user: User
+  thought: Thought
+}
+
+type ThoughtLikeEdge {
+  node: ThoughtLike
+  cursor: String!
+}
+
+type ThoughtLikeConnection {
+  edges: [ThoughtLikeEdge!]!
+  pageInfo: PageInfo!
 }
 
 type News {
