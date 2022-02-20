@@ -102,7 +102,7 @@ model News {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   title String
-  link String
+  link String @unique
   image String?
   articleCreatedAt DateTime?
   genre NewsGenre

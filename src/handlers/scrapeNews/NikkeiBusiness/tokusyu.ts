@@ -1,6 +1,10 @@
+// 日経ビジネス 特集
+// https://business.nikkei.com/tag/?tag=C0490%E7%89%B9%E9%9B%86
+
 import puppeteer from 'puppeteer';
-import { prisma } from '../../src/lib/prisma';
-import { NewsGenre } from '../../src/generated/graphql';
+import { prisma } from '../../../lib/prisma';
+import { NewsGenre } from '../../../generated/graphql';
+import { newsProvider } from '~/constants';
 
 const main = async () => {
   const browser = await puppeteer.launch({
@@ -62,7 +66,7 @@ const main = async () => {
         link,
         image: image!,
         genre: NewsGenre.Business,
-        provider: '日経ビジネス',
+        provider: newsProvider.nikkeiBusiness,
       };
 
       data.unshift(d);
@@ -72,6 +76,7 @@ const main = async () => {
   try {
     await prisma.news.createMany({
       data,
+      skipDuplicates: true,
     });
   } catch (e) {
     console.log(e);
