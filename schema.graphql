@@ -89,6 +89,8 @@ type User {
   follow: Boolean
   blocking: Boolean
   pickedNews(first: Int, after: String): NewsPickConnection
+  pickedThoughts(first: Int, after: String): ThoughtsConnection
+  likedThoughts(first: Int, after: String): ThoughtLikeConnection
 }
 
 type Me {
@@ -116,6 +118,24 @@ type Thought {
   contributor: User
   picked: Boolean
   images: [ThoughtImage]!
+  liked: Boolean
+}
+
+type ThoughtLike {
+  id: Int!
+  createdAt: String
+  user: User
+  thought: Thought
+}
+
+type ThoughtLikeEdge {
+  node: ThoughtLike
+  cursor: String!
+}
+
+type ThoughtLikeConnection {
+  edges: [ThoughtLikeEdge!]!
+  pageInfo: PageInfo!
 }
 
 type News {
@@ -488,6 +508,14 @@ input AddDeviceTokenInput {
   newToken: String!
 }
 
+input LikeThoughtInput {
+  thoughtId: String!
+}
+
+input UnLikeThoughtInput {
+  thoughtId: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -536,6 +564,8 @@ type Mutation {
   ): OneOnOneTalkRoom!
   deleteOneOnOneTalkRoom(input: DeleteOneOnOneTalkRoonInput!): Boolean
   addDeviceToken(input: AddDeviceTokenInput!): Boolean
+  likeThought(input: LikeThoughtInput!): Thought
+  unlikeThought(input: UnLikeThoughtInput!): Thought
 }
 
 type Subscription {

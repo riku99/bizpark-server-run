@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick, Image, ThoughtImage, News, NewsGenre, NewsPick, User, Follow, ThoughtTalkRoomMessage, ThoughtTalkRoom, ThoughtTalkRoomMember, NewsTalkRoom, NewsTalkRoomMessage, OneOnOneTalkRoom, OneOnOneTalkRoomMessage, DeviceToken } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image, ThoughtImage, News, NewsGenre, NewsPick, User, Follow, ThoughtTalkRoomMessage, ThoughtTalkRoom, ThoughtTalkRoomMember, NewsTalkRoom, NewsTalkRoomMessage, OneOnOneTalkRoom, OneOnOneTalkRoomMessage, DeviceToken, ThoughtLike } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -180,6 +180,10 @@ export type JoinTalkInput = {
   thoughtId: Scalars['String'];
 };
 
+export type LikeThoughtInput = {
+  thoughtId: Scalars['String'];
+};
+
 export type Me = {
   __typename?: 'Me';
   bio?: Maybe<Scalars['String']>;
@@ -218,11 +222,13 @@ export type Mutation = {
   getOutThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   joinNewsTalkRoom: NewsTalkRoom;
   joinThoughtTalk: ThoughtTalkRoom;
+  likeThought?: Maybe<Thought>;
   requestNewsTalkRoomMemberDeletion?: Maybe<Scalars['Boolean']>;
   seenOneOnOneTalkRoomMessage: OneOnOneTalkRoom;
   signOut: Me;
   unblock: User;
   unfollow: User;
+  unlikeThought?: Maybe<Thought>;
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
@@ -344,6 +350,11 @@ export type MutationJoinThoughtTalkArgs = {
 };
 
 
+export type MutationLikeThoughtArgs = {
+  input: LikeThoughtInput;
+};
+
+
 export type MutationRequestNewsTalkRoomMemberDeletionArgs = {
   input: RequestNewsTalkRoomMemberDeletionInput;
 };
@@ -361,6 +372,11 @@ export type MutationUnblockArgs = {
 
 export type MutationUnfollowArgs = {
   followeeId: Scalars['ID'];
+};
+
+
+export type MutationUnlikeThoughtArgs = {
+  input: UnLikeThoughtInput;
 };
 
 
@@ -724,6 +740,7 @@ export type Thought = {
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   images: Array<Maybe<ThoughtImage>>;
+  liked?: Maybe<Scalars['Boolean']>;
   picked?: Maybe<Scalars['Boolean']>;
   text: Scalars['String'];
   title?: Maybe<Scalars['String']>;
@@ -741,6 +758,26 @@ export type ThoughtImage = {
   id: Scalars['ID'];
   url: Scalars['String'];
   width?: Maybe<Scalars['Int']>;
+};
+
+export type ThoughtLike = {
+  __typename?: 'ThoughtLike';
+  createdAt?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  thought?: Maybe<Thought>;
+  user?: Maybe<User>;
+};
+
+export type ThoughtLikeConnection = {
+  __typename?: 'ThoughtLikeConnection';
+  edges: Array<ThoughtLikeEdge>;
+  pageInfo: PageInfo;
+};
+
+export type ThoughtLikeEdge = {
+  __typename?: 'ThoughtLikeEdge';
+  cursor: Scalars['String'];
+  node?: Maybe<ThoughtLike>;
 };
 
 export type ThoughtTalkRoom = TalkRoom & {
@@ -815,6 +852,10 @@ export type ThoughtsConnection = {
   pageInfo: PageInfo;
 };
 
+export type UnLikeThoughtInput = {
+  thoughtId: Scalars['String'];
+};
+
 export type UpdateMeInput = {
   bio?: InputMaybe<Scalars['String']>;
   facebook?: InputMaybe<Scalars['String']>;
@@ -839,14 +880,28 @@ export type User = {
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
   instagram?: Maybe<Scalars['String']>;
+  likedThoughts?: Maybe<ThoughtLikeConnection>;
   linkedin?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   pickedNews?: Maybe<NewsPickConnection>;
+  pickedThoughts?: Maybe<ThoughtsConnection>;
   twitter?: Maybe<Scalars['String']>;
 };
 
 
+export type UserLikedThoughtsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+};
+
+
 export type UserPickedNewsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type UserPickedThoughtsArgs = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
 };
@@ -965,6 +1020,7 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
+  LikeThoughtInput: LikeThoughtInput;
   Me: ResolverTypeWrapper<User>;
   Mutation: ResolverTypeWrapper<{}>;
   News: ResolverTypeWrapper<News>;
@@ -1001,6 +1057,9 @@ export type ResolversTypes = {
   Thought: ResolverTypeWrapper<Thought>;
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtImage: ResolverTypeWrapper<ThoughtImage>;
+  ThoughtLike: ResolverTypeWrapper<ThoughtLike>;
+  ThoughtLikeConnection: ResolverTypeWrapper<Omit<ThoughtLikeConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtLikeEdge']> }>;
+  ThoughtLikeEdge: ResolverTypeWrapper<Omit<ThoughtLikeEdge, 'node'> & { node?: Maybe<ResolversTypes['ThoughtLike']> }>;
   ThoughtTalkRoom: ResolverTypeWrapper<ThoughtTalkRoom>;
   ThoughtTalkRoomMember: ResolverTypeWrapper<ThoughtTalkRoomMember>;
   ThoughtTalkRoomMemberConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMemberEdge']> }>;
@@ -1009,6 +1068,7 @@ export type ResolversTypes = {
   ThoughtTalkRoomMessageConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMessageEdge']> }>;
   ThoughtTalkRoomMessageEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMessage'] }>;
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
+  UnLikeThoughtInput: UnLikeThoughtInput;
   UpdateMeInput: UpdateMeInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
   UploadThoughtImagesResponse: ResolverTypeWrapper<UploadThoughtImagesResponse>;
@@ -1051,6 +1111,7 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
+  LikeThoughtInput: LikeThoughtInput;
   Me: User;
   Mutation: {};
   News: News;
@@ -1085,6 +1146,9 @@ export type ResolversParentTypes = {
   Thought: Thought;
   ThoughtEdge: Omit<ThoughtEdge, 'node'> & { node: ResolversParentTypes['Thought'] };
   ThoughtImage: ThoughtImage;
+  ThoughtLike: ThoughtLike;
+  ThoughtLikeConnection: Omit<ThoughtLikeConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtLikeEdge']> };
+  ThoughtLikeEdge: Omit<ThoughtLikeEdge, 'node'> & { node?: Maybe<ResolversParentTypes['ThoughtLike']> };
   ThoughtTalkRoom: ThoughtTalkRoom;
   ThoughtTalkRoomMember: ThoughtTalkRoomMember;
   ThoughtTalkRoomMemberConnection: Omit<ThoughtTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMemberEdge']> };
@@ -1093,6 +1157,7 @@ export type ResolversParentTypes = {
   ThoughtTalkRoomMessageConnection: Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMessageEdge']> };
   ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
+  UnLikeThoughtInput: UnLikeThoughtInput;
   UpdateMeInput: UpdateMeInput;
   Upload: Scalars['Upload'];
   UploadThoughtImagesResponse: UploadThoughtImagesResponse;
@@ -1184,11 +1249,13 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   getOutThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutThoughtTalkRoomArgs, 'input'>>;
   joinNewsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinNewsTalkRoomArgs, 'input'>>;
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
+  likeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationLikeThoughtArgs, 'input'>>;
   requestNewsTalkRoomMemberDeletion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRequestNewsTalkRoomMemberDeletionArgs, 'input'>>;
   seenOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationSeenOneOnOneTalkRoomMessageArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
   unfollow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
+  unlikeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationUnlikeThoughtArgs, 'input'>>;
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
@@ -1413,6 +1480,7 @@ export type ThoughtResolvers<ContextType = Context, ParentType extends Resolvers
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   images?: Resolver<Array<Maybe<ResolversTypes['ThoughtImage']>>, ParentType, ContextType>;
+  liked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   picked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1430,6 +1498,26 @@ export type ThoughtImageResolvers<ContextType = Context, ParentType extends Reso
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   width?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ThoughtLikeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtLike'] = ResolversParentTypes['ThoughtLike']> = {
+  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  thought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ThoughtLikeConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtLikeConnection'] = ResolversParentTypes['ThoughtLikeConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['ThoughtLikeEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ThoughtLikeEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ThoughtLikeEdge'] = ResolversParentTypes['ThoughtLikeEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes['ThoughtLike']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1510,9 +1598,11 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   instagram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  likedThoughts?: Resolver<Maybe<ResolversTypes['ThoughtLikeConnection']>, ParentType, ContextType, RequireFields<UserLikedThoughtsArgs, never>>;
   linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pickedNews?: Resolver<Maybe<ResolversTypes['NewsPickConnection']>, ParentType, ContextType, RequireFields<UserPickedNewsArgs, never>>;
+  pickedThoughts?: Resolver<Maybe<ResolversTypes['ThoughtsConnection']>, ParentType, ContextType, RequireFields<UserPickedThoughtsArgs, never>>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1574,6 +1664,9 @@ export type Resolvers<ContextType = Context> = {
   Thought?: ThoughtResolvers<ContextType>;
   ThoughtEdge?: ThoughtEdgeResolvers<ContextType>;
   ThoughtImage?: ThoughtImageResolvers<ContextType>;
+  ThoughtLike?: ThoughtLikeResolvers<ContextType>;
+  ThoughtLikeConnection?: ThoughtLikeConnectionResolvers<ContextType>;
+  ThoughtLikeEdge?: ThoughtLikeEdgeResolvers<ContextType>;
   ThoughtTalkRoom?: ThoughtTalkRoomResolvers<ContextType>;
   ThoughtTalkRoomMember?: ThoughtTalkRoomMemberResolvers<ContextType>;
   ThoughtTalkRoomMemberConnection?: ThoughtTalkRoomMemberConnectionResolvers<ContextType>;

@@ -51,6 +51,8 @@ model User {
   deletedNewsTalkRoom DeletedUserFromNewsTalkRoom[]
 
   deviceTokens DeviceToken[]
+
+  thoughtLikes ThoughtLike[]
 }
 
 model Thought {
@@ -66,10 +68,22 @@ model Thought {
 
   images ThoughtImage[]
   talkRooms ThoughtTalkRoom[]
+  likes ThoughtLike[]
   picked Pick[]
 
   @@index([genre, cursor])
   @@index([contributorId, cursor])
+}
+
+model ThoughtLike {
+  id Int @id @default(autoincrement())
+  userId String
+  thoughtId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  thought Thought @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
+
+  @@unique(fields: [userId, thoughtId])
 }
 
 model ThoughtImage {
