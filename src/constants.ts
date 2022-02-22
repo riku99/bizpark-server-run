@@ -6,4 +6,5 @@ export const newsProvider = {
   nikkeiBusiness: '日経ビジネス',
   yomiuri: '読売新聞オンライン',
   nikkei: '日本経済新聞',
+  reuters: 'ロイター',
 };
