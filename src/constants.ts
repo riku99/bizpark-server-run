@@ -5,4 +5,5 @@ export const NOT_ENABLED_JOIN_TALK_ROOM =
 export const newsProvider = {
   nikkeiBusiness: '日経ビジネス',
   yomiuri: '読売新聞オンライン',
+  nikkei: '日本経済新聞',
 };

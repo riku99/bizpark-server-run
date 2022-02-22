@@ -1,6 +1,8 @@
 // 読売新聞オンライン 政治
 // https://www.yomiuri.co.jp/politics/
 
+// TODO: 鍵付き除外
+
 import puppeteer from 'puppeteer';
 import { prisma } from '../../../lib/prisma';
 import { NewsGenre } from '../../../generated/graphql';
