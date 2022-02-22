@@ -31,59 +31,85 @@ const main = async () => {
     const items = await sectionElem.$$(listSelector);
 
     for (const item of items) {
-      let articleCreatedAt: Date | undefined;
-      const dateElem = await item.$('div.c-list-date time');
-      if (dateElem) {
-        try {
-          const dateStr = await (
-            await dateElem.getProperty('dateTime')
-          ).jsonValue();
-          if (typeof dateStr === 'string') {
-            articleCreatedAt = new Date(dateStr);
+      const getArticleCreatedAt = async (): Promise<Date | void> => {
+        const dateElem = await item.$('div.c-list-date time');
+        if (dateElem) {
+          try {
+            const dateStr = await (
+              await dateElem.getProperty('dateTime')
+            ).jsonValue();
+            if (typeof dateStr === 'string') {
+              const _articleCreatedAt = new Date(dateStr);
+              return _articleCreatedAt;
+            }
+          } catch (e) {
+            console.log(e);
           }
-        } catch (e) {
-          console.log(e);
         }
-      }
+      };
 
-      let title: string;
-      const titleElem = await item.$('h3.c-list-title a');
-      if (titleElem) {
-        try {
-          title = await (
-            await titleElem.getProperty('textContent')
-          ).jsonValue();
-        } catch (e) {
-          console.log(e);
-        }
-      }
+      const getTitle = async (): Promise<string | void> => {
+        const titleElem = await item.$('h3.c-list-title a');
+        if (titleElem) {
+          try {
+            const title = await (
+              await titleElem.getProperty('textContent')
+            ).jsonValue();
 
-      let link: string;
-      const linkElem = await item.$('h3.c-list-title a');
-      if (linkElem) {
-        try {
-          link = await (await linkElem.getProperty('href')).jsonValue();
-        } catch (e) {
-          console.log(e);
+            if (typeof title === 'string') {
+              return title;
+            }
+          } catch (e) {
+            console.log(e);
+          }
         }
-      }
+      };
 
-      let image: string | undefined;
-      const imageElem = await item.$('div.c-list-thumb img');
-      if (imageElem) {
-        try {
-          image = await (await imageElem.getProperty('currentSrc')).jsonValue();
-        } catch (e) {
-          console.log(e);
+      const getLink = async (): Promise<string | void> => {
+        const linkElem = await item.$('h3.c-list-title a');
+        if (linkElem) {
+          try {
+            const link = await (await linkElem.getProperty('href')).jsonValue();
+
+            if (typeof link === 'string') {
+              return link;
+            }
+          } catch (e) {
+            console.log(e);
+          }
         }
-      }
+      };
+
+      const getImage = async (): Promise<string | void> => {
+        const imageElem = await item.$('div.c-list-thumb img');
+        if (imageElem) {
+          try {
+            const image = await (
+              await imageElem.getProperty('currentSrc')
+            ).jsonValue();
+
+            if (typeof image === 'string') {
+              return image;
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      };
+
+      const [articleCreatedAt, title, link, image] = await Promise.all([
+        getArticleCreatedAt(),
+        getTitle(),
+        getLink(),
+        getImage(),
+      ]);
 
       if (typeof title! === 'string' && link!) {
         const d = {
           title,
           link,
-          image,
-          articleCreatedAt,
+          image: image ?? undefined,
+          articleCreatedAt: articleCreatedAt ?? undefined,
           genre: NewsGenre.Politics,
           provider: newsProvider.yomiuri,
         };
