@@ -1,7 +1,10 @@
 //　日本経済新聞 経済 金融政策
 
 import { scrape } from './scrape';
+import { NewsGenre } from '@prisma/client';
 
 const url = 'https://www.nikkei.com/financial/monetary-policy/';
 
-scrape(url);
+export const scrapeKeizaiKinyu = async () => {
+  await scrape(url, NewsGenre.ECONOMY);
+};

@@ -1,11 +1,10 @@
 import puppeteer from 'puppeteer';
 import { prisma } from '../../../lib/prisma';
-import { NewsGenre } from '../../../generated/graphql';
 import { newsProvider } from '../../../constants';
 import { parse } from 'date-fns';
-import { Prisma } from '@prisma/client';
+import { Prisma, NewsGenre } from '@prisma/client';
 
-export const scrape = async (url: string) => {
+export const scrape = async (url: string, genre: NewsGenre) => {
   const browser = await puppeteer.launch();
 
   const data: Prisma.NewsCreateInput[] = [];
@@ -109,7 +108,7 @@ export const scrape = async (url: string) => {
             link,
             image,
             articleCreatedAt: articleCreatedAt ?? undefined,
-            genre: NewsGenre.Economy,
+            genre,
             provider: newsProvider.nikkei,
           };
 
