@@ -8,4 +8,5 @@ export const newsProvider = {
   nikkei: '日本経済新聞',
   reuters: 'ロイター',
   jiji: '時事通信社',
+  mainichi: '毎日新聞',
 };

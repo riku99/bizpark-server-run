@@ -1,4 +1,4 @@
-// 時事通信社　政治
+// 時事通信社　経済
 
 import { NewsGenre } from '@prisma/client';
 import { scrape } from './scrape';
