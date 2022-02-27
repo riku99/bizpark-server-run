@@ -108,7 +108,7 @@ export const scrape = async ({
         }
       } else {
         console.log('title is ' + title);
-        console.log('link is' + link);
+        console.log('link is ' + link);
       }
     }
   } else {
