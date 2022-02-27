@@ -1,6 +1,6 @@
 steps:
   - id: build-backend
-  name: 'docker'
+  name: "docker"
   args:
     - build
     - file=Dockerfile
@@ -17,15 +17,13 @@ steps:
     - $_ARTIFACT_REPOSITORY_IMAGE_NAME
   waitFor: ["build-backend"]
 
-  - id: 'apply-migrations'
-    name: 'gcr.io/google-appengine/exec-wrapper'
-    entrypoint: 'bash'
+  - id: "apply-migrations"
+    name: "gcr.io/google-appengine/exec-wrapper"
+    entrypoint: "bash"
     args:
-      [
-        '-c',
-        '/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -s $_CLOUDSQL_INSTANCE_FULL_NAME -e DATABASE_URL=$$DATABASE_URL -- yarn prisma migrate deploy',
-      ]
-    secretEnv: ['DATABASE_URL']
+      - "-c",
+      - "/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -s $_CLOUDSQL_INSTANCE_FULL_NAME -e DATABASE_URL=$$DATABASE_URL -- yarn prisma migrate deploy"
+    secretEnv: ["DATABASE_URL"]
 timeout: 2000s
 substitutions:
   _REGION: by-terraform
