@@ -1,5 +1,5 @@
 steps:
-  - id: "build-backend"
+  - id: build-backend
   name: "docker"
   args:
     - build
@@ -9,13 +9,13 @@ steps:
     - --cache-from=$_ARTIFACT_REPOSITORY_IMAGE_NAME:latest
     - .
 
-  - id: "push-backend"
+  - id: push-backend
   name: "docker"
   args:
     - push
     - --all-tags
     - $_ARTIFACT_REPOSITORY_IMAGE_NAME
-  waitFor: ["build-backend"]
+  waitFor: [build-backend]
 
   - id: "apply-migrations"
     name: "gcr.io/google-appengine/exec-wrapper"
