@@ -1,10 +1,10 @@
 #!/bin/bash
-if [ "$NODE_ENV" = "production" ]
+if [ "$NODE_ENV" = "prod" ]
 then
 echo ${GOOGLE_CREDENTIALS} > /google_credentials.json
-npx prisma migrate deploy
-npx prisma generate
-npx ts-node --transpile-only -r tsconfig-paths/register ./src/index.ts
+yarn prisma migrate deploy
+# yarn prisma generate
+# yarn ts-node --transpile-only -r tsconfig-paths/register ./src/index.ts
 elif [ "$NODE_ENV" = 'dev' ]
 then
 yarn generate
