@@ -102,20 +102,18 @@ model News {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   title String
-  link String
+  link String @unique
   image String?
   articleCreatedAt DateTime?
   genre NewsGenre
   provider String?
-  cursor Int @default(autoincrement()) @unique 
-  isPicked Boolean @default(false) // ピックされてないものは削除するのでそのためのフラグ
   apiSource String? // どのAPIから取得したデータか
 
   talkRooms NewsTalkRoom[]
 
   picked NewsPick[]
 
-  @@index([genre, cursor])
+  @@index([genre])
 }
 
 model ThoughtTalkRoom {

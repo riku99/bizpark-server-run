@@ -68,3 +68,13 @@ node_modules/
 firebase-admin-sdk.json
 
 cred.json
+
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
