@@ -3,7 +3,7 @@ steps:
     name: 'docker'
     args:
       - build
-      - file=Dockerfile
+      - --file=Dockerfile
       - '--tag=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA'
       - '--tag=$_ARTIFACT_REPOSITORY_IMAGE_NAME:latest'
       - --cache-from=$_ARTIFACT_REPOSITORY_IMAGE_NAME:latest
