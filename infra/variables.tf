@@ -11,3 +11,7 @@ variable "zone" {
 }
 
 variable "artifact_registry_id" {}
+
+variable "cloudsql_instance_full_name" {}
+
+variable "registory_name" {}

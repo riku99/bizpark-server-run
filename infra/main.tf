@@ -17,16 +17,16 @@ provider "google" {
 
 resource "google_artifact_registry_repository" "bizpark-stg-backend-app" {
   provider = google-beta
-  
-  project = var.project
+
+  project       = var.project
   location      = var.region
   repository_id = var.artifact_registry_id
   description   = "バックエンド"
   format        = "DOCKER"
 }
 
-resource "google_sql_database_instance" "bizpark-db-staging" {
-  name             = "bizpark-db-staging"
+resource "google_sql_database_instance" "bizpark-stg-db" {
+  name             = "bizpark-stg-db"
   database_version = "POSTGRES_14"
   region           = var.region
 
@@ -46,11 +46,31 @@ resource "google_sql_database_instance" "bizpark-db-staging" {
   }
 }
 
-resource "google_sql_database" "bizpark-db-staging" {
-  name     = "bizpark-db-staging"
-  instance = google_sql_database_instance.bizpark-db-staging.name
+resource "google_sql_database" "bizpark-stg-db" {
+  name     = "bizpark-stg-db"
+  instance = google_sql_database_instance.bizpark-stg-db.name
 }
 
 output "bizpark_stg_db_connection_name" {
-  value = google_sql_database_instance.bizpark-db-staging.connection_name
+  value = google_sql_database_instance.bizpark-stg-db.connection_name
+}
+
+resource "google_cloudbuild_trigger" "deploy-bizpark-stg" {
+  name        = "deploy-bizpark-stg"
+  description = "バックエンドアプリケーションをCloud Runへdeployする"
+
+  github {
+    owner = "riku99"
+    name  = "bizpark-server-run"
+    push {
+      branch = "^qa$"
+    }
+  }
+
+  filename = "./cloudbuild.yml"
+  substitutions = {
+    _REGION                         = var.region
+    _CLOUDSQL_INSTANCE_FULL_NAME    = var.cloudsql_instance_full_name
+    _ARTIFACT_REPOSITORY_IMAGE_NAME = var.registory_name
+  }
 }
