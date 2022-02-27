@@ -24,7 +24,7 @@ steps:
       - '-c'
       - '/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -s $_CLOUDSQL_INSTANCE_FULL_NAME -e DATABASE_URL=$$DATABASE_URL -- yarn prisma migrate deploy'
     secretEnv: ['DATABASE_URL']
-timeout: 2700s
+timeout: 2000s
 substitutions:
   _REGION: by-terraform
   _CLOUDSQL_INSTANCE_FULL_NAME: by-terraform
