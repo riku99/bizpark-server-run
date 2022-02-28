@@ -49,7 +49,7 @@ steps:
       - --no-cpu-throttling
       - --set-env-vars=[GCP_PROJECT_ID=$PROJECT_ID]
       - --update-secrets=DATABASE_URL=BIZPARK_STG_DATABASE_URL:latest # Secret Managerの値を使用
-      waitFor: ["apply-migrations"]
+    waitFor: ['apply-migrations']
 
 timeout: 2000s
 substitutions:
