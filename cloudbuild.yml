@@ -25,31 +25,31 @@ steps:
       - '/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -s $_CLOUDSQL_INSTANCE_FULL_NAME -e DATABASE_URL=$$DATABASE_URL -- yarn prisma migrate deploy'
     secretEnv: ['DATABASE_URL']
 
-    - id: 'deploy'
-    name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - run
-      - deploy
-      - bizpark-stg-server
-      - --quiet
-      - --image=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA
-      - --project=$PROJECT_ID
-      - --region=$_REGION
-      - --service-account=$_SERVICE_ACCOUNT
-      - --add-cloudsql-instances=$_CLOUDSQL_INSTANCE_FULL_NAME # Cloud SQLに接続するために必要
-      - --revision-suffix=$SHORT_SHA
-      - --tag=latest
-      - --concurrency=40 # 1インスタンスあたりの同時接続数。必要ないかも
-      - --cpu=1
-      - --memory=512Mi
-      - --max-instances=3
-      - --min-instances=0
-      - --no-use-http2 # HTTP/2での接続は行わない
-      - --allow-unauthenticated # それぞれの端末からアクセスするので許可
-      - --no-cpu-throttling
-      - --set-env-vars=[GCP_PROJECT_ID=$PROJECT_ID]
-      - --update-secrets=DATABASE_URL=BIZPARK_STG_DATABASE_URL:latest # Secret Managerの値を使用
-      waitFor: ["apply-migrations"]
+  - id: 'deploy'
+  name: 'gcr.io/cloud-builders/gcloud'
+  args:
+    - run
+    - deploy
+    - bizpark-stg-server
+    - --quiet
+    - --image=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA
+    - --project=$PROJECT_ID
+    - --region=$_REGION
+    - --service-account=$_SERVICE_ACCOUNT
+    - --add-cloudsql-instances=$_CLOUDSQL_INSTANCE_FULL_NAME # Cloud SQLに接続するために必要
+    - --revision-suffix=$SHORT_SHA
+    - --tag=latest
+    - --concurrency=40 # 1インスタンスあたりの同時接続数。必要ないかも
+    - --cpu=1
+    - --memory=512Mi
+    - --max-instances=3
+    - --min-instances=0
+    - --no-use-http2 # HTTP/2での接続は行わない
+    - --allow-unauthenticated # それぞれの端末からアクセスするので許可
+    - --no-cpu-throttling
+    - --set-env-vars=[GCP_PROJECT_ID=$PROJECT_ID]
+    - --update-secrets=DATABASE_URL=BIZPARK_STG_DATABASE_URL:latest # Secret Managerの値を使用
+    waitFor: ["apply-migrations"]
 
 timeout: 2000s
 substitutions:
