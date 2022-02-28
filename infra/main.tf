@@ -25,8 +25,8 @@ resource "google_artifact_registry_repository" "bizpark-stg-backend-app" {
   format        = "DOCKER"
 }
 
-resource "google_sql_database_instance" "bizpark-stg-db" {
-  name             = "bizpark-stg-db"
+resource "google_sql_database_instance" "bizpark-stg-db-sample1" {
+  name             = "bizpark-stg-db-sample1"
   database_version = "POSTGRES_14"
   region           = var.region
 
@@ -46,13 +46,13 @@ resource "google_sql_database_instance" "bizpark-stg-db" {
   }
 }
 
-resource "google_sql_database" "bizpark-stg-db" {
-  name     = "bizpark-stg-db"
-  instance = google_sql_database_instance.bizpark-stg-db.name
+resource "google_sql_database" "bizpark-stg-db-sample1" {
+  name     = "bizpark-stg-db-sample1"
+  instance = google_sql_database_instance.bizpark-stg-db-sample1.name
 }
 
 output "bizpark_stg_db_connection_name" {
-  value = google_sql_database_instance.bizpark-stg-db.connection_name
+  value = google_sql_database_instance.bizpark-stg-db-sample1.connection_name
 }
 
 resource "google_cloudbuild_trigger" "deploy-bizpark-stg" {
