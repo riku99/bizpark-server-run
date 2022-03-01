@@ -28,6 +28,7 @@ steps:
   - id: 'deploy'
     name: 'gcr.io/cloud-builders/gcloud'
     args:
+      - beta
       - run
       - deploy
       - bizpark-stg-server
