@@ -35,7 +35,6 @@ steps:
       - --image=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA
       - --project=$PROJECT_ID
       - --region=$_REGION
-      - --service-account=$_SERVICE_ACCOUNT
       - --add-cloudsql-instances=$_CLOUDSQL_INSTANCE_FULL_NAME # Cloud SQLに接続するために必要
       - --revision-suffix=$SHORT_SHA
       - --tag=latest
