@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ "$NODE_ENV" = "production" ]
 then
-echo ${GOOGLE_CREDENTIALS} > /google_credentials.json
+# echo ${GOOGLE_CREDENTIALS} > /google_credentials.json
 # yarn prisma migrate deploy
 yarn prisma generate
 yarn generate
