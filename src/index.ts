@@ -90,7 +90,7 @@ const start = async () => {
     res.send('ok');
   });
 
-  registerScrapeNews(app);
+  // registerScrapeNews(app);
 
   const port = process.env.PORT || 4000;
 
