@@ -86,6 +86,7 @@ const start = async () => {
   });
 
   app.get('/health', (_, res) => {
+    console.log('Check health💉');
     res.send('ok');
   });
 
