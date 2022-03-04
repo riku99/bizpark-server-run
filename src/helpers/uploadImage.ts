@@ -1,15 +1,15 @@
-import { createRandomString } from "~/helpers/createRandomString";
-import { Upload } from "graphql-upload";
-import { Storage } from "@google-cloud/storage";
-import sharp from "sharp";
-import { SubImage } from "~/generated/graphql";
+import { createRandomString } from '~/helpers/createRandomString';
+import { Upload } from 'graphql-upload';
+import { Storage } from '@google-cloud/storage';
+import sharp from 'sharp';
+import { SubImage } from '~/generated/graphql';
 
 const storage = new Storage();
-const myBucket = storage.bucket(process.env.STORAGE_BUCKET as string);
+const myBucket = storage.bucket(process.env.STORAGE_BUCKET_NAME as string);
 
 export const upload = async ({ file }: { file: Upload }) => {
   const randomName = createRandomString();
-  const filePath = `${process.env.STORAGE_BASE_PATH}/${randomName}`;
+  const filePath = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET_NAME}/${randomName}`;
   const fileObj = myBucket.file(randomName);
 
   const { createReadStream, filename, mimetype, encoding } = await file;
@@ -51,18 +51,18 @@ export const upload = async ({ file }: { file: Upload }) => {
   const uploadStream = resizedStream.pipe(
     fileObj.createWriteStream({
       gzip: true,
-      contentType: "image/webp",
+      contentType: 'image/webp',
     })
   );
 
   const uploadPromise = () =>
     new Promise<SubImage>((resolve, reject) => {
       uploadStream
-        .on("error", (err: unknown) => {
+        .on('error', (err: unknown) => {
           console.log(err);
           reject();
         })
-        .on("finish", (data: unknown) => {
+        .on('finish', (data: unknown) => {
           resolve({
             url: filePath,
             width: dimensions.width,
