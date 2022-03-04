@@ -14,6 +14,7 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { createServer } from 'http';
 import { prisma } from '~/lib/prisma';
 import { verifyIdToken } from '~/auth/verifyIdToken';
+import { registerScrapeNews } from '~/controllers/scrapeNews';
 
 const schema = loadSchemaSync(join(__dirname, '../schema.graphql'), {
   loaders: [new GraphQLFileLoader()],
@@ -87,6 +88,8 @@ const start = async () => {
   app.get('/health', (_, res) => {
     res.send('ok');
   });
+
+  registerScrapeNews(app);
 
   const port = process.env.PORT || 4000;
 
