@@ -25,8 +25,8 @@ resource "google_artifact_registry_repository" "bizpark-stg-backend-app" {
   format        = "DOCKER"
 }
 
-resource "google_sql_database_instance" "bizpark-stg-db" {
-  name             = "bizpark-stg-db"
+resource "google_sql_database_instance" "bizpark-stg-db-sample2" {
+  name             = "bizpark-stg-db-sample2"
   database_version = "POSTGRES_14"
   region           = var.region
 
@@ -46,13 +46,28 @@ resource "google_sql_database_instance" "bizpark-stg-db" {
   }
 }
 
-resource "google_sql_database" "bizpark-stg-db" {
-  name     = "bizpark-stg-db"
-  instance = google_sql_database_instance.bizpark-stg-db.name
+resource "google_sql_database" "bizpark-stg-db-sample2" {
+  name     = "bizpark-stg-db-sample2"
+  instance = google_sql_database_instance.bizpark-stg-db-sample2.name
 }
 
 output "bizpark_stg_db_connection_name" {
-  value = google_sql_database_instance.bizpark-stg-db.connection_name
+  value = google_sql_database_instance.bizpark-stg-db-sample2.connection_name
+}
+
+resource "google_storage_bucket" "bizpark-stg-user-upload" {
+  name          = "bizpzrk-stg-user-upload"
+  location      = "ASIA-NORTHEAST1"
+  force_destroy = true # 本番はfalseの方がいいかも
+}
+
+// オブジェクトをインターネットに公開する。https://zenn.dev/catnose99/articles/18720e3af36d22
+resource "google_storage_bucket_iam_binding" "bizpark-stg-user-upload_iam_binding" {
+  bucket = google_storage_bucket.bizpark-stg-user-upload.name
+    role = "roles/storage.legacyObjectReader"
+    members = [
+      "allUsers",
+    ]
 }
 
 resource "google_cloudbuild_trigger" "deploy-bizpark-stg" {
@@ -72,5 +87,6 @@ resource "google_cloudbuild_trigger" "deploy-bizpark-stg" {
     _REGION                         = var.region
     _CLOUDSQL_INSTANCE_FULL_NAME    = var.cloudsql_instance_full_name
     _ARTIFACT_REPOSITORY_IMAGE_NAME = var.registory_name
+    _STORAGE_BUCKET_NAME = google_storage_bucket.bizpark-stg-user-upload.name
   }
 }

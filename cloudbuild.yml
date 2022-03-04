@@ -1,40 +1,68 @@
 steps:
   - id: build-backend
-  name: 'docker'
-  args:
-    - build
-    - file=Dockerfile
-    - "--tag=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA"
-    - "--tag=$_ARTIFACT_REPOSITORY_IMAGE_NAME:latest"
-    - --cache-from=$_ARTIFACT_REPOSITORY_IMAGE_NAME:latest
-    - .
+    name: 'docker'
+    args:
+      - build
+      - --file=Dockerfile
+      - '--tag=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA'
+      - '--tag=$_ARTIFACT_REPOSITORY_IMAGE_NAME:latest'
+      - --cache-from=$_ARTIFACT_REPOSITORY_IMAGE_NAME:latest
+      - .
 
   - id: push-backend
-  name: "docker"
-  args:
-    - push
-    - --all-tags
-    - $_ARTIFACT_REPOSITORY_IMAGE_NAME
-  waitFor: ["build-backend"]
+    name: 'docker'
+    args:
+      - push
+      - --all-tags
+      - $_ARTIFACT_REPOSITORY_IMAGE_NAME
+    waitFor: ['build-backend']
 
   - id: 'apply-migrations'
     name: 'gcr.io/google-appengine/exec-wrapper'
     entrypoint: 'bash'
     args:
-      [
-        '-c',
-        '/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -s $_CLOUDSQL_INSTANCE_FULL_NAME -e DATABASE_URL=$$DATABASE_URL -- yarn prisma migrate deploy',
-      ]
+      - '-c'
+      - '/buildstep/execute.sh -i $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA -s $_CLOUDSQL_INSTANCE_FULL_NAME -e DATABASE_URL=$$DATABASE_URL -- yarn prisma migrate deploy'
     secretEnv: ['DATABASE_URL']
+
+  - id: 'deploy'
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - run
+      - deploy
+      - bizpark-stg-server
+      - --quiet
+      - --image=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA
+      - --project=$PROJECT_ID
+      - --region=$_REGION
+      - --add-cloudsql-instances=$_CLOUDSQL_INSTANCE_FULL_NAME # Cloud SQLに接続するために必要
+      - --revision-suffix=$SHORT_SHA
+      - --tag=latest
+      - --concurrency=40 # 1インスタンスあたりの同時接続数。必要ないかも
+      - --cpu=1
+      - --memory=512Mi
+      - --max-instances=3
+      - --min-instances=0
+      - --no-use-http2 # HTTP/2での接続は行わない
+      - --allow-unauthenticated # それぞれの端末からアクセスするので許可
+      - --no-cpu-throttling
+      - --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID
+      - --set-env-vars=NODE_ENV=production
+      - --set-env-vars=STORAGE_BUCKET_NAME=$_STORAGE_BUCKET_NAME
+      - --update-secrets=DATABASE_URL=BIZPARK_STG_DATABASE_URL:latest # Secret Managerの値を使用
+    waitFor: ['apply-migrations']
+
 timeout: 2000s
 substitutions:
   _REGION: by-terraform
   _CLOUDSQL_INSTANCE_FULL_NAME: by-terraform
   _ARTIFACT_REPOSITORY_IMAGE_NAME: by-terraform
+  _STORAGE_BUCKET_NAME: by-terraform
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/BIZPARK_STG_DATABASE_URL/versions/latest
-    env: DATABASE_URL
+      env: DATABASE_URL
 
 images:
   - $_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA
+# $SHORT_SHA = ビルドに関連付けられた commit ID の最初の7文字
