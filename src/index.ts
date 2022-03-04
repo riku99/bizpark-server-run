@@ -84,6 +84,10 @@ const start = async () => {
     app,
   });
 
+  app.get('/health', (_, res) => {
+    res.send('ok');
+  });
+
   const port = process.env.PORT || 4000;
 
   httpServer.listen({ port }, () => {
