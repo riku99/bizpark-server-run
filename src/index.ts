@@ -147,7 +147,7 @@ const start = async () => {
         return res.status(403).send('Invalid issuer');
       }
 
-      if (token.aud !== `https://${req.headers.host}/some/endpoint`) {
+      if (token.aud !== `https://${req.headers.host}/scheduler`) {
         return res.status(403).send('Invalid audience');
       }
 
