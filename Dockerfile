@@ -1,6 +1,6 @@
 FROM node:14
 RUN apt-get update \
-    && apt-get install -y libnss3
+    && apt-get install -y libnss3 libatk-bridge-2.0.so.0
 WORKDIR /app
 COPY package*.json /app/
 RUN yarn install
