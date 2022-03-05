@@ -15,6 +15,7 @@ import { createServer } from 'http';
 import { prisma } from '~/lib/prisma';
 import { verifyIdToken } from '~/auth/verifyIdToken';
 import { registerScrapeNews } from '~/controllers/scrapeNews';
+import { default as axios } from 'axios';
 
 const schema = loadSchemaSync(join(__dirname, '../schema.graphql'), {
   loaders: [new GraphQLFileLoader()],
@@ -90,7 +91,14 @@ const start = async () => {
     res.send('ok');
   });
 
-  registerScrapeNews(app);
+  app.get('/scheduler', (req, res) => {
+    console.log(req.header);
+    // ここでcloud scheduler以外からのリクエストはブロックしたい
+    console.log('scheduler⏰');
+    res.send('scheduler ok');
+  });
+
+  // registerScrapeNews(app);
 
   const port = process.env.PORT || 4000;
 
