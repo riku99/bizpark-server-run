@@ -1,6 +1,6 @@
 FROM node:14
 RUN apt-get update \
-    && apt-get install libnss3
+    && apt-get install -y libnss3
 WORKDIR /app
 COPY package*.json /app/
 RUN yarn install
