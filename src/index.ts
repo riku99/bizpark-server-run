@@ -15,41 +15,7 @@ import { createServer } from 'http';
 import { prisma } from '~/lib/prisma';
 import { verifyIdToken } from '~/auth/verifyIdToken';
 import { registerScrapeNews } from '~/controllers/scrapeNews';
-import jwksClient from 'jwks-rsa';
-import jwt from 'jsonwebtoken';
-
-interface GoogleOIDCToken {
-  aud: string;
-  azp: string;
-  email: string;
-  email_verified: boolean;
-  exp: number;
-  iat: number;
-  iss: string;
-  sub: string;
-}
-
-const client = jwksClient({
-  jwksUri: 'https://www.googleapis.com/oauth2/v3/certs',
-});
-
-function getKey(header: any, callback: any): void {
-  client.getSigningKey(header.kid, (err: any, key: any) => {
-    if (err !== null) return callback(err);
-    const signingKey = key.publicKey ?? key.rsaPublicKey;
-    callback(null, signingKey);
-  });
-}
-
-async function verifyToken(token: string): Promise<GoogleOIDCToken> {
-  return await new Promise((resolve, reject) => {
-    // Notice here we're using the `getKey` function defined above
-    jwt.verify(token, getKey, (err, decoded) => {
-      if (err !== null) return reject(err);
-      return resolve(decoded as GoogleOIDCToken);
-    });
-  });
-}
+import { verifyGcpOidcTokenForCloudScheduler } from '~/helpers/verifyGcpOidcTokenForCloudScheduler';
 
 const schema = loadSchemaSync(join(__dirname, '../schema.graphql'), {
   loaders: [new GraphQLFileLoader()],
@@ -129,31 +95,12 @@ const start = async () => {
     console.log(req.headers);
     console.log('scheduler⏰');
 
-    if (!req.headers.authorization) {
-      return res.status(403).send('Not Include authorization');
-    }
+    const result = await verifyGcpOidcTokenForCloudScheduler(req, res);
 
-    if (req.headers['user-agent'] !== 'Google-Cloud-Scheduler') {
-      return res.status(403).send('Invalid user agent');
-    }
-
-    try {
-      const token = await verifyToken(req.headers.authorization.split(' ')[1]);
-
-      console.log(token);
-
-      if (token.iss !== 'https://accounts.google.com') {
-        return res.status(403).send('Invalid issuer');
-      }
-
-      if (token.aud !== `https://${req.headers.host}/scheduler`) {
-        return res.status(403).send('Invalid audience');
-      }
-
-      return res.send('scheduler ok');
-    } catch (e) {
-      console.log(e);
-      return res.status(403).send('Invalid OIDC token');
+    if (result) {
+      console.log('Token is valid');
+    } else {
+      console.log('Invalid');
     }
   });
 
