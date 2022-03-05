@@ -16,6 +16,7 @@ import { prisma } from '~/lib/prisma';
 import { verifyIdToken } from '~/auth/verifyIdToken';
 import { registerScrapeNews } from '~/controllers/scrapeNews';
 import { verifyGcpOidcTokenForCloudScheduler } from '~/helpers/verifyGcpOidcTokenForCloudScheduler';
+import { registerJiji } from '~/controllers/scrapeNews/Jiji';
 
 const schema = loadSchemaSync(join(__dirname, '../schema.graphql'), {
   loaders: [new GraphQLFileLoader()],
@@ -103,6 +104,8 @@ const start = async () => {
       console.log('Invalid');
     }
   });
+
+  registerJiji(app);
 
   // registerScrapeNews(app);
 
