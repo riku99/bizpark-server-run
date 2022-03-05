@@ -92,7 +92,7 @@ const start = async () => {
   });
 
   app.get('/scheduler', (req, res) => {
-    console.log(req.header);
+    console.log(req.headers);
     // ここでcloud scheduler以外からのリクエストはブロックしたい
     console.log('scheduler⏰');
     res.send('scheduler ok');
