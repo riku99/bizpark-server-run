@@ -1,6 +1,6 @@
 FROM node:14
 RUN apt-get update \
-    && apt-get install -y libnss3 libatk-bridge2.0-0 libdrm
+    && apt-get install -y libnss3 libatk-bridge2.0-0 libdrm-dev
 WORKDIR /app
 COPY package*.json /app/
 RUN yarn install
