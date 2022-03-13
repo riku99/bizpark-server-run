@@ -118,3 +118,33 @@ resource "google_cloud_scheduler_job" "health_sample" {
     }
   }
 }
+
+# スクレイピング用スケジューラのためのサービスアカウント
+resource "google_service_account" "scraping_scheduler_invoker" {
+  display_name = "Schedler Invoker"
+  account_id   = "scraping_scheduler_invoker"
+}
+
+# スクレイピング用スケジューラ
+resource "google_cloud_scheduler_job" "health_sample" {
+  name             = "scraping_scheduler"
+  description      = "ニュースサイトのスクレイピング"
+  schedule         = "*/10 * * * *"
+  time_zone        = "Asia/Tokyo"
+  attempt_deadline = "360s"
+  project          = var.project
+  region           = var.region
+
+  retry_config {
+    retry_count = 1
+  }
+
+  http_target {
+    http_method = "GET"
+    uri         = "https://bizpark-stg-server-p5rqqwxefa-an.a.run.app/scraping/news"
+
+    oidc_token {
+      service_account_email = google_service_account.scraping_scheduler_invoker.email
+    }
+  }
+}

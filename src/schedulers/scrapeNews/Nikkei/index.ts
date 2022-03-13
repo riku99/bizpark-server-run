@@ -11,23 +11,36 @@ import { scrapeAI } from './ai';
 import { Express } from 'express';
 import { SCRAPING_NEWS_SCHEDULER_BASE_ENDPOINT } from '~/constants';
 
-export const registerNikkei = (app: Express) => {
-  app.get(
-    `${SCRAPING_NEWS_SCHEDULER_BASE_ENDPOINT}/nikkei`,
-    async (req, res) => {
-      // Promise.allだとブラウザの関係(?)でエラー出る時あるので順に実行
-      await scrapeKeizaiKinyu();
-      await scrapeKeizai();
-      await scrapeStartups();
-      await scrapeSeiji();
-      await scrapeInternet();
-      await scrapeServices();
-      await scrapeMonetary();
-      await scrapeFintech();
-      await scrapeDriverless();
-      await scrapeAI();
-
-      res.send();
-    }
-  );
+export const scrapeNikkei = async () => {
+  await scrapeKeizaiKinyu();
+  await scrapeKeizai();
+  await scrapeStartups();
+  await scrapeSeiji();
+  await scrapeInternet();
+  await scrapeServices();
+  await scrapeMonetary();
+  await scrapeFintech();
+  await scrapeDriverless();
+  await scrapeAI();
 };
+
+// export const registerNikkei = (app: Express) => {
+//   app.get(
+//     `${SCRAPING_NEWS_SCHEDULER_BASE_ENDPOINT}/nikkei`,
+//     async (req, res) => {
+//       // Promise.allだとブラウザの関係(?)でエラー出る時あるので順に実行
+//       await scrapeKeizaiKinyu();
+//       await scrapeKeizai();
+//       await scrapeStartups();
+//       await scrapeSeiji();
+//       await scrapeInternet();
+//       await scrapeServices();
+//       await scrapeMonetary();
+//       await scrapeFintech();
+//       await scrapeDriverless();
+//       await scrapeAI();
+
+//       res.send();
+//     }
+//   );
+// };

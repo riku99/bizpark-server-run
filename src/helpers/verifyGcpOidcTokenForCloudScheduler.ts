@@ -60,11 +60,6 @@ export const verifyGcpOidcTokenForCloudScheduler = async (
       return false;
     }
 
-    // if (token.aud !== `https://${req.headers.host}/scheduler`) {
-    //   res.status(403).send('Invalid audience');
-    //   return false;
-    // }
-
     return true;
   } catch (e) {
     console.log(e);
