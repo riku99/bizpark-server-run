@@ -15,5 +15,3 @@ variable "artifact_registry_id" {}
 variable "cloudsql_instance_full_name" {}
 
 variable "registory_name" {}
-
-variable "scheduler_iam_service_account_email" {}

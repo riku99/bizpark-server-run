@@ -122,12 +122,12 @@ resource "google_cloud_scheduler_job" "health_sample" {
 # スクレイピング用スケジューラのためのサービスアカウント
 resource "google_service_account" "scraping_scheduler_invoker" {
   display_name = "Schedler Invoker"
-  account_id   = "scraping_scheduler_invoker"
+  account_id   = "scraping-scheduler-invoker"
 }
 
 # スクレイピング用スケジューラ
-resource "google_cloud_scheduler_job" "health_sample" {
-  name             = "scraping_scheduler"
+resource "google_cloud_scheduler_job" "scraping_scheduler" {
+  name             = "scraping-scheduler"
   description      = "ニュースサイトのスクレイピング"
   schedule         = "*/10 * * * *"
   time_zone        = "Asia/Tokyo"
