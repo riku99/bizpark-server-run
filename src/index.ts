@@ -14,9 +14,7 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { createServer } from 'http';
 import { prisma } from '~/lib/prisma';
 import { verifyIdToken } from '~/auth/verifyIdToken';
-import { registerScrapeNews } from '~/controllers/scrapeNews';
-import { verifyGcpOidcTokenForCloudScheduler } from '~/helpers/verifyGcpOidcTokenForCloudScheduler';
-import { registerJiji } from '~/controllers/scrapeNews/Jiji';
+import { registerScrapeNews } from '~/schedulers/scrapeNews';
 
 const schema = loadSchemaSync(join(__dirname, '../schema.graphql'), {
   loaders: [new GraphQLFileLoader()],
@@ -92,22 +90,7 @@ const start = async () => {
     res.send('ok');
   });
 
-  app.get('/scheduler', async (req, res) => {
-    console.log(req.headers);
-    console.log('scheduler⏰');
-
-    const result = await verifyGcpOidcTokenForCloudScheduler(req, res);
-
-    if (result) {
-      console.log('Token is valid');
-    } else {
-      console.log('Invalid');
-    }
-  });
-
-  registerJiji(app);
-
-  // registerScrapeNews(app);
+  registerScrapeNews(app);
 
   const port = process.env.PORT || 4000;
 

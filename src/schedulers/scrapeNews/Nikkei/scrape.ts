@@ -5,7 +5,7 @@ import { parse } from 'date-fns';
 import { Prisma, NewsGenre } from '@prisma/client';
 
 export const scrape = async (url: string, genre: NewsGenre) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
 
   const data: Prisma.NewsCreateInput[] = [];
 

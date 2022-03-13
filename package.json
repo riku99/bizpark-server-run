@@ -11,7 +11,7 @@
     "studio": "yarn prisma studio",
     "seed": "yarn ts-node scripts/seed.ts",
     "watch": "yarn build --watch",
-    "dev": "ts-node-dev -r tsconfig-paths/register src/index.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "up": "docker compose up -d",
     "down": "docker compose down",
     "local": "yarn ts-node-dev -r tsconfig-paths/register src/local.ts",
