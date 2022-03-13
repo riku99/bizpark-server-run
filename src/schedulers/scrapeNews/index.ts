@@ -15,12 +15,9 @@ export const registerScrapeNews = (app: Express) => {
         return;
       }
 
-      await Promise.all([
-        scrapeJiji(),
-        scrapeMainichi(),
-        scrapeNikkei(),
-        scrapeReuters(),
-      ]);
+      await Promise.all([scrapeJiji(), scrapeMainichi()]);
+
+      await Promise.all([scrapeNikkei(), scrapeReuters()]);
 
       res.send();
     } catch (e) {
@@ -28,8 +25,4 @@ export const registerScrapeNews = (app: Express) => {
       console.log(e);
     }
   });
-  // registerJiji(app);
-  // registerMainichi(app);
-  // registerNikkei(app);
-  // registerReuters(app);
 };
