@@ -12,7 +12,7 @@ variable "zone" {
 
 variable "artifact_registry_id" {}
 
-variable "cloudsql_instance_full_name" {}
+variable "cloudsql_instance_full_name" {} # 後で消す
 
 variable "registory_name" {}
 

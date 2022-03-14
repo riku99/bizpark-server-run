@@ -16,14 +16,15 @@ provider "google" {
 }
 
 locals {
-  db_tier = "db-f1-micro"
-  db_disk_size = "10"
+  db_tier              = "db-f1-micro"
+  db_disk_size         = "10"
+  deploy_target_branch = "^qa$"
 }
 
 module "artifact-registry" {
-  source = "../modules/artifact-registry"
-  project = var.project
-  location = var.region
+  source               = "../modules/artifact-registry"
+  project              = var.project
+  location             = var.region
   artifact_registry_id = var.artifact_registry_id
 }
 
@@ -38,9 +39,9 @@ module "artifact-registry" {
 # }
 
 module "cloud-sql" {
-  source = "../modules/cloud-sql"
-  region = var.region
-  tier = local.db_tier
+  source    = "../modules/cloud-sql"
+  region    = var.region
+  tier      = local.db_tier
   disk_size = local.db_disk_size
 }
 
@@ -72,6 +73,7 @@ resource "google_sql_database" "bizpark-stg-db-sample3" {
   instance = google_sql_database_instance.bizpark-stg-db-sample3.name
 }
 
+# 後で消す
 output "bizpark_stg_db_connection_name" {
   value = google_sql_database_instance.bizpark-stg-db-sample3.connection_name
 }
@@ -101,6 +103,16 @@ resource "google_storage_bucket_iam_binding" "bizpark-stg-user-upload_iam_bindin
   ]
 }
 
+module "cloud-build" {
+  source                      = "../modules/cloud-build"
+  region                      = var.region
+  cloudsql_instance_full_name = module.cloud-sql.bizpark-db-connection-name
+  registory_name              = var.registory_name # localにできそう(?)
+  bucket_name                 = module.cloud-storage.bucket_name
+  target_branch               = local.deploy_target_branch
+}
+
+# 後で消す
 resource "google_cloudbuild_trigger" "deploy-bizpark-stg" {
   name        = "deploy-bizpark-stg"
   description = "バックエンドアプリケーションをCloud Runへdeployする"
@@ -119,34 +131,6 @@ resource "google_cloudbuild_trigger" "deploy-bizpark-stg" {
     _CLOUDSQL_INSTANCE_FULL_NAME    = var.cloudsql_instance_full_name
     _ARTIFACT_REPOSITORY_IMAGE_NAME = var.registory_name
     _STORAGE_BUCKET_NAME            = google_storage_bucket.bizpark-stg-user-upload.name
-  }
-}
-
-resource "google_service_account" "bizpark-stg-scheduler-test6" {
-  display_name = "Schedler Test"
-  account_id   = "bizpark-stg-scheduler-test6"
-}
-
-resource "google_cloud_scheduler_job" "health_sample" {
-  name             = "health_sample"
-  description      = "test job"
-  schedule         = "30 4 * * *"
-  time_zone        = "Asia/Tokyo"
-  attempt_deadline = "360s"
-  project          = var.project
-  region           = var.region
-
-  retry_config {
-    retry_count = 1
-  }
-
-  http_target {
-    http_method = "GET"
-    uri         = "https://bizpark-stg-server-p5rqqwxefa-an.a.run.app/health"
-
-    oidc_token {
-      service_account_email = google_service_account.bizpark-stg-scheduler-test6.email
-    }
   }
 }
 
