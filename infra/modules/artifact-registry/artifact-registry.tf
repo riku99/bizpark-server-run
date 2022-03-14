@@ -3,7 +3,7 @@ variable location {}
 variable artifact_registry_id {}
 
 
-resource "google_artifact_registry_repository" "bizpark-stg-backend-app" {
+resource "google_artifact_registry_repository" "backend-image" {
   provider = google-beta
 
   project       = var.project
@@ -11,4 +11,8 @@ resource "google_artifact_registry_repository" "bizpark-stg-backend-app" {
   repository_id = var.artifact_registry_id
   description   = "docker imageレジストリ"
   format        = "DOCKER"
+}
+
+output "module_name" {
+  value = google_artifact_registry_repository.backend-image
 }

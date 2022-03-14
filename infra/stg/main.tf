@@ -15,6 +15,11 @@ provider "google" {
   zone    = var.zone
 }
 
+locals {
+  db_tier = "db-f1-micro"
+  db_disk_size = "10"
+}
+
 module "artifact-registry" {
   source = "../modules/artifact-registry"
   project = var.project
@@ -32,6 +37,14 @@ module "artifact-registry" {
 #   format        = "DOCKER"
 # }
 
+module "cloud-sql" {
+  source = "../modules/cloud-sql"
+  region = var.region
+  tier = local.db_tier
+  disk_size = local.db_disk_size
+}
+
+# 後で消す
 resource "google_sql_database_instance" "bizpark-stg-db-sample3" {
   name             = "bizpark-stg-db-sample3"
   database_version = "POSTGRES_14"
@@ -53,6 +66,7 @@ resource "google_sql_database_instance" "bizpark-stg-db-sample3" {
   }
 }
 
+# 後で消す
 resource "google_sql_database" "bizpark-stg-db-sample3" {
   name     = "bizpark-stg-db-sample3"
   instance = google_sql_database_instance.bizpark-stg-db-sample3.name
