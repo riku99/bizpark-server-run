@@ -134,10 +134,8 @@ resource "google_cloudbuild_trigger" "deploy-bizpark-stg" {
   }
 }
 
-# スクレイピング用スケジューラのためのサービスアカウント
-resource "google_service_account" "scraping_scheduler_invoker" {
-  display_name = "Schedler Invoker"
-  account_id   = "scraping-scheduler-invoker"
+module "service-account" {
+  source = "../modules/service-account"
 }
 
 # スクレイピング用スケジューラ
@@ -159,7 +157,7 @@ resource "google_cloud_scheduler_job" "scraping_jiji_scheduler" {
     uri         = "${var.scraping_news_base_endpoint}/jiji"
 
     oidc_token {
-      service_account_email = google_service_account.scraping_scheduler_invoker.email
+      service_account_email = module.service-account.scraping-scheduler-invoker-email
     }
   }
 }
@@ -182,7 +180,7 @@ resource "google_cloud_scheduler_job" "scraping_mainichi_scheduler" {
     uri         = "${var.scraping_news_base_endpoint}/mainichi"
 
     oidc_token {
-      service_account_email = google_service_account.scraping_scheduler_invoker.email
+      service_account_email = module.service-account.scraping-scheduler-invoker-email
     }
   }
 }

@@ -12,7 +12,6 @@ resource "google_cloudbuild_trigger" "deploy-bizpark-server" {
     owner = "riku99"
     name  = "bizpark-server-run"
     push {
-      # branch = "^qa$"
       branch = var.target_branch
     }
   }
