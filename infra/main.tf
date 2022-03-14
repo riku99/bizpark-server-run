@@ -141,7 +141,7 @@ resource "google_cloud_scheduler_job" "scraping_jiji_scheduler" {
 
   http_target {
     http_method = "GET"
-    uri         = "https://bizpark-stg-server-p5rqqwxefa-an.a.run.app/scraping/news/jiji"
+    uri         = "${var.scraping_news_base_endpoint}/jiji"
 
     oidc_token {
       service_account_email = google_service_account.scraping_scheduler_invoker.email
@@ -164,7 +164,7 @@ resource "google_cloud_scheduler_job" "scraping_mainichi_scheduler" {
 
   http_target {
     http_method = "GET"
-    uri         = "https://bizpark-stg-server-p5rqqwxefa-an.a.run.app/scraping/news/mainichi"
+    uri         = "${var.scraping_news_base_endpoint}/mainichi"
 
     oidc_token {
       service_account_email = google_service_account.scraping_scheduler_invoker.email
