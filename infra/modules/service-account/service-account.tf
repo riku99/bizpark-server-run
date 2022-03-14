@@ -5,5 +5,5 @@ resource "google_service_account" "scraping_scheduler_invoker" {
 }
 
 output "scraping-scheduler-invoker-email" {
-  value = "google_service_account.scraping_scheduler_invoker.email"
+  value = google_service_account.scraping_scheduler_invoker.email
 }

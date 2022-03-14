@@ -30,7 +30,7 @@ steps:
     args:
       - run
       - deploy
-      - bizpark-stg-server
+      - bizpark-server
       - --quiet
       - --image=$_ARTIFACT_REPOSITORY_IMAGE_NAME:$SHORT_SHA
       - --project=$PROJECT_ID

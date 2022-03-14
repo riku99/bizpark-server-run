@@ -3,7 +3,7 @@ variable tier {}
 variable disk_size {}
 
 resource "google_sql_database_instance" "bizpark-db-instance" {
-  name             = "bizpark-stg-db-sample3"
+  name             = "db"
   database_version = "POSTGRES_14"
   region           = var.region
 
