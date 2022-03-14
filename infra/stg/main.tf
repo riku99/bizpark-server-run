@@ -15,17 +15,22 @@ provider "google" {
   zone    = var.zone
 }
 
-module "artifact-registry" {}
-
-resource "google_artifact_registry_repository" "bizpark-stg-backend-app" {
-  provider = google-beta
-
-  project       = var.project
-  location      = var.region
-  repository_id = var.artifact_registry_id
-  description   = "バックエンド"
-  format        = "DOCKER"
+module "artifact-registry" {
+  source = "../modules/artifact-registry"
+  project = var.project
+  location = var.region
+  artifact_registry_id = var.artifact_registry_id
 }
+
+# resource "google_artifact_registry_repository" "bizpark-stg-backend-app" {
+#   provider = google-beta
+
+#   project       = var.project
+#   location      = var.region
+#   repository_id = var.artifact_registry_id
+#   description   = "バックエンド"
+#   format        = "DOCKER"
+# }
 
 resource "google_sql_database_instance" "bizpark-stg-db-sample3" {
   name             = "bizpark-stg-db-sample3"
