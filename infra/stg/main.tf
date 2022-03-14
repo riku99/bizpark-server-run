@@ -76,12 +76,22 @@ output "bizpark_stg_db_connection_name" {
   value = google_sql_database_instance.bizpark-stg-db-sample3.connection_name
 }
 
+module "cloud-storage" {
+  source = "../modules/cloud-storage"
+}
+
+output "user_upload_storage_bucket_name" {
+  value = module.cloud-storage.bucket_name
+}
+
+# 後で消す
 resource "google_storage_bucket" "bizpark-stg-user-upload" {
   name          = "bizpzrk-stg-user-upload"
   location      = "ASIA-NORTHEAST1"
   force_destroy = true # 本番はfalseの方がいいかも
 }
 
+# 後で消す
 // オブジェクトをインターネットに公開する。https://zenn.dev/catnose99/articles/18720e3af36d22
 resource "google_storage_bucket_iam_binding" "bizpark-stg-user-upload_iam_binding" {
   bucket = google_storage_bucket.bizpark-stg-user-upload.name
