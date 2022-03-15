@@ -1,5 +1,9 @@
-import { MutationResolvers } from '~/generated/graphql';
-import { ForbiddenError } from 'apollo-server-express';
+import {
+  MutationResolvers,
+  CustomErrorResponseCode,
+} from '~/generated/graphql';
+import { ForbiddenError, ApolloError } from 'apollo-server-express';
+import admin from 'firebase-admin';
 
 export const deleteAccount: MutationResolvers['deleteAccount'] = async (
   _,
@@ -10,14 +14,28 @@ export const deleteAccount: MutationResolvers['deleteAccount'] = async (
     throw new ForbiddenError('auth error');
   }
 
-  await prisma.user.delete({
+  const user = await prisma.user.findUnique({
     where: {
       id: requestUser.id,
       uid: requestUser.uid,
     },
   });
 
-  // firebase側のアカウントも削除
+  if (!user) {
+    throw new ApolloError(
+      'ユーザーが見つかりません',
+      CustomErrorResponseCode.InvalidRequest
+    );
+  }
+
+  await admin.auth().deleteUser(requestUser.uid);
+
+  await prisma.user.delete({
+    where: {
+      id: requestUser.id,
+      uid: requestUser.uid,
+    },
+  });
 
   return true;
 };
