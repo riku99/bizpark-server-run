@@ -9,7 +9,7 @@ export const scrape = async (
   genre: NewsGenre,
   topSelectorType?: 'section'
 ) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
 
   const data: Prisma.NewsCreateInput[] = [];
 

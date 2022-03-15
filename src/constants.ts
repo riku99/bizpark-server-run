@@ -10,3 +10,5 @@ export const newsProvider = {
   jiji: '時事通信社',
   mainichi: '毎日新聞',
 };
+
+export const SCRAPING_NEWS_SCHEDULER_BASE_ENDPOINT = '/scraping/news';

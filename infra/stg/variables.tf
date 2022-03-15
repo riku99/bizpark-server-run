@@ -12,6 +12,6 @@ variable "zone" {
 
 variable "artifact_registry_id" {}
 
-variable "cloudsql_instance_full_name" {}
-
 variable "registory_name" {}
+
+variable "scraping_news_base_endpoint" {} # できればCloud Runのリソースから参照したい。それかカスタムドメイン作って定義
