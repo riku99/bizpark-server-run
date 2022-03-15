@@ -566,6 +566,7 @@ type Mutation {
   addDeviceToken(input: AddDeviceTokenInput!): Boolean
   likeThought(input: LikeThoughtInput!): Thought
   unlikeThought(input: UnLikeThoughtInput!): Thought
+  deleteAccount: Boolean
 }
 
 type Subscription {
