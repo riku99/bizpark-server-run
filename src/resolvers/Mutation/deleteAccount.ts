@@ -14,7 +14,7 @@ export const deleteAccount: MutationResolvers['deleteAccount'] = async (
     throw new ForbiddenError('auth error');
   }
 
-  const user = await prisma.user.findUnique({
+  const user = await prisma.user.findFirst({
     where: {
       id: requestUser.id,
       uid: requestUser.uid,
