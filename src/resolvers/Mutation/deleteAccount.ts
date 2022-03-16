@@ -33,7 +33,6 @@ export const deleteAccount: MutationResolvers['deleteAccount'] = async (
   await prisma.user.delete({
     where: {
       id: requestUser.id,
-      uid: requestUser.uid,
     },
   });
 
