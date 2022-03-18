@@ -122,6 +122,11 @@ export type DeleteThoughtTalkRoomMemberInput = {
   userId: Scalars['ID'];
 };
 
+export type Deleted = {
+  __typename?: 'Deleted';
+  message: Scalars['String'];
+};
+
 export type DeviceToken = {
   __typename?: 'DeviceToken';
   createdAt: Scalars['String'];
@@ -597,7 +602,7 @@ export type Query = {
   thoughtTalkRoom: ThoughtTalkRoom;
   thoughtTalkRooms: Array<Maybe<ThoughtTalkRoom>>;
   thoughts: ThoughtsConnection;
-  user: User;
+  userResult: UserResult;
   userThoughts: ThoughtsConnection;
 };
 
@@ -661,7 +666,7 @@ export type QueryThoughtsArgs = {
 };
 
 
-export type QueryUserArgs = {
+export type QueryUserResultArgs = {
   id: Scalars['ID'];
 };
 
@@ -919,6 +924,8 @@ export type UserEdge = {
   node: User;
 };
 
+export type UserResult = Deleted | User;
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -1009,6 +1016,7 @@ export type ResolversTypes = {
   DeleteThoughtResponse: ResolverTypeWrapper<DeleteThoughtResponse>;
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
+  Deleted: ResolverTypeWrapper<Deleted>;
   DeviceToken: ResolverTypeWrapper<DeviceToken>;
   Follow: ResolverTypeWrapper<Follow>;
   Genre: ResolverTypeWrapper<Genre>;
@@ -1076,6 +1084,7 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
+  UserResult: ResolversTypes['Deleted'] | ResolversTypes['User'];
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
 
@@ -1101,6 +1110,7 @@ export type ResolversParentTypes = {
   DeleteThoughtResponse: DeleteThoughtResponse;
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
+  Deleted: Deleted;
   DeviceToken: DeviceToken;
   Follow: Follow;
   GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
@@ -1165,6 +1175,7 @@ export type ResolversParentTypes = {
   User: User;
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
+  UserResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['User'];
   Void: Scalars['Void'];
 };
 
@@ -1180,6 +1191,11 @@ export type CreateThoughtResponseResolvers<ContextType = Context, ParentType ext
 
 export type DeleteThoughtResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteThoughtResponse'] = ResolversParentTypes['DeleteThoughtResponse']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DeletedResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Deleted'] = ResolversParentTypes['Deleted']> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1435,7 +1451,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   thoughtTalkRoom?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<QueryThoughtTalkRoomArgs, 'id'>>;
   thoughtTalkRooms?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoom']>>, ParentType, ContextType>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, never>>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  userResult?: Resolver<ResolversTypes['UserResult'], ParentType, ContextType, RequireFields<QueryUserResultArgs, 'id'>>;
   userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;
 };
 
@@ -1621,6 +1637,10 @@ export type UserEdgeResolvers<ContextType = Context, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UserResult'] = ResolversParentTypes['UserResult']> = {
+  __resolveType: TypeResolveFn<'Deleted' | 'User', ParentType, ContextType>;
+};
+
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void';
 }
@@ -1629,6 +1649,7 @@ export type Resolvers<ContextType = Context> = {
   CreateNewsPickResponse?: CreateNewsPickResponseResolvers<ContextType>;
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
   DeleteThoughtResponse?: DeleteThoughtResponseResolvers<ContextType>;
+  Deleted?: DeletedResolvers<ContextType>;
   DeviceToken?: DeviceTokenResolvers<ContextType>;
   Follow?: FollowResolvers<ContextType>;
   Genre?: GenreResolvers;
@@ -1682,6 +1703,7 @@ export type Resolvers<ContextType = Context> = {
   User?: UserResolvers<ContextType>;
   UserConnection?: UserConnectionResolvers<ContextType>;
   UserEdge?: UserEdgeResolvers<ContextType>;
+  UserResult?: UserResultResolvers<ContextType>;
   Void?: GraphQLScalarType;
 };
 

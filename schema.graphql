@@ -93,6 +93,12 @@ type User {
   likedThoughts(first: Int, after: String): ThoughtLikeConnection
 }
 
+type Deleted {
+  message: String!
+}
+
+union UserResult = User | Deleted
+
 type Me {
   id: ID!
   loggedIn: Boolean!
@@ -347,7 +353,7 @@ type Query {
   initialData: InitialResponse!
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
   me: Me!
-  user(id: ID!): User!
+  userResult(id: ID!): UserResult!
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsPickConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
