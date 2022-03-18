@@ -97,6 +97,10 @@ type Deleted {
   message: String!
 }
 
+type IsBlocked {
+  message: String
+}
+
 union UserResult = User | Deleted
 
 type Me {
@@ -522,6 +526,8 @@ input UnLikeThoughtInput {
   thoughtId: String!
 }
 
+union FollowResult = User | Deleted
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -534,7 +540,7 @@ type Mutation {
   deleteNewsPick(input: DeleteNewsPickInput!): News!
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
-  follow(followeeId: ID!): User!
+  follow(followeeId: ID!): FollowResult!
   unfollow(followeeId: ID!): User!
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!

@@ -142,6 +142,8 @@ export type Follow = {
   id: Scalars['ID'];
 };
 
+export type FollowResult = Deleted | User;
+
 export enum Genre {
   Business = 'BUSINESS',
   Economy = 'ECONOMY',
@@ -174,6 +176,11 @@ export type ImageInput = {
 export type InitialResponse = {
   __typename?: 'InitialResponse';
   me: User;
+};
+
+export type IsBlocked = {
+  __typename?: 'IsBlocked';
+  message?: Maybe<Scalars['String']>;
 };
 
 export type JoinNewsTalkRoomInput = {
@@ -223,7 +230,7 @@ export type Mutation = {
   deleteThought: DeleteThoughtResponse;
   deleteThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   deleteThoughtTalkRoomMember: ThoughtTalkRoom;
-  follow: User;
+  follow: FollowResult;
   getOutNewsTalkRoom?: Maybe<Scalars['Boolean']>;
   getOutThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   joinNewsTalkRoom: NewsTalkRoom;
@@ -1019,6 +1026,7 @@ export type ResolversTypes = {
   Deleted: ResolverTypeWrapper<Deleted>;
   DeviceToken: ResolverTypeWrapper<DeviceToken>;
   Follow: ResolverTypeWrapper<Follow>;
+  FollowResult: ResolversTypes['Deleted'] | ResolversTypes['User'];
   Genre: ResolverTypeWrapper<Genre>;
   GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
@@ -1027,6 +1035,7 @@ export type ResolversTypes = {
   ImageInput: ImageInput;
   InitialResponse: ResolverTypeWrapper<Omit<InitialResponse, 'me'> & { me: ResolversTypes['User'] }>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  IsBlocked: ResolverTypeWrapper<IsBlocked>;
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
   LikeThoughtInput: LikeThoughtInput;
@@ -1113,6 +1122,7 @@ export type ResolversParentTypes = {
   Deleted: Deleted;
   DeviceToken: DeviceToken;
   Follow: Follow;
+  FollowResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['User'];
   GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
   ID: Scalars['ID'];
@@ -1120,6 +1130,7 @@ export type ResolversParentTypes = {
   ImageInput: ImageInput;
   InitialResponse: Omit<InitialResponse, 'me'> & { me: ResolversParentTypes['User'] };
   Int: Scalars['Int'];
+  IsBlocked: IsBlocked;
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
   LikeThoughtInput: LikeThoughtInput;
@@ -1214,6 +1225,10 @@ export type FollowResolvers<ContextType = Context, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type FollowResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FollowResult'] = ResolversParentTypes['FollowResult']> = {
+  __resolveType: TypeResolveFn<'Deleted' | 'User', ParentType, ContextType>;
+};
+
 export type GenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, SOCIETY?: any }, ResolversTypes['Genre']>;
 
 export type ImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']> = {
@@ -1226,6 +1241,11 @@ export type ImageResolvers<ContextType = Context, ParentType extends ResolversPa
 
 export type InitialResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['InitialResponse'] = ResolversParentTypes['InitialResponse']> = {
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type IsBlockedResolvers<ContextType = Context, ParentType extends ResolversParentTypes['IsBlocked'] = ResolversParentTypes['IsBlocked']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1262,7 +1282,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
   deleteThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteThoughtTalkRoomArgs, 'input'>>;
   deleteThoughtTalkRoomMember?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationDeleteThoughtTalkRoomMemberArgs, 'input'>>;
-  follow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
+  follow?: Resolver<ResolversTypes['FollowResult'], ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
   getOutNewsTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutNewsTalkRoomArgs, 'input'>>;
   getOutThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutThoughtTalkRoomArgs, 'input'>>;
   joinNewsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinNewsTalkRoomArgs, 'input'>>;
@@ -1652,9 +1672,11 @@ export type Resolvers<ContextType = Context> = {
   Deleted?: DeletedResolvers<ContextType>;
   DeviceToken?: DeviceTokenResolvers<ContextType>;
   Follow?: FollowResolvers<ContextType>;
+  FollowResult?: FollowResultResolvers<ContextType>;
   Genre?: GenreResolvers;
   Image?: ImageResolvers<ContextType>;
   InitialResponse?: InitialResponseResolvers<ContextType>;
+  IsBlocked?: IsBlockedResolvers<ContextType>;
   Me?: MeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   News?: NewsResolvers<ContextType>;
