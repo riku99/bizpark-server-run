@@ -240,7 +240,7 @@ export type Mutation = {
   seenOneOnOneTalkRoomMessage: OneOnOneTalkRoom;
   signOut: Me;
   unblock: User;
-  unfollow: User;
+  unfollow: UnFollowResult;
   unlikeThought?: Maybe<Thought>;
   updateMe: Me;
   uploadImage: SubImage;
@@ -865,6 +865,8 @@ export type ThoughtsConnection = {
   pageInfo: PageInfo;
 };
 
+export type UnFollowResult = Deleted | User;
+
 export type UnLikeThoughtInput = {
   thoughtId: Scalars['String'];
 };
@@ -1086,6 +1088,7 @@ export type ResolversTypes = {
   ThoughtTalkRoomMessageConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMessageEdge']> }>;
   ThoughtTalkRoomMessageEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMessage'] }>;
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
+  UnFollowResult: ResolversTypes['Deleted'] | ResolversTypes['User'];
   UnLikeThoughtInput: UnLikeThoughtInput;
   UpdateMeInput: UpdateMeInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
@@ -1179,6 +1182,7 @@ export type ResolversParentTypes = {
   ThoughtTalkRoomMessageConnection: Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMessageEdge']> };
   ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
+  UnFollowResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['User'];
   UnLikeThoughtInput: UnLikeThoughtInput;
   UpdateMeInput: UpdateMeInput;
   Upload: Scalars['Upload'];
@@ -1292,7 +1296,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   seenOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationSeenOneOnOneTalkRoomMessageArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
-  unfollow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
+  unfollow?: Resolver<ResolversTypes['UnFollowResult'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
   unlikeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationUnlikeThoughtArgs, 'input'>>;
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
@@ -1619,6 +1623,10 @@ export type ThoughtsConnectionResolvers<ContextType = Context, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UnFollowResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UnFollowResult'] = ResolversParentTypes['UnFollowResult']> = {
+  __resolveType: TypeResolveFn<'Deleted' | 'User', ParentType, ContextType>;
+};
+
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
   name: 'Upload';
 }
@@ -1720,6 +1728,7 @@ export type Resolvers<ContextType = Context> = {
   ThoughtTalkRoomMessageConnection?: ThoughtTalkRoomMessageConnectionResolvers<ContextType>;
   ThoughtTalkRoomMessageEdge?: ThoughtTalkRoomMessageEdgeResolvers<ContextType>;
   ThoughtsConnection?: ThoughtsConnectionResolvers<ContextType>;
+  UnFollowResult?: UnFollowResultResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   UploadThoughtImagesResponse?: UploadThoughtImagesResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

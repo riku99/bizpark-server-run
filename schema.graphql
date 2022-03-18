@@ -528,6 +528,8 @@ input UnLikeThoughtInput {
 
 union FollowResult = User | Deleted
 
+union UnFollowResult = User | Deleted
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -541,7 +543,7 @@ type Mutation {
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
   follow(followeeId: ID!): FollowResult!
-  unfollow(followeeId: ID!): User!
+  unfollow(followeeId: ID!): UnFollowResult!
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!
   joinThoughtTalk(input: JoinTalkInput!): ThoughtTalkRoom!
