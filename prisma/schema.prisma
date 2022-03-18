@@ -134,11 +134,11 @@ model ThoughtTalkRoomMessage {
   id Int @id @default(autoincrement())
   text String
   createdAt DateTime @default(now())
-  senderId String
+  senderId String? // ユーザーが削除された場合空になるのでオプショナル
   roomId Int
   replyTo Int?
 
-  sender User @relation(fields: [senderId], references: [id])
+  sender User? @relation(fields: [senderId], references: [id]) // ユーザーが削除された場合を考えて外部キー制約外す
   talkRoom ThoughtTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   replyMessage ThoughtTalkRoomMessage? @relation("Reply", fields: [replyTo], references: [id])
   replyBy ThoughtTalkRoomMessage[] @relation("Reply")
@@ -168,7 +168,7 @@ model ThoughtTalkRoomMember {
   createdAt DateTime @default(now())
 
   talkRoom ThoughtTalkRoom @relation(fields: [talkRoomId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([talkRoomId])
   @@index([userId])
