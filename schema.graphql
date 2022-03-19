@@ -94,14 +94,22 @@ type User {
 }
 
 type Deleted {
-  message: String!
+  message: String
+}
+
+type BlockedByUser {
+  id: ID!
+  name: String!
+  imageUrl: String
 }
 
 type IsBlocked {
   message: String
+  blockedByUser: User
+  # blockedByUser: BlockedByUser
 }
 
-union UserResult = User | Deleted
+union UserResult = User | Deleted | IsBlocked
 
 type Me {
   id: ID!

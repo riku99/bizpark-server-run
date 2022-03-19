@@ -26,6 +26,13 @@ export type AddDeviceTokenInput = {
   oldToken?: InputMaybe<Scalars['String']>;
 };
 
+export type BlockedByUser = {
+  __typename?: 'BlockedByUser';
+  id: Scalars['ID'];
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type CreateNewsPickInput = {
   newsId: Scalars['Int'];
 };
@@ -124,7 +131,7 @@ export type DeleteThoughtTalkRoomMemberInput = {
 
 export type Deleted = {
   __typename?: 'Deleted';
-  message: Scalars['String'];
+  message?: Maybe<Scalars['String']>;
 };
 
 export type DeviceToken = {
@@ -180,6 +187,7 @@ export type InitialResponse = {
 
 export type IsBlocked = {
   __typename?: 'IsBlocked';
+  blockedByUser?: Maybe<User>;
   message?: Maybe<Scalars['String']>;
 };
 
@@ -933,7 +941,7 @@ export type UserEdge = {
   node: User;
 };
 
-export type UserResult = Deleted | User;
+export type UserResult = Deleted | IsBlocked | User;
 
 
 
@@ -1005,6 +1013,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
+  BlockedByUser: ResolverTypeWrapper<BlockedByUser>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
@@ -1037,7 +1046,7 @@ export type ResolversTypes = {
   ImageInput: ImageInput;
   InitialResponse: ResolverTypeWrapper<Omit<InitialResponse, 'me'> & { me: ResolversTypes['User'] }>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  IsBlocked: ResolverTypeWrapper<IsBlocked>;
+  IsBlocked: ResolverTypeWrapper<Omit<IsBlocked, 'blockedByUser'> & { blockedByUser?: Maybe<ResolversTypes['User']> }>;
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
   LikeThoughtInput: LikeThoughtInput;
@@ -1096,13 +1105,14 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
-  UserResult: ResolversTypes['Deleted'] | ResolversTypes['User'];
+  UserResult: ResolversTypes['Deleted'] | ResolversTypes['IsBlocked'] | ResolversTypes['User'];
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
+  BlockedByUser: BlockedByUser;
   Boolean: Scalars['Boolean'];
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: CreateNewsPickResponse;
@@ -1133,7 +1143,7 @@ export type ResolversParentTypes = {
   ImageInput: ImageInput;
   InitialResponse: Omit<InitialResponse, 'me'> & { me: ResolversParentTypes['User'] };
   Int: Scalars['Int'];
-  IsBlocked: IsBlocked;
+  IsBlocked: Omit<IsBlocked, 'blockedByUser'> & { blockedByUser?: Maybe<ResolversParentTypes['User']> };
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
   LikeThoughtInput: LikeThoughtInput;
@@ -1190,8 +1200,15 @@ export type ResolversParentTypes = {
   User: User;
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
-  UserResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['User'];
+  UserResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['IsBlocked'] | ResolversParentTypes['User'];
   Void: Scalars['Void'];
+};
+
+export type BlockedByUserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BlockedByUser'] = ResolversParentTypes['BlockedByUser']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CreateNewsPickResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateNewsPickResponse'] = ResolversParentTypes['CreateNewsPickResponse']> = {
@@ -1210,7 +1227,7 @@ export type DeleteThoughtResponseResolvers<ContextType = Context, ParentType ext
 };
 
 export type DeletedResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Deleted'] = ResolversParentTypes['Deleted']> = {
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1249,6 +1266,7 @@ export type InitialResponseResolvers<ContextType = Context, ParentType extends R
 };
 
 export type IsBlockedResolvers<ContextType = Context, ParentType extends ResolversParentTypes['IsBlocked'] = ResolversParentTypes['IsBlocked']> = {
+  blockedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1666,7 +1684,7 @@ export type UserEdgeResolvers<ContextType = Context, ParentType extends Resolver
 };
 
 export type UserResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UserResult'] = ResolversParentTypes['UserResult']> = {
-  __resolveType: TypeResolveFn<'Deleted' | 'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'Deleted' | 'IsBlocked' | 'User', ParentType, ContextType>;
 };
 
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
@@ -1674,6 +1692,7 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type Resolvers<ContextType = Context> = {
+  BlockedByUser?: BlockedByUserResolvers<ContextType>;
   CreateNewsPickResponse?: CreateNewsPickResponseResolvers<ContextType>;
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
   DeleteThoughtResponse?: DeleteThoughtResponseResolvers<ContextType>;

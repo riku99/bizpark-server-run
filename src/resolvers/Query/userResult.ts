@@ -23,6 +23,24 @@ export const userResult: QueryResolvers['userResult'] = async (
     };
   }
 
+  const blocked = await prisma.block.findFirst({
+    where: {
+      blockTo: requestUser.id,
+      blockBy: id,
+    },
+  });
+
+  if (blocked) {
+    return {
+      __typename: 'IsBlocked',
+      blockedByUser: {
+        id: user.id,
+        name: user.name,
+        imageUrl: user.imageUrl,
+      },
+    };
+  }
+
   return {
     __typename: 'User',
     ...user,
