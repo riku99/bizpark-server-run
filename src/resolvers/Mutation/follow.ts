@@ -1,16 +1,29 @@
 import {
   MutationResolvers,
   CustomErrorResponseCode,
-} from "~/generated/graphql";
-import { ForbiddenError, ApolloError } from "apollo-server-express";
+} from '~/generated/graphql';
+import { ForbiddenError, ApolloError } from 'apollo-server-express';
 
-export const follow: MutationResolvers["follow"] = async (
+export const follow: MutationResolvers['follow'] = async (
   _,
   { followeeId },
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
+  }
+
+  const targetUser = await prisma.user.findUnique({
+    where: {
+      id: followeeId,
+    },
+  });
+
+  if (!targetUser) {
+    return {
+      __typename: 'Deleted',
+      message: 'ユーザーが見つかりません',
+    };
   }
 
   const blocking = await prisma.block.findUnique({
@@ -24,7 +37,7 @@ export const follow: MutationResolvers["follow"] = async (
 
   if (blocking) {
     throw new ApolloError(
-      "user is blocking",
+      'user is blocking',
       CustomErrorResponseCode.InvalidRequest
     );
   }
@@ -41,6 +54,7 @@ export const follow: MutationResolvers["follow"] = async (
 
   return {
     ...result.followee,
+    __typename: 'User',
     follow: true,
   };
 };

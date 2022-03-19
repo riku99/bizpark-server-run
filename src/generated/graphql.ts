@@ -26,6 +26,13 @@ export type AddDeviceTokenInput = {
   oldToken?: InputMaybe<Scalars['String']>;
 };
 
+export type BlockedByUser = {
+  __typename?: 'BlockedByUser';
+  id: Scalars['ID'];
+  imageUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
 export type CreateNewsPickInput = {
   newsId: Scalars['Int'];
 };
@@ -122,6 +129,11 @@ export type DeleteThoughtTalkRoomMemberInput = {
   userId: Scalars['ID'];
 };
 
+export type Deleted = {
+  __typename?: 'Deleted';
+  message?: Maybe<Scalars['String']>;
+};
+
 export type DeviceToken = {
   __typename?: 'DeviceToken';
   createdAt: Scalars['String'];
@@ -136,6 +148,8 @@ export type Follow = {
   followerId: Scalars['ID'];
   id: Scalars['ID'];
 };
+
+export type FollowResult = Deleted | User;
 
 export enum Genre {
   Business = 'BUSINESS',
@@ -169,6 +183,12 @@ export type ImageInput = {
 export type InitialResponse = {
   __typename?: 'InitialResponse';
   me: User;
+};
+
+export type IsBlocked = {
+  __typename?: 'IsBlocked';
+  blockedByUser?: Maybe<User>;
+  message?: Maybe<Scalars['String']>;
 };
 
 export type JoinNewsTalkRoomInput = {
@@ -211,13 +231,14 @@ export type Mutation = {
   createUser: Me;
   createUserNewsTalkRoomMessageSeen: NewsTalkRoom;
   createUserThoughtTalkRoomMessageSeen: ThoughtTalkRoom;
+  deleteAccount?: Maybe<Scalars['Boolean']>;
   deleteNewsPick: News;
   deleteOneOnOneTalkRoom?: Maybe<Scalars['Boolean']>;
   deletePick: Pick;
   deleteThought: DeleteThoughtResponse;
   deleteThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   deleteThoughtTalkRoomMember: ThoughtTalkRoom;
-  follow: User;
+  follow: FollowResult;
   getOutNewsTalkRoom?: Maybe<Scalars['Boolean']>;
   getOutThoughtTalkRoom?: Maybe<Scalars['Boolean']>;
   joinNewsTalkRoom: NewsTalkRoom;
@@ -227,7 +248,7 @@ export type Mutation = {
   seenOneOnOneTalkRoomMessage: OneOnOneTalkRoom;
   signOut: Me;
   unblock: User;
-  unfollow: User;
+  unfollow: UnFollowResult;
   unlikeThought?: Maybe<Thought>;
   updateMe: Me;
   uploadImage: SubImage;
@@ -596,7 +617,7 @@ export type Query = {
   thoughtTalkRoom: ThoughtTalkRoom;
   thoughtTalkRooms: Array<Maybe<ThoughtTalkRoom>>;
   thoughts: ThoughtsConnection;
-  user: User;
+  userResult: UserResult;
   userThoughts: ThoughtsConnection;
 };
 
@@ -660,7 +681,7 @@ export type QueryThoughtsArgs = {
 };
 
 
-export type QueryUserArgs = {
+export type QueryUserResultArgs = {
   id: Scalars['ID'];
 };
 
@@ -852,6 +873,8 @@ export type ThoughtsConnection = {
   pageInfo: PageInfo;
 };
 
+export type UnFollowResult = Deleted | User;
+
 export type UnLikeThoughtInput = {
   thoughtId: Scalars['String'];
 };
@@ -917,6 +940,8 @@ export type UserEdge = {
   cursor: Scalars['String'];
   node: User;
 };
+
+export type UserResult = Deleted | IsBlocked | User;
 
 
 
@@ -988,6 +1013,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
+  BlockedByUser: ResolverTypeWrapper<BlockedByUser>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
@@ -1008,8 +1034,10 @@ export type ResolversTypes = {
   DeleteThoughtResponse: ResolverTypeWrapper<DeleteThoughtResponse>;
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
+  Deleted: ResolverTypeWrapper<Deleted>;
   DeviceToken: ResolverTypeWrapper<DeviceToken>;
   Follow: ResolverTypeWrapper<Follow>;
+  FollowResult: ResolversTypes['Deleted'] | ResolversTypes['User'];
   Genre: ResolverTypeWrapper<Genre>;
   GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
@@ -1018,6 +1046,7 @@ export type ResolversTypes = {
   ImageInput: ImageInput;
   InitialResponse: ResolverTypeWrapper<Omit<InitialResponse, 'me'> & { me: ResolversTypes['User'] }>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  IsBlocked: ResolverTypeWrapper<Omit<IsBlocked, 'blockedByUser'> & { blockedByUser?: Maybe<ResolversTypes['User']> }>;
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
   LikeThoughtInput: LikeThoughtInput;
@@ -1068,6 +1097,7 @@ export type ResolversTypes = {
   ThoughtTalkRoomMessageConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMessageEdge']> }>;
   ThoughtTalkRoomMessageEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMessage'] }>;
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
+  UnFollowResult: ResolversTypes['Deleted'] | ResolversTypes['User'];
   UnLikeThoughtInput: UnLikeThoughtInput;
   UpdateMeInput: UpdateMeInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
@@ -1075,12 +1105,14 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
+  UserResult: ResolversTypes['Deleted'] | ResolversTypes['IsBlocked'] | ResolversTypes['User'];
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
+  BlockedByUser: BlockedByUser;
   Boolean: Scalars['Boolean'];
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: CreateNewsPickResponse;
@@ -1100,8 +1132,10 @@ export type ResolversParentTypes = {
   DeleteThoughtResponse: DeleteThoughtResponse;
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
+  Deleted: Deleted;
   DeviceToken: DeviceToken;
   Follow: Follow;
+  FollowResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['User'];
   GetOutNewsTalkRoomInput: GetOutNewsTalkRoomInput;
   GetOutThoughtTalkRoomInput: GetOutThoughtTalkRoomInput;
   ID: Scalars['ID'];
@@ -1109,6 +1143,7 @@ export type ResolversParentTypes = {
   ImageInput: ImageInput;
   InitialResponse: Omit<InitialResponse, 'me'> & { me: ResolversParentTypes['User'] };
   Int: Scalars['Int'];
+  IsBlocked: Omit<IsBlocked, 'blockedByUser'> & { blockedByUser?: Maybe<ResolversParentTypes['User']> };
   JoinNewsTalkRoomInput: JoinNewsTalkRoomInput;
   JoinTalkInput: JoinTalkInput;
   LikeThoughtInput: LikeThoughtInput;
@@ -1157,6 +1192,7 @@ export type ResolversParentTypes = {
   ThoughtTalkRoomMessageConnection: Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtTalkRoomMessageEdge']> };
   ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
+  UnFollowResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['User'];
   UnLikeThoughtInput: UnLikeThoughtInput;
   UpdateMeInput: UpdateMeInput;
   Upload: Scalars['Upload'];
@@ -1164,7 +1200,15 @@ export type ResolversParentTypes = {
   User: User;
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
+  UserResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['IsBlocked'] | ResolversParentTypes['User'];
   Void: Scalars['Void'];
+};
+
+export type BlockedByUserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['BlockedByUser'] = ResolversParentTypes['BlockedByUser']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type CreateNewsPickResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateNewsPickResponse'] = ResolversParentTypes['CreateNewsPickResponse']> = {
@@ -1179,6 +1223,11 @@ export type CreateThoughtResponseResolvers<ContextType = Context, ParentType ext
 
 export type DeleteThoughtResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteThoughtResponse'] = ResolversParentTypes['DeleteThoughtResponse']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DeletedResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Deleted'] = ResolversParentTypes['Deleted']> = {
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1197,6 +1246,10 @@ export type FollowResolvers<ContextType = Context, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type FollowResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['FollowResult'] = ResolversParentTypes['FollowResult']> = {
+  __resolveType: TypeResolveFn<'Deleted' | 'User', ParentType, ContextType>;
+};
+
 export type GenreResolvers = EnumResolverSignature<{ BUSINESS?: any, ECONOMY?: any, POLITICS?: any, SOCIETY?: any }, ResolversTypes['Genre']>;
 
 export type ImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']> = {
@@ -1209,6 +1262,12 @@ export type ImageResolvers<ContextType = Context, ParentType extends ResolversPa
 
 export type InitialResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['InitialResponse'] = ResolversParentTypes['InitialResponse']> = {
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type IsBlockedResolvers<ContextType = Context, ParentType extends ResolversParentTypes['IsBlocked'] = ResolversParentTypes['IsBlocked']> = {
+  blockedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1238,13 +1297,14 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createUser?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   createUserNewsTalkRoomMessageSeen?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationCreateUserNewsTalkRoomMessageSeenArgs, 'input'>>;
   createUserThoughtTalkRoomMessageSeen?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationCreateUserThoughtTalkRoomMessageSeenArgs, 'input'>>;
+  deleteAccount?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   deleteNewsPick?: Resolver<ResolversTypes['News'], ParentType, ContextType, RequireFields<MutationDeleteNewsPickArgs, 'input'>>;
   deleteOneOnOneTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteOneOnOneTalkRoomArgs, 'input'>>;
   deletePick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationDeletePickArgs, 'thoughtId'>>;
   deleteThought?: Resolver<ResolversTypes['DeleteThoughtResponse'], ParentType, ContextType, RequireFields<MutationDeleteThoughtArgs, 'input'>>;
   deleteThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteThoughtTalkRoomArgs, 'input'>>;
   deleteThoughtTalkRoomMember?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationDeleteThoughtTalkRoomMemberArgs, 'input'>>;
-  follow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
+  follow?: Resolver<ResolversTypes['FollowResult'], ParentType, ContextType, RequireFields<MutationFollowArgs, 'followeeId'>>;
   getOutNewsTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutNewsTalkRoomArgs, 'input'>>;
   getOutThoughtTalkRoom?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationGetOutThoughtTalkRoomArgs, 'input'>>;
   joinNewsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinNewsTalkRoomArgs, 'input'>>;
@@ -1254,7 +1314,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   seenOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationSeenOneOnOneTalkRoomMessageArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
-  unfollow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
+  unfollow?: Resolver<ResolversTypes['UnFollowResult'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
   unlikeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationUnlikeThoughtArgs, 'input'>>;
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
@@ -1433,7 +1493,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   thoughtTalkRoom?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<QueryThoughtTalkRoomArgs, 'id'>>;
   thoughtTalkRooms?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoom']>>, ParentType, ContextType>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, never>>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  userResult?: Resolver<ResolversTypes['UserResult'], ParentType, ContextType, RequireFields<QueryUserResultArgs, 'id'>>;
   userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;
 };
 
@@ -1581,6 +1641,10 @@ export type ThoughtsConnectionResolvers<ContextType = Context, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UnFollowResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UnFollowResult'] = ResolversParentTypes['UnFollowResult']> = {
+  __resolveType: TypeResolveFn<'Deleted' | 'User', ParentType, ContextType>;
+};
+
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
   name: 'Upload';
 }
@@ -1619,19 +1683,27 @@ export type UserEdgeResolvers<ContextType = Context, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UserResult'] = ResolversParentTypes['UserResult']> = {
+  __resolveType: TypeResolveFn<'Deleted' | 'IsBlocked' | 'User', ParentType, ContextType>;
+};
+
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
   name: 'Void';
 }
 
 export type Resolvers<ContextType = Context> = {
+  BlockedByUser?: BlockedByUserResolvers<ContextType>;
   CreateNewsPickResponse?: CreateNewsPickResponseResolvers<ContextType>;
   CreateThoughtResponse?: CreateThoughtResponseResolvers<ContextType>;
   DeleteThoughtResponse?: DeleteThoughtResponseResolvers<ContextType>;
+  Deleted?: DeletedResolvers<ContextType>;
   DeviceToken?: DeviceTokenResolvers<ContextType>;
   Follow?: FollowResolvers<ContextType>;
+  FollowResult?: FollowResultResolvers<ContextType>;
   Genre?: GenreResolvers;
   Image?: ImageResolvers<ContextType>;
   InitialResponse?: InitialResponseResolvers<ContextType>;
+  IsBlocked?: IsBlockedResolvers<ContextType>;
   Me?: MeResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   News?: NewsResolvers<ContextType>;
@@ -1675,11 +1747,13 @@ export type Resolvers<ContextType = Context> = {
   ThoughtTalkRoomMessageConnection?: ThoughtTalkRoomMessageConnectionResolvers<ContextType>;
   ThoughtTalkRoomMessageEdge?: ThoughtTalkRoomMessageEdgeResolvers<ContextType>;
   ThoughtsConnection?: ThoughtsConnectionResolvers<ContextType>;
+  UnFollowResult?: UnFollowResultResolvers<ContextType>;
   Upload?: GraphQLScalarType;
   UploadThoughtImagesResponse?: UploadThoughtImagesResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   UserConnection?: UserConnectionResolvers<ContextType>;
   UserEdge?: UserEdgeResolvers<ContextType>;
+  UserResult?: UserResultResolvers<ContextType>;
   Void?: GraphQLScalarType;
 };
 

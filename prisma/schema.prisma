@@ -134,11 +134,11 @@ model ThoughtTalkRoomMessage {
   id Int @id @default(autoincrement())
   text String
   createdAt DateTime @default(now())
-  senderId String
+  senderId String? // ユーザーが削除された場合空になるのでオプショナル
   roomId Int
   replyTo Int?
 
-  sender User @relation(fields: [senderId], references: [id])
+  sender User? @relation(fields: [senderId], references: [id]) // ユーザーが削除された場合を考えて外部キー制約外す
   talkRoom ThoughtTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   replyMessage ThoughtTalkRoomMessage? @relation("Reply", fields: [replyTo], references: [id])
   replyBy ThoughtTalkRoomMessage[] @relation("Reply")
@@ -168,7 +168,7 @@ model ThoughtTalkRoomMember {
   createdAt DateTime @default(now())
 
   talkRoom ThoughtTalkRoom @relation(fields: [talkRoomId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([talkRoomId])
   @@index([userId])
@@ -197,11 +197,11 @@ model NewsTalkRoomMessage {
   id Int @id @default(autoincrement())
   text String
   createdAt DateTime @default(now())
-  senderId String
+  senderId String?
   roomId Int
   replyTo Int?
 
-  sender User @relation(fields: [senderId], references: [id])
+  sender User? @relation(fields: [senderId], references: [id])
   talkRoom NewsTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   
   replyMessage NewsTalkRoomMessage? @relation("ReplyMessage", fields: [replyTo], references: [id])
@@ -231,7 +231,7 @@ model NewsTalkRoomMember {
   createdAt DateTime @default(now())
 
   talkRoom NewsTalkRoom @relation(fields: [talkRoomId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   deleteRequestedMembers NewsTalkRoomMemberDeleteRequest[]
 
@@ -271,8 +271,8 @@ model OneOnOneTalkRoom {
   senderId String
   recipientId String
 
-  sender User @relation("sender", fields: [senderId], references: [id])
-  recipient User @relation("recipient", fields: [recipientId], references: [id])
+  sender User @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+  recipient User @relation("recipient", fields: [recipientId], references: [id], onDelete: Cascade)
 
   messages OneOnOneTalkRoomMessage[]
 
@@ -289,7 +289,7 @@ model OneOnOneTalkRoomMessage {
   seen Boolean?
   replyTo Int?
 
-  sender User @relation(fields: [senderId], references: [id])
+  sender User @relation(fields: [senderId], references: [id], onDelete: Cascade)
   room OneOnOneTalkRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
   replyMessage OneOnOneTalkRoomMessage? @relation("ReplyOneOnOneTalkRoomMessage", fields: [replyTo], references: [id])

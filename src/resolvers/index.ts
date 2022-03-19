@@ -1,6 +1,6 @@
-import { Mutation } from './mutations';
+import { Mutation } from './Mutation';
 import { Resolvers } from '~/generated/graphql';
-import { Query } from './queries';
+import { Query } from './Query';
 import { GraphQLUpload } from 'graphql-upload';
 import { Subscription } from './subscriptoins';
 import { Thought } from './Thought';

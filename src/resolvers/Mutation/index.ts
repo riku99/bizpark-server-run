@@ -32,6 +32,7 @@ import { deleteOneOnOneTalkRoom } from './deleteOneOnOneTalkRoom';
 import { addDeviceToken } from './addDeviceToken';
 import { likeThought } from './likeThought';
 import { unlikeThought } from './unlikeThought';
+import { deleteAccount } from './deleteAccount';
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -67,4 +68,5 @@ export const Mutation: MutationResolvers = {
   addDeviceToken,
   likeThought,
   unlikeThought,
+  deleteAccount,
 };

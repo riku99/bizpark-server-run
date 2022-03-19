@@ -1,6 +1,6 @@
-import { NewsTalkRoomMessageResolvers } from "~/generated/graphql";
+import { NewsTalkRoomMessageResolvers } from '~/generated/graphql';
 
-export const talkRoom: NewsTalkRoomMessageResolvers["talkRoom"] = async (
+export const talkRoom: NewsTalkRoomMessageResolvers['talkRoom'] = async (
   parent,
   _,
   { prisma }

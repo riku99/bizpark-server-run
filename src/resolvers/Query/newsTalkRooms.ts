@@ -1,13 +1,13 @@
-import { QueryResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
+import { QueryResolvers } from '~/generated/graphql';
+import { ForbiddenError } from 'apollo-server-express';
 
-export const newsTalkRooms: QueryResolvers["newsTalkRooms"] = async (
+export const newsTalkRooms: QueryResolvers['newsTalkRooms'] = async (
   _,
   __,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("aurh error");
+    throw new ForbiddenError('aurh error');
   }
 
   // FIX: 3日以内に更新されている もののみを取得するようにする
@@ -20,7 +20,7 @@ export const newsTalkRooms: QueryResolvers["newsTalkRooms"] = async (
       },
     },
     orderBy: {
-      updatedAt: "desc",
+      updatedAt: 'desc',
     },
   });
 

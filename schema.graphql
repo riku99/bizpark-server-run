@@ -93,6 +93,24 @@ type User {
   likedThoughts(first: Int, after: String): ThoughtLikeConnection
 }
 
+type Deleted {
+  message: String
+}
+
+type BlockedByUser {
+  id: ID!
+  name: String!
+  imageUrl: String
+}
+
+type IsBlocked {
+  message: String
+  blockedByUser: User
+  # blockedByUser: BlockedByUser
+}
+
+union UserResult = User | Deleted | IsBlocked
+
 type Me {
   id: ID!
   loggedIn: Boolean!
@@ -347,7 +365,7 @@ type Query {
   initialData: InitialResponse!
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
   me: Me!
-  user(id: ID!): User!
+  userResult(id: ID!): UserResult!
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsPickConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
@@ -516,6 +534,10 @@ input UnLikeThoughtInput {
   thoughtId: String!
 }
 
+union FollowResult = User | Deleted
+
+union UnFollowResult = User | Deleted
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -528,8 +550,8 @@ type Mutation {
   deleteNewsPick(input: DeleteNewsPickInput!): News!
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
-  follow(followeeId: ID!): User!
-  unfollow(followeeId: ID!): User!
+  follow(followeeId: ID!): FollowResult!
+  unfollow(followeeId: ID!): UnFollowResult!
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!
   joinThoughtTalk(input: JoinTalkInput!): ThoughtTalkRoom!
@@ -566,6 +588,7 @@ type Mutation {
   addDeviceToken(input: AddDeviceTokenInput!): Boolean
   likeThought(input: LikeThoughtInput!): Thought
   unlikeThought(input: UnLikeThoughtInput!): Thought
+  deleteAccount: Boolean
 }
 
 type Subscription {
