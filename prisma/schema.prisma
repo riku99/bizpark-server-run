@@ -53,6 +53,9 @@ model User {
   deviceTokens DeviceToken[]
 
   thoughtLikes ThoughtLike[]
+
+  notifications Notification[] @relation("user")
+  performNotifications Notification[] @relation("performer")
 }
 
 model Thought {
@@ -366,6 +369,19 @@ model DeviceToken {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Notification {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  type NotificationType
+  userId String
+  performerId String
+
+  user User @relation("user", fields: [userId], references: [id], onDelete: Cascade)
+  performer User @relation("performer", fields: [performerId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
 enum Genre {
   BUSINESS
   ECONOMY
@@ -378,4 +394,10 @@ enum NewsGenre {
   ECONOMY
   POLITICS
   TECHNOLOGY
+}
+
+enum NotificationType {
+  REPLY
+  LIKE
+  FOLLOW
 }
