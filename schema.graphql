@@ -28,6 +28,18 @@ enum PushNotificationDataKind {
   ONE_ON_ONE_TALK_ROOM_MESSAGE
 }
 
+enum NotificationType {
+  REPLY
+  LIKE
+  FOLLOW
+}
+
+enum TalkRoomType {
+  THOUGHT
+  NEWS
+  ONEONONE
+}
+
 type PushNotificationMessage {
   type: PushNotificationDataKind!
   id: String!
@@ -353,6 +365,16 @@ type DeviceToken {
   token: String!
   createdAt: String!
   user: User
+}
+
+type Notification {
+  id: Int!
+  createdAt: String!
+  type: NotificationType!
+  talkRoomType: TalkRoomType
+  user: User
+  performer: User
+  talkRoom: TalkRoom
 }
 
 type Query {

@@ -372,9 +372,11 @@ model DeviceToken {
 model Notification {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  type NotificationType
   userId String
   performerId String
+  type NotificationType
+  talkRoomType TalkRoomType?
+  talkRoomId Int?
 
   user User @relation("user", fields: [userId], references: [id], onDelete: Cascade)
   performer User @relation("performer", fields: [performerId], references: [id], onDelete: Cascade)
@@ -400,4 +402,10 @@ enum NotificationType {
   REPLY
   LIKE
   FOLLOW
+}
+
+enum TalkRoomType {
+  THOUGHT
+  NEWS
+  ONEONONE
 }
