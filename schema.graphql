@@ -372,9 +372,20 @@ type Notification {
   createdAt: String!
   type: NotificationType!
   talkRoomType: TalkRoomType
+  talkRoomId: Int
   user: User
   performer: User
-  talkRoom: TalkRoom
+  # talkRoom: TalkRoom
+}
+
+type NotificationEdge {
+  node: Notification!
+  cursor: String!
+}
+
+type NotificationConnection {
+  edges: [NotificationEdge!]!
+  pageInfo: PageInfo!
 }
 
 type Query {
@@ -401,6 +412,7 @@ type Query {
   thought(id: ID!): Thought!
   oneOnOneTalkRooms: [OneOnOneTalkRoom]!
   oneOnOneTalkRoom(id: Int!): OneOnOneTalkRoom!
+  notifications(first: Int, after: String): NotificationConnection!
 }
 
 input CreateUserInput {
