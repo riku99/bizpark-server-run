@@ -84,6 +84,18 @@ export const createNewsTalkRoomMessage: MutationResolvers['createNewsTalkRoomMes
       })
       .sender();
 
+    if (replyMessageUser) {
+      await prisma.notification.create({
+        data: {
+          userId: replyMessageUser.id,
+          performerId: requestUser.id,
+          type: 'REPLY',
+          talkRoomId: input.talkRoomId,
+          talkRoomType: 'NEWS',
+        },
+      });
+    }
+
     if (replyMessageUser && replyMessageUser.loggedIn) {
       const isReplyMessageUserIncluded = talkRoom.members.some(
         (member) => member.userId === replyMessageUser.id
