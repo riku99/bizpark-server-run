@@ -73,6 +73,7 @@ model Thought {
   talkRooms ThoughtTalkRoom[]
   likes ThoughtLike[]
   picked Pick[]
+  notifications Notification[]
 
   @@index([genre, cursor])
   @@index([contributorId, cursor])
@@ -377,9 +378,11 @@ model Notification {
   type NotificationType
   talkRoomType TalkRoomType?
   talkRoomId Int?
+  thoughtId String?
 
   user User @relation("user", fields: [userId], references: [id], onDelete: Cascade)
   performer User @relation("performer", fields: [performerId], references: [id], onDelete: Cascade)
+  thought Thought? @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }

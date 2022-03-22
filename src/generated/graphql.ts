@@ -539,6 +539,7 @@ export type Notification = {
   performer?: Maybe<User>;
   talkRoomId?: Maybe<Scalars['Int']>;
   talkRoomType?: Maybe<TalkRoomType>;
+  thought?: Maybe<Thought>;
   type: NotificationType;
   user?: Maybe<User>;
 };
@@ -1477,6 +1478,7 @@ export type NotificationResolvers<ContextType = Context, ParentType extends Reso
   performer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   talkRoomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   talkRoomType?: Resolver<Maybe<ResolversTypes['TalkRoomType']>, ParentType, ContextType>;
+  thought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['NotificationType'], ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

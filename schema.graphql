@@ -375,6 +375,7 @@ type Notification {
   talkRoomId: Int
   user: User
   performer: User
+  thought: Thought
   # talkRoom: TalkRoom
 }
 
