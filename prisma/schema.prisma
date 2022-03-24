@@ -379,6 +379,7 @@ model Notification {
   talkRoomType TalkRoomType?
   talkRoomId Int?
   thoughtId String?
+  seen Boolean?
 
   user User @relation("user", fields: [userId], references: [id], onDelete: Cascade)
   performer User @relation("performer", fields: [performerId], references: [id], onDelete: Cascade)

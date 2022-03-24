@@ -33,6 +33,7 @@ import { addDeviceToken } from './addDeviceToken';
 import { likeThought } from './likeThought';
 import { unlikeThought } from './unlikeThought';
 import { deleteAccount } from './deleteAccount';
+import { seeNotification } from './seeNotification';
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -69,4 +70,5 @@ export const Mutation: MutationResolvers = {
   likeThought,
   unlikeThought,
   deleteAccount,
+  seeNotification,
 };

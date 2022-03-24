@@ -245,6 +245,7 @@ export type Mutation = {
   joinThoughtTalk: ThoughtTalkRoom;
   likeThought?: Maybe<Thought>;
   requestNewsTalkRoomMemberDeletion?: Maybe<Scalars['Boolean']>;
+  seeNotification: Notification;
   seenOneOnOneTalkRoomMessage: OneOnOneTalkRoom;
   signOut: Me;
   unblock: User;
@@ -378,6 +379,11 @@ export type MutationLikeThoughtArgs = {
 
 export type MutationRequestNewsTalkRoomMemberDeletionArgs = {
   input: RequestNewsTalkRoomMemberDeletionInput;
+};
+
+
+export type MutationSeeNotificationArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -537,6 +543,7 @@ export type Notification = {
   createdAt: Scalars['String'];
   id: Scalars['Int'];
   performer?: Maybe<User>;
+  seen?: Maybe<Scalars['Boolean']>;
   talkRoomId?: Maybe<Scalars['Int']>;
   talkRoomType?: Maybe<TalkRoomType>;
   thought?: Maybe<Thought>;
@@ -1362,6 +1369,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
   likeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationLikeThoughtArgs, 'input'>>;
   requestNewsTalkRoomMemberDeletion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRequestNewsTalkRoomMemberDeletionArgs, 'input'>>;
+  seeNotification?: Resolver<ResolversTypes['Notification'], ParentType, ContextType, RequireFields<MutationSeeNotificationArgs, 'id'>>;
   seenOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationSeenOneOnOneTalkRoomMessageArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
@@ -1476,6 +1484,7 @@ export type NotificationResolvers<ContextType = Context, ParentType extends Reso
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   performer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  seen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   talkRoomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   talkRoomType?: Resolver<Maybe<ResolversTypes['TalkRoomType']>, ParentType, ContextType>;
   thought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType>;

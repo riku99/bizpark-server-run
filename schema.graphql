@@ -376,6 +376,7 @@ type Notification {
   user: User
   performer: User
   thought: Thought
+  seen: Boolean
   # talkRoom: TalkRoom
 }
 
@@ -624,6 +625,7 @@ type Mutation {
   likeThought(input: LikeThoughtInput!): Thought
   unlikeThought(input: UnLikeThoughtInput!): Thought
   deleteAccount: Boolean
+  seeNotification(id: Int!): Notification!
 }
 
 type Subscription {
