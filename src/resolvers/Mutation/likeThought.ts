@@ -23,9 +23,28 @@ export const likeThought: MutationResolvers['likeThought'] = async (
     },
     update: {},
     select: {
-      thought: true,
+      thought: {
+        include: {
+          contributor: {
+            select: {
+              id: true,
+            },
+          },
+        },
+      },
     },
   });
+
+  if (thought.contributor) {
+    await prisma.notification.create({
+      data: {
+        userId: thought.contributor.id,
+        performerId: requestUser.id,
+        type: 'LIKE',
+        thoughtId: input.thoughtId,
+      },
+    });
+  }
 
   return thought;
 };

@@ -52,6 +52,14 @@ export const follow: MutationResolvers['follow'] = async (
     },
   });
 
+  await prisma.notification.create({
+    data: {
+      userId: followeeId,
+      performerId: requestUser.id,
+      type: 'FOLLOW',
+    },
+  });
+
   return {
     ...result.followee,
     __typename: 'User',

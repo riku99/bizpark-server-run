@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { Thought, Genre, Pick, Image, ThoughtImage, News, NewsGenre, NewsPick, User, Follow, ThoughtTalkRoomMessage, ThoughtTalkRoom, ThoughtTalkRoomMember, NewsTalkRoom, NewsTalkRoomMessage, OneOnOneTalkRoom, OneOnOneTalkRoomMessage, DeviceToken, ThoughtLike } from '@prisma/client/index.d';
+import { Thought, Genre, Pick, Image, ThoughtImage, News, NewsGenre, NewsPick, User, Follow, ThoughtTalkRoomMessage, ThoughtTalkRoom, ThoughtTalkRoomMember, NewsTalkRoom, NewsTalkRoomMessage, OneOnOneTalkRoom, OneOnOneTalkRoomMessage, DeviceToken, ThoughtLike, Notification } from '@prisma/client/index.d';
 import { Context } from '../context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -245,6 +245,7 @@ export type Mutation = {
   joinThoughtTalk: ThoughtTalkRoom;
   likeThought?: Maybe<Thought>;
   requestNewsTalkRoomMemberDeletion?: Maybe<Scalars['Boolean']>;
+  seeNotification: Notification;
   seenOneOnOneTalkRoomMessage: OneOnOneTalkRoom;
   signOut: Me;
   unblock: User;
@@ -378,6 +379,11 @@ export type MutationLikeThoughtArgs = {
 
 export type MutationRequestNewsTalkRoomMemberDeletionArgs = {
   input: RequestNewsTalkRoomMemberDeletionInput;
+};
+
+
+export type MutationSeeNotificationArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -532,6 +538,37 @@ export type NewsTalkRoomMessageEdge = {
   node: NewsTalkRoomMessage;
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  performer?: Maybe<User>;
+  seen?: Maybe<Scalars['Boolean']>;
+  talkRoomId?: Maybe<Scalars['Int']>;
+  talkRoomType?: Maybe<TalkRoomType>;
+  thought?: Maybe<Thought>;
+  type: NotificationType;
+  user?: Maybe<User>;
+};
+
+export type NotificationConnection = {
+  __typename?: 'NotificationConnection';
+  edges: Array<NotificationEdge>;
+  pageInfo: PageInfo;
+};
+
+export type NotificationEdge = {
+  __typename?: 'NotificationEdge';
+  cursor: Scalars['String'];
+  node: Notification;
+};
+
+export enum NotificationType {
+  Follow = 'FOLLOW',
+  Like = 'LIKE',
+  Reply = 'REPLY'
+}
+
 export type OneOnOneTalkRoom = TalkRoom & {
   __typename?: 'OneOnOneTalkRoom';
   allMessageSeen?: Maybe<Scalars['Boolean']>;
@@ -608,6 +645,7 @@ export type Query = {
   news?: Maybe<NewsConnection>;
   newsTalkRoom: NewsTalkRoom;
   newsTalkRooms: Array<NewsTalkRoom>;
+  notifications: NotificationConnection;
   oneNews: News;
   oneOnOneTalkRoom: OneOnOneTalkRoom;
   oneOnOneTalkRooms: Array<Maybe<OneOnOneTalkRoom>>;
@@ -638,6 +676,12 @@ export type QueryNewsArgs = {
 
 export type QueryNewsTalkRoomArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryNotificationsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -754,6 +798,12 @@ export type TalkRoomMessage = {
   sender?: Maybe<User>;
   text: Scalars['String'];
 };
+
+export enum TalkRoomType {
+  News = 'NEWS',
+  Oneonone = 'ONEONONE',
+  Thought = 'THOUGHT'
+}
 
 export type Thought = {
   __typename?: 'Thought';
@@ -1066,6 +1116,10 @@ export type ResolversTypes = {
   NewsTalkRoomMessage: ResolverTypeWrapper<NewsTalkRoomMessage>;
   NewsTalkRoomMessageConnection: ResolverTypeWrapper<Omit<NewsTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['NewsTalkRoomMessageEdge']> }>;
   NewsTalkRoomMessageEdge: ResolverTypeWrapper<Omit<NewsTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['NewsTalkRoomMessage'] }>;
+  Notification: ResolverTypeWrapper<Notification>;
+  NotificationConnection: ResolverTypeWrapper<Omit<NotificationConnection, 'edges'> & { edges: Array<ResolversTypes['NotificationEdge']> }>;
+  NotificationEdge: ResolverTypeWrapper<Omit<NotificationEdge, 'node'> & { node: ResolversTypes['Notification'] }>;
+  NotificationType: NotificationType;
   OneOnOneTalkRoom: ResolverTypeWrapper<OneOnOneTalkRoom>;
   OneOnOneTalkRoomMessage: ResolverTypeWrapper<OneOnOneTalkRoomMessage>;
   OneOnOneTalkRoomMessageConnection: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['OneOnOneTalkRoomMessageEdge']> }>;
@@ -1083,6 +1137,7 @@ export type ResolversTypes = {
   TalkRoom: ResolversTypes['NewsTalkRoom'] | ResolversTypes['OneOnOneTalkRoom'] | ResolversTypes['ThoughtTalkRoom'];
   TalkRoomMember: ResolversTypes['NewsTalkRoomMember'] | ResolversTypes['ThoughtTalkRoomMember'];
   TalkRoomMessage: ResolversTypes['NewsTalkRoomMessage'] | ResolversTypes['OneOnOneTalkRoomMessage'] | ResolversTypes['ThoughtTalkRoomMessage'];
+  TalkRoomType: TalkRoomType;
   Thought: ResolverTypeWrapper<Thought>;
   ThoughtEdge: ResolverTypeWrapper<Omit<ThoughtEdge, 'node'> & { node: ResolversTypes['Thought'] }>;
   ThoughtImage: ResolverTypeWrapper<ThoughtImage>;
@@ -1162,6 +1217,9 @@ export type ResolversParentTypes = {
   NewsTalkRoomMessage: NewsTalkRoomMessage;
   NewsTalkRoomMessageConnection: Omit<NewsTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['NewsTalkRoomMessageEdge']> };
   NewsTalkRoomMessageEdge: Omit<NewsTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['NewsTalkRoomMessage'] };
+  Notification: Notification;
+  NotificationConnection: Omit<NotificationConnection, 'edges'> & { edges: Array<ResolversParentTypes['NotificationEdge']> };
+  NotificationEdge: Omit<NotificationEdge, 'node'> & { node: ResolversParentTypes['Notification'] };
   OneOnOneTalkRoom: OneOnOneTalkRoom;
   OneOnOneTalkRoomMessage: OneOnOneTalkRoomMessage;
   OneOnOneTalkRoomMessageConnection: Omit<OneOnOneTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversParentTypes['OneOnOneTalkRoomMessageEdge']> };
@@ -1311,6 +1369,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   joinThoughtTalk?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<MutationJoinThoughtTalkArgs, 'input'>>;
   likeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationLikeThoughtArgs, 'input'>>;
   requestNewsTalkRoomMemberDeletion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRequestNewsTalkRoomMemberDeletionArgs, 'input'>>;
+  seeNotification?: Resolver<ResolversTypes['Notification'], ParentType, ContextType, RequireFields<MutationSeeNotificationArgs, 'id'>>;
   seenOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationSeenOneOnOneTalkRoomMessageArgs, 'input'>>;
   signOut?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
@@ -1421,6 +1480,31 @@ export type NewsTalkRoomMessageEdgeResolvers<ContextType = Context, ParentType e
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type NotificationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Notification'] = ResolversParentTypes['Notification']> = {
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  performer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  seen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  talkRoomId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  talkRoomType?: Resolver<Maybe<ResolversTypes['TalkRoomType']>, ParentType, ContextType>;
+  thought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['NotificationType'], ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NotificationConnectionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NotificationConnection'] = ResolversParentTypes['NotificationConnection']> = {
+  edges?: Resolver<Array<ResolversTypes['NotificationEdge']>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type NotificationEdgeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['NotificationEdge'] = ResolversParentTypes['NotificationEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<ResolversTypes['Notification'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type OneOnOneTalkRoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['OneOnOneTalkRoom'] = ResolversParentTypes['OneOnOneTalkRoom']> = {
   allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1484,6 +1568,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
   newsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<QueryNewsTalkRoomArgs, 'id'>>;
   newsTalkRooms?: Resolver<Array<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
+  notifications?: Resolver<ResolversTypes['NotificationConnection'], ParentType, ContextType, RequireFields<QueryNotificationsArgs, never>>;
   oneNews?: Resolver<ResolversTypes['News'], ParentType, ContextType, RequireFields<QueryOneNewsArgs, 'id'>>;
   oneOnOneTalkRoom?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<QueryOneOnOneTalkRoomArgs, 'id'>>;
   oneOnOneTalkRooms?: Resolver<Array<Maybe<ResolversTypes['OneOnOneTalkRoom']>>, ParentType, ContextType>;
@@ -1720,6 +1805,9 @@ export type Resolvers<ContextType = Context> = {
   NewsTalkRoomMessage?: NewsTalkRoomMessageResolvers<ContextType>;
   NewsTalkRoomMessageConnection?: NewsTalkRoomMessageConnectionResolvers<ContextType>;
   NewsTalkRoomMessageEdge?: NewsTalkRoomMessageEdgeResolvers<ContextType>;
+  Notification?: NotificationResolvers<ContextType>;
+  NotificationConnection?: NotificationConnectionResolvers<ContextType>;
+  NotificationEdge?: NotificationEdgeResolvers<ContextType>;
   OneOnOneTalkRoom?: OneOnOneTalkRoomResolvers<ContextType>;
   OneOnOneTalkRoomMessage?: OneOnOneTalkRoomMessageResolvers<ContextType>;
   OneOnOneTalkRoomMessageConnection?: OneOnOneTalkRoomMessageConnectionResolvers<ContextType>;

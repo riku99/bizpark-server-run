@@ -33,3 +33,4 @@ generates:
         OneOnOneTalkRoomMessage: '@prisma/client/index.d#OneOnOneTalkRoomMessage'
         DeviceToken: '@prisma/client/index.d#DeviceToken'
         ThoughtLike: '@prisma/client/index.d#ThoughtLike'
+        Notification: '@prisma/client/index.d#Notification'

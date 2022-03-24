@@ -101,8 +101,21 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     },
     select: {
       loggedIn: true,
+      id: true,
     },
   });
+
+  if (targetUser) {
+    await prisma.notification.create({
+      data: {
+        userId: targetUser.id,
+        performerId: requestUser.id,
+        type: 'REPLY',
+        talkRoomType: 'ONEONONE',
+        talkRoomId: input.talkRoomId,
+      },
+    });
+  }
 
   if (targetUser?.loggedIn) {
     const deviceTokens = await getDeviceTokens(sendToUserId);

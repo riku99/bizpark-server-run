@@ -28,6 +28,18 @@ enum PushNotificationDataKind {
   ONE_ON_ONE_TALK_ROOM_MESSAGE
 }
 
+enum NotificationType {
+  REPLY
+  LIKE
+  FOLLOW
+}
+
+enum TalkRoomType {
+  THOUGHT
+  NEWS
+  ONEONONE
+}
+
 type PushNotificationMessage {
   type: PushNotificationDataKind!
   id: String!
@@ -355,6 +367,29 @@ type DeviceToken {
   user: User
 }
 
+type Notification {
+  id: Int!
+  createdAt: String!
+  type: NotificationType!
+  talkRoomType: TalkRoomType
+  talkRoomId: Int
+  user: User
+  performer: User
+  thought: Thought
+  seen: Boolean
+  # talkRoom: TalkRoom
+}
+
+type NotificationEdge {
+  node: Notification!
+  cursor: String!
+}
+
+type NotificationConnection {
+  edges: [NotificationEdge!]!
+  pageInfo: PageInfo!
+}
+
 type Query {
   thoughts(
     genre: Genre
@@ -379,6 +414,7 @@ type Query {
   thought(id: ID!): Thought!
   oneOnOneTalkRooms: [OneOnOneTalkRoom]!
   oneOnOneTalkRoom(id: Int!): OneOnOneTalkRoom!
+  notifications(first: Int, after: String): NotificationConnection!
 }
 
 input CreateUserInput {
@@ -589,6 +625,7 @@ type Mutation {
   likeThought(input: LikeThoughtInput!): Thought
   unlikeThought(input: UnLikeThoughtInput!): Thought
   deleteAccount: Boolean
+  seeNotification(id: Int!): Notification!
 }
 
 type Subscription {

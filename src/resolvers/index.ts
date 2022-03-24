@@ -14,6 +14,7 @@ import { NewsPick } from './NewsPick';
 import { OneOnOneTalkRoom } from './OneOnOneTalkRoom';
 import { OneOnOneTalkRoomMessage } from './OneOnOneTalkRoomMessage';
 import { ThoughtLike } from './ThoughtLike';
+import { Notification } from './Notification';
 
 export const resolvers: Resolvers = {
   // @ts-ignore
@@ -32,4 +33,5 @@ export const resolvers: Resolvers = {
   OneOnOneTalkRoom,
   OneOnOneTalkRoomMessage,
   ThoughtLike,
+  Notification,
 };
