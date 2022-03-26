@@ -214,6 +214,7 @@ export type Me = {
   linkedin?: Maybe<Scalars['String']>;
   loggedIn: Scalars['Boolean'];
   name: Scalars['String'];
+  plan: Plan;
   twitter?: Maybe<Scalars['String']>;
 };
 
@@ -622,6 +623,11 @@ export type Pick = {
   id: Scalars['ID'];
   thoughtId: Scalars['ID'];
 };
+
+export enum Plan {
+  Normal = 'Normal',
+  Plus = 'Plus'
+}
 
 export enum PushNotificationDataKind {
   NewsTalkRoomMessage = 'NEWS_TALK_ROOM_MESSAGE',
@@ -1126,6 +1132,7 @@ export type ResolversTypes = {
   OneOnOneTalkRoomMessageEdge: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['OneOnOneTalkRoomMessage'] }>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
+  Plan: Plan;
   PushNotificationDataKind: PushNotificationDataKind;
   PushNotificationMessage: ResolverTypeWrapper<PushNotificationMessage>;
   Query: ResolverTypeWrapper<{}>;
@@ -1338,6 +1345,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
   linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   loggedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  plan?: Resolver<ResolversTypes['Plan'], ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

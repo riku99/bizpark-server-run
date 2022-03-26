@@ -22,7 +22,8 @@ model User {
   facebook String?
   twitter String?
   linkedin String?
-  instagram String?
+  instagram String? 
+  plan Plan @default(Normal)
 
   thoughts Thought[]
   thoughtTalkRoomMessages ThoughtTalkRoomMessage[]
@@ -412,4 +413,9 @@ enum TalkRoomType {
   THOUGHT
   NEWS
   ONEONONE
+}
+
+enum Plan {
+  Normal
+  Plus
 }
