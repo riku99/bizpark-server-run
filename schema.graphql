@@ -585,7 +585,7 @@ union FollowResult = User | Deleted
 union UnFollowResult = User | Deleted
 
 input VerifyIapReceiptInput {
-  platform: DevicePlatform!
+  platform: String!
   productId: String!
   receipt: String!
 }

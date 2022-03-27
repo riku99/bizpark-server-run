@@ -1,6 +1,6 @@
 import { MutationResolvers } from '~/generated/graphql';
 import { ForbiddenError } from 'apollo-server-express';
-import { default as axios } from 'axios';
+import axios from 'axios';
 import {
   RECEIPT_VERIFICATION_ENDPOINT_FOR_IOS_PROD,
   RECEIPT_VERIFICATION_ENDPOINT_FOR_IOS_SANDBOX,

@@ -1011,7 +1011,7 @@ export type UserEdge = {
 export type UserResult = Deleted | IsBlocked | User;
 
 export type VerifyIapReceiptInput = {
-  platform: DevicePlatform;
+  platform: Scalars['String'];
   productId: Scalars['String'];
   receipt: Scalars['String'];
 };
