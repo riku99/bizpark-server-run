@@ -134,6 +134,11 @@ export type Deleted = {
   message?: Maybe<Scalars['String']>;
 };
 
+export enum DevicePlatform {
+  Android = 'android',
+  Ios = 'ios'
+}
+
 export type DeviceToken = {
   __typename?: 'DeviceToken';
   createdAt: Scalars['String'];
@@ -255,6 +260,7 @@ export type Mutation = {
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
+  verifyIapReceipt: Me;
 };
 
 
@@ -420,6 +426,11 @@ export type MutationUploadImageArgs = {
 
 export type MutationUploadThoughtImagesArgs = {
   files: Array<Scalars['Upload']>;
+};
+
+
+export type MutationVerifyIapReceiptArgs = {
+  input: VerifyIapReceiptInput;
 };
 
 export type News = {
@@ -999,6 +1010,12 @@ export type UserEdge = {
 
 export type UserResult = Deleted | IsBlocked | User;
 
+export type VerifyIapReceiptInput = {
+  platform: DevicePlatform;
+  productId: Scalars['String'];
+  receipt: Scalars['String'];
+};
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -1091,6 +1108,7 @@ export type ResolversTypes = {
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Deleted: ResolverTypeWrapper<Deleted>;
+  DevicePlatform: DevicePlatform;
   DeviceToken: ResolverTypeWrapper<DeviceToken>;
   Follow: ResolverTypeWrapper<Follow>;
   FollowResult: ResolversTypes['Deleted'] | ResolversTypes['User'];
@@ -1168,6 +1186,7 @@ export type ResolversTypes = {
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
   UserResult: ResolversTypes['Deleted'] | ResolversTypes['IsBlocked'] | ResolversTypes['User'];
+  VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
 
@@ -1266,6 +1285,7 @@ export type ResolversParentTypes = {
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
   UserResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['IsBlocked'] | ResolversParentTypes['User'];
+  VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: Scalars['Void'];
 };
 
@@ -1386,6 +1406,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
+  verifyIapReceipt?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationVerifyIapReceiptArgs, 'input'>>;
 };
 
 export type NewsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {

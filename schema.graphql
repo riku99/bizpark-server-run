@@ -45,6 +45,11 @@ enum Plan {
   Plus
 }
 
+enum DevicePlatform {
+  ios
+  android
+}
+
 type PushNotificationMessage {
   type: PushNotificationDataKind!
   id: String!
@@ -579,6 +584,12 @@ union FollowResult = User | Deleted
 
 union UnFollowResult = User | Deleted
 
+input VerifyIapReceiptInput {
+  platform: DevicePlatform!
+  productId: String!
+  receipt: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -631,6 +642,7 @@ type Mutation {
   unlikeThought(input: UnLikeThoughtInput!): Thought
   deleteAccount: Boolean
   seeNotification(id: Int!): Notification!
+  verifyIapReceipt(input: VerifyIapReceiptInput!): Me!
 }
 
 type Subscription {

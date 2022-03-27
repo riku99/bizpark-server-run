@@ -34,6 +34,7 @@ import { likeThought } from './likeThought';
 import { unlikeThought } from './unlikeThought';
 import { deleteAccount } from './deleteAccount';
 import { seeNotification } from './seeNotification';
+import { verifyIapReceipt } from './verifyIapReceipt';
 
 export const Mutation: MutationResolvers = {
   createUser,
@@ -71,4 +72,5 @@ export const Mutation: MutationResolvers = {
   unlikeThought,
   deleteAccount,
   seeNotification,
+  verifyIapReceipt,
 };
