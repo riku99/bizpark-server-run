@@ -72,6 +72,25 @@ export const verifyIapReceipt: MutationResolvers['verifyIapReceipt'] = async (
 
   // レシートが期限内であることを確認
   if (now < expireDate) {
+    await prisma.subscriptionPurchase.upsert({
+      where: {
+        userId: requestUser.id,
+      },
+      create: {
+        userId: requestUser.id,
+        receiptId: latestReceipt.original_transaction_id,
+        expireDate: new Date(expireDate),
+        receipt: result.latest_receipt,
+        productId: latestReceipt.product_id,
+      },
+      update: {
+        receiptId: latestReceipt.original_transaction_id,
+        expireDate: new Date(expireDate),
+        receipt: result.latest_receipt,
+        productId: latestReceipt.product_id,
+      },
+    });
+
     const user = await prisma.user.update({
       where: {
         id: requestUser.id,

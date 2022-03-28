@@ -57,6 +57,8 @@ model User {
 
   notifications Notification[] @relation("user")
   performNotifications Notification[] @relation("performer")
+
+  subscriptionPurchase SubscriptionPurchase?
 }
 
 model Thought {
@@ -387,6 +389,19 @@ model Notification {
   thought Thought? @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+model SubscriptionPurchase {
+  id Int @id @default(autoincrement())
+  userId String @unique
+  receiptId String @unique
+  expireDate DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  receipt String
+  productId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Genre {

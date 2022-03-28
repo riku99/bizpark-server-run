@@ -1,5 +1,4 @@
 import express from 'express';
-// import { server } from "./server";
 import { graphqlUploadExpress } from 'graphql-upload';
 import { firebaseInit } from './firebase';
 import { ApolloServer } from 'apollo-server-express';
@@ -15,6 +14,7 @@ import { createServer } from 'http';
 import { prisma } from '~/lib/prisma';
 import { verifyIdToken } from '~/auth/verifyIdToken';
 import { registerScrapeNews } from '~/schedulers/scrapeNews';
+import { registerAppStoreEvent } from '~/rest-apis/appStoreServerNotificatoin';
 
 const schema = loadSchemaSync(join(__dirname, '../schema.graphql'), {
   loaders: [new GraphQLFileLoader()],
@@ -91,6 +91,7 @@ const start = async () => {
   });
 
   registerScrapeNews(app);
+  registerAppStoreEvent(app);
 
   const port = process.env.PORT || 4000;
 
