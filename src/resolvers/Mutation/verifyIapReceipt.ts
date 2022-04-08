@@ -1,5 +1,8 @@
-import { MutationResolvers } from '~/generated/graphql';
-import { ForbiddenError } from 'apollo-server-express';
+import {
+  MutationResolvers,
+  ReceiptVerificationError,
+} from '~/generated/graphql';
+import { ForbiddenError, ApolloError } from 'apollo-server-express';
 import axios from 'axios';
 import {
   RECEIPT_VERIFICATION_ENDPOINT_FOR_IOS_PROD,
@@ -103,6 +106,9 @@ export const verifyIapReceipt: MutationResolvers['verifyIapReceipt'] = async (
     return user;
   } else {
     console.log('有効期限が切れています');
-    throw new Error();
+    throw new ApolloError(
+      'レシートの有効期限切れ',
+      ReceiptVerificationError.Expiration
+    );
   }
 };

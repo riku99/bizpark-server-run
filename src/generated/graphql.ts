@@ -753,6 +753,10 @@ export type QueryUserThoughtsArgs = {
   userId: Scalars['ID'];
 };
 
+export enum ReceiptVerificationError {
+  Expiration = 'Expiration'
+}
+
 export type RequestNewsTalkRoomMemberDeletionInput = {
   memberId: Scalars['Int'];
   talkRoomId: Scalars['Int'];
@@ -1154,6 +1158,7 @@ export type ResolversTypes = {
   PushNotificationDataKind: PushNotificationDataKind;
   PushNotificationMessage: ResolverTypeWrapper<PushNotificationMessage>;
   Query: ResolverTypeWrapper<{}>;
+  ReceiptVerificationError: ReceiptVerificationError;
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
   String: ResolverTypeWrapper<Scalars['String']>;

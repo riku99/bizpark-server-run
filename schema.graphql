@@ -50,6 +50,10 @@ enum DevicePlatform {
   android
 }
 
+enum ReceiptVerificationError {
+  Expiration
+}
+
 type PushNotificationMessage {
   type: PushNotificationDataKind!
   id: String!
