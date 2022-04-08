@@ -52,6 +52,10 @@ enum DevicePlatform {
 
 enum ReceiptVerificationError {
   Expiration
+  ReceiptNotFound
+  LatestReceiptNotFound
+  InValidRequestToAppleEndpoint
+  InValidStatus
 }
 
 type PushNotificationMessage {

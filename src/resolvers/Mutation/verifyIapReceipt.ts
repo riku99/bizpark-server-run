@@ -40,14 +40,20 @@ export const verifyIapReceipt: MutationResolvers['verifyIapReceipt'] = async (
     }
   } catch (e) {
     console.log(e);
-    throw new Error();
+    throw new ApolloError(
+      'Appleの検証用エンドポイントへのリクエストに失敗',
+      ReceiptVerificationError.InValidRequestToAppleEndpoint
+    );
   }
 
   const result = response.data;
 
   if (result.status !== 0) {
     console.log('Verifying reciept status is ' + result.status);
-    throw new Error();
+    throw new ApolloError(
+      'ステータスコードが不正',
+      ReceiptVerificationError.InValidStatus
+    );
   }
 
   if (
@@ -59,15 +65,20 @@ export const verifyIapReceipt: MutationResolvers['verifyIapReceipt'] = async (
     } else {
       console.log('BundleId is' + result.receipt.bundle_id);
     }
-
-    throw new Error();
+    throw new ApolloError(
+      'レシートが存在しません',
+      ReceiptVerificationError.ReceiptNotFound
+    );
   }
 
   // 日付を基準に降順で渡されるので最新のもの1つを取得 https://medium.com/@teruhisafukumoto/breaking-changes-appstore-receipt-sort-debda31d5870
   const latestReceipt = result.latest_receipt_info[0];
   if (!latestReceipt) {
     console.log('latestReceiptが存在しません');
-    throw new Error();
+    throw new ApolloError(
+      '最新レシートが存在しません',
+      ReceiptVerificationError.LatestReceiptNotFound
+    );
   }
 
   const expireDate: number = Number(latestReceipt.expires_date_ms);

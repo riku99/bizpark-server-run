@@ -754,7 +754,11 @@ export type QueryUserThoughtsArgs = {
 };
 
 export enum ReceiptVerificationError {
-  Expiration = 'Expiration'
+  Expiration = 'Expiration',
+  InValidRequestToAppleEndpoint = 'InValidRequestToAppleEndpoint',
+  InValidStatus = 'InValidStatus',
+  LatestReceiptNotFound = 'LatestReceiptNotFound',
+  ReceiptNotFound = 'ReceiptNotFound'
 }
 
 export type RequestNewsTalkRoomMemberDeletionInput = {
