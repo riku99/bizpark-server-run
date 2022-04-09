@@ -31,6 +31,8 @@ const start = async () => {
   const app = express();
 
   app.use(graphqlUploadExpress());
+  app.use(express.json({ limit: '50mb' }));
+  app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
   const httpServer = createServer(app);
 

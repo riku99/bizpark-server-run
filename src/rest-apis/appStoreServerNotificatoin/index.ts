@@ -3,7 +3,7 @@ import { prisma } from '~/lib/prisma';
 import { Prisma } from '@prisma/client';
 
 export const registerAppStoreEvent = (app: Express) => {
-  app.get('/appStoreEvent', async (req, res) => {
+  app.post('/appStoreEvent', async (req, res) => {
     const { body } = req;
 
     if (process.env.IAP_SECRET !== body.password) {
@@ -21,6 +21,7 @@ export const registerAppStoreEvent = (app: Express) => {
     const productId = latestReceipt.product_id;
 
     console.log('notificationType is ' + notificationType);
+    console.log(latestReceipt);
 
     const updateData: Prisma.SubscriptionPurchaseUpdateInput = {
       receipt,
