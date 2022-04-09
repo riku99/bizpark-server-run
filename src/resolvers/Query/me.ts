@@ -1,4 +1,4 @@
-import { QueryResolvers } from '~/generated/graphql';
+import { QueryResolvers, Plan } from '~/generated/graphql';
 import { ForbiddenError } from 'apollo-server-express';
 
 export const me: QueryResolvers['me'] = async (
@@ -55,6 +55,13 @@ export const me: QueryResolvers['me'] = async (
 
       plan = 'Normal';
     }
+  }
+
+  if (plan !== Plan.Plus) {
+    requestUser.instagram = null;
+    requestUser.linkedin = null;
+    requestUser.facebook = null;
+    requestUser.twitter = null;
   }
 
   return {
