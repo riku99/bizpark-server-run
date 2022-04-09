@@ -107,6 +107,13 @@ type ThoughtImage {
   height: Int
 }
 
+type SnsAccounts {
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
+}
+
 type User {
   id: ID!
   name: String!
@@ -121,6 +128,7 @@ type User {
   pickedNews(first: Int, after: String): NewsPickConnection
   pickedThoughts(first: Int, after: String): ThoughtsConnection
   likedThoughts(first: Int, after: String): ThoughtLikeConnection
+  snsAccounts: SnsAccounts
 }
 
 type Deleted {
@@ -151,6 +159,7 @@ type Me {
   linkedin: String
   instagram: String
   plan: Plan!
+  snsAccounts: SnsAccounts
 }
 
 type Pick {

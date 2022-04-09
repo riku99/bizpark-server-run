@@ -220,6 +220,7 @@ export type Me = {
   loggedIn: Scalars['Boolean'];
   name: Scalars['String'];
   plan: Plan;
+  snsAccounts?: Maybe<SnsAccounts>;
   twitter?: Maybe<Scalars['String']>;
 };
 
@@ -771,6 +772,14 @@ export type SeenOneOnOneTalkRoomMessageInput = {
   talkRoomId: Scalars['Int'];
 };
 
+export type SnsAccounts = {
+  __typename?: 'SnsAccounts';
+  facebook?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+  linkedin?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
+};
+
 export type SubImage = {
   __typename?: 'SubImage';
   height?: Maybe<Scalars['Int']>;
@@ -983,6 +992,7 @@ export type User = {
   name: Scalars['String'];
   pickedNews?: Maybe<NewsPickConnection>;
   pickedThoughts?: Maybe<ThoughtsConnection>;
+  snsAccounts?: Maybe<SnsAccounts>;
   twitter?: Maybe<Scalars['String']>;
 };
 
@@ -1165,6 +1175,7 @@ export type ResolversTypes = {
   ReceiptVerificationError: ReceiptVerificationError;
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
+  SnsAccounts: ResolverTypeWrapper<SnsAccounts>;
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
   Subscription: ResolverTypeWrapper<{}>;
@@ -1265,6 +1276,7 @@ export type ResolversParentTypes = {
   Query: {};
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
+  SnsAccounts: SnsAccounts;
   String: Scalars['String'];
   SubImage: SubImage;
   Subscription: {};
@@ -1375,6 +1387,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
   loggedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   plan?: Resolver<ResolversTypes['Plan'], ParentType, ContextType>;
+  snsAccounts?: Resolver<Maybe<ResolversTypes['SnsAccounts']>, ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1620,6 +1633,14 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;
 };
 
+export type SnsAccountsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SnsAccounts'] = ResolversParentTypes['SnsAccounts']> = {
+  facebook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  instagram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type SubImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SubImage'] = ResolversParentTypes['SubImage']> = {
   height?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1790,6 +1811,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pickedNews?: Resolver<Maybe<ResolversTypes['NewsPickConnection']>, ParentType, ContextType, RequireFields<UserPickedNewsArgs, never>>;
   pickedThoughts?: Resolver<Maybe<ResolversTypes['ThoughtsConnection']>, ParentType, ContextType, RequireFields<UserPickedThoughtsArgs, never>>;
+  snsAccounts?: Resolver<Maybe<ResolversTypes['SnsAccounts']>, ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1854,6 +1876,7 @@ export type Resolvers<ContextType = Context> = {
   Pick?: PickResolvers<ContextType>;
   PushNotificationMessage?: PushNotificationMessageResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SnsAccounts?: SnsAccountsResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   TalkRoom?: TalkRoomResolvers<ContextType>;
