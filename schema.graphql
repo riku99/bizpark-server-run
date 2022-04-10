@@ -40,6 +40,24 @@ enum TalkRoomType {
   ONEONONE
 }
 
+enum Plan {
+  Normal
+  Plus
+}
+
+enum DevicePlatform {
+  ios
+  android
+}
+
+enum ReceiptVerificationError {
+  Expiration
+  ReceiptNotFound
+  LatestReceiptNotFound
+  InValidRequestToAppleEndpoint
+  InValidStatus
+}
+
 type PushNotificationMessage {
   type: PushNotificationDataKind!
   id: String!
@@ -89,6 +107,13 @@ type ThoughtImage {
   height: Int
 }
 
+type SnsAccounts {
+  facebook: String
+  twitter: String
+  linkedin: String
+  instagram: String
+}
+
 type User {
   id: ID!
   name: String!
@@ -103,6 +128,7 @@ type User {
   pickedNews(first: Int, after: String): NewsPickConnection
   pickedThoughts(first: Int, after: String): ThoughtsConnection
   likedThoughts(first: Int, after: String): ThoughtLikeConnection
+  snsAccounts: SnsAccounts
 }
 
 type Deleted {
@@ -118,7 +144,6 @@ type BlockedByUser {
 type IsBlocked {
   message: String
   blockedByUser: User
-  # blockedByUser: BlockedByUser
 }
 
 union UserResult = User | Deleted | IsBlocked
@@ -133,6 +158,8 @@ type Me {
   twitter: String
   linkedin: String
   instagram: String
+  plan: Plan!
+  snsAccounts: SnsAccounts
 }
 
 type Pick {
@@ -574,6 +601,12 @@ union FollowResult = User | Deleted
 
 union UnFollowResult = User | Deleted
 
+input VerifyIapReceiptInput {
+  platform: String!
+  productId: String!
+  receipt: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -626,6 +659,7 @@ type Mutation {
   unlikeThought(input: UnLikeThoughtInput!): Thought
   deleteAccount: Boolean
   seeNotification(id: Int!): Notification!
+  verifyIapReceipt(input: VerifyIapReceiptInput!): Me!
 }
 
 type Subscription {

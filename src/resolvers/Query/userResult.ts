@@ -10,7 +10,7 @@ export const userResult: QueryResolvers['userResult'] = async (
     throw new ForbiddenError('auth error');
   }
 
-  const user = await prisma.user.findUnique({
+  let user = await prisma.user.findUnique({
     where: {
       id,
     },

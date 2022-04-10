@@ -134,6 +134,11 @@ export type Deleted = {
   message?: Maybe<Scalars['String']>;
 };
 
+export enum DevicePlatform {
+  Android = 'android',
+  Ios = 'ios'
+}
+
 export type DeviceToken = {
   __typename?: 'DeviceToken';
   createdAt: Scalars['String'];
@@ -214,6 +219,8 @@ export type Me = {
   linkedin?: Maybe<Scalars['String']>;
   loggedIn: Scalars['Boolean'];
   name: Scalars['String'];
+  plan: Plan;
+  snsAccounts?: Maybe<SnsAccounts>;
   twitter?: Maybe<Scalars['String']>;
 };
 
@@ -254,6 +261,7 @@ export type Mutation = {
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
+  verifyIapReceipt: Me;
 };
 
 
@@ -419,6 +427,11 @@ export type MutationUploadImageArgs = {
 
 export type MutationUploadThoughtImagesArgs = {
   files: Array<Scalars['Upload']>;
+};
+
+
+export type MutationVerifyIapReceiptArgs = {
+  input: VerifyIapReceiptInput;
 };
 
 export type News = {
@@ -623,6 +636,11 @@ export type Pick = {
   thoughtId: Scalars['ID'];
 };
 
+export enum Plan {
+  Normal = 'Normal',
+  Plus = 'Plus'
+}
+
 export enum PushNotificationDataKind {
   NewsTalkRoomMessage = 'NEWS_TALK_ROOM_MESSAGE',
   OneOnOneTalkRoomMessage = 'ONE_ON_ONE_TALK_ROOM_MESSAGE',
@@ -736,6 +754,14 @@ export type QueryUserThoughtsArgs = {
   userId: Scalars['ID'];
 };
 
+export enum ReceiptVerificationError {
+  Expiration = 'Expiration',
+  InValidRequestToAppleEndpoint = 'InValidRequestToAppleEndpoint',
+  InValidStatus = 'InValidStatus',
+  LatestReceiptNotFound = 'LatestReceiptNotFound',
+  ReceiptNotFound = 'ReceiptNotFound'
+}
+
 export type RequestNewsTalkRoomMemberDeletionInput = {
   memberId: Scalars['Int'];
   talkRoomId: Scalars['Int'];
@@ -744,6 +770,14 @@ export type RequestNewsTalkRoomMemberDeletionInput = {
 export type SeenOneOnOneTalkRoomMessageInput = {
   messageId: Scalars['Int'];
   talkRoomId: Scalars['Int'];
+};
+
+export type SnsAccounts = {
+  __typename?: 'SnsAccounts';
+  facebook?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+  linkedin?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
 };
 
 export type SubImage = {
@@ -958,6 +992,7 @@ export type User = {
   name: Scalars['String'];
   pickedNews?: Maybe<NewsPickConnection>;
   pickedThoughts?: Maybe<ThoughtsConnection>;
+  snsAccounts?: Maybe<SnsAccounts>;
   twitter?: Maybe<Scalars['String']>;
 };
 
@@ -992,6 +1027,12 @@ export type UserEdge = {
 };
 
 export type UserResult = Deleted | IsBlocked | User;
+
+export type VerifyIapReceiptInput = {
+  platform: Scalars['String'];
+  productId: Scalars['String'];
+  receipt: Scalars['String'];
+};
 
 
 
@@ -1085,6 +1126,7 @@ export type ResolversTypes = {
   DeleteThoughtTalkRoomInput: DeleteThoughtTalkRoomInput;
   DeleteThoughtTalkRoomMemberInput: DeleteThoughtTalkRoomMemberInput;
   Deleted: ResolverTypeWrapper<Deleted>;
+  DevicePlatform: DevicePlatform;
   DeviceToken: ResolverTypeWrapper<DeviceToken>;
   Follow: ResolverTypeWrapper<Follow>;
   FollowResult: ResolversTypes['Deleted'] | ResolversTypes['User'];
@@ -1126,11 +1168,14 @@ export type ResolversTypes = {
   OneOnOneTalkRoomMessageEdge: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['OneOnOneTalkRoomMessage'] }>;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
+  Plan: Plan;
   PushNotificationDataKind: PushNotificationDataKind;
   PushNotificationMessage: ResolverTypeWrapper<PushNotificationMessage>;
   Query: ResolverTypeWrapper<{}>;
+  ReceiptVerificationError: ReceiptVerificationError;
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
+  SnsAccounts: ResolverTypeWrapper<SnsAccounts>;
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
   Subscription: ResolverTypeWrapper<{}>;
@@ -1161,6 +1206,7 @@ export type ResolversTypes = {
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
   UserResult: ResolversTypes['Deleted'] | ResolversTypes['IsBlocked'] | ResolversTypes['User'];
+  VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
 
@@ -1230,6 +1276,7 @@ export type ResolversParentTypes = {
   Query: {};
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
+  SnsAccounts: SnsAccounts;
   String: Scalars['String'];
   SubImage: SubImage;
   Subscription: {};
@@ -1259,6 +1306,7 @@ export type ResolversParentTypes = {
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
   UserResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['IsBlocked'] | ResolversParentTypes['User'];
+  VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: Scalars['Void'];
 };
 
@@ -1338,6 +1386,8 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
   linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   loggedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  plan?: Resolver<ResolversTypes['Plan'], ParentType, ContextType>;
+  snsAccounts?: Resolver<Maybe<ResolversTypes['SnsAccounts']>, ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1378,6 +1428,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
+  verifyIapReceipt?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationVerifyIapReceiptArgs, 'input'>>;
 };
 
 export type NewsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['News'] = ResolversParentTypes['News']> = {
@@ -1582,6 +1633,14 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;
 };
 
+export type SnsAccountsResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SnsAccounts'] = ResolversParentTypes['SnsAccounts']> = {
+  facebook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  instagram?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  linkedin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type SubImageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['SubImage'] = ResolversParentTypes['SubImage']> = {
   height?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1752,6 +1811,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   pickedNews?: Resolver<Maybe<ResolversTypes['NewsPickConnection']>, ParentType, ContextType, RequireFields<UserPickedNewsArgs, never>>;
   pickedThoughts?: Resolver<Maybe<ResolversTypes['ThoughtsConnection']>, ParentType, ContextType, RequireFields<UserPickedThoughtsArgs, never>>;
+  snsAccounts?: Resolver<Maybe<ResolversTypes['SnsAccounts']>, ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1816,6 +1876,7 @@ export type Resolvers<ContextType = Context> = {
   Pick?: PickResolvers<ContextType>;
   PushNotificationMessage?: PushNotificationMessageResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SnsAccounts?: SnsAccountsResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   TalkRoom?: TalkRoomResolvers<ContextType>;

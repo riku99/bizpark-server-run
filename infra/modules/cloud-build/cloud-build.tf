@@ -3,6 +3,7 @@ variable "cloudsql_instance_full_name" {}
 variable "registory_name" {}
 variable "bucket_name" {}
 variable "target_branch" {}
+variable "app_bundle_id" {}
 
 resource "google_cloudbuild_trigger" "deploy-bizpark-server" {
   name        = "deploy-bizpark-server"
@@ -22,5 +23,6 @@ resource "google_cloudbuild_trigger" "deploy-bizpark-server" {
     _CLOUDSQL_INSTANCE_FULL_NAME    = var.cloudsql_instance_full_name
     _ARTIFACT_REPOSITORY_IMAGE_NAME = var.registory_name
     _STORAGE_BUCKET_NAME            = var.bucket_name
+    _APP_BUNDLE_ID                  = var.app_bundle_id
   }
 }

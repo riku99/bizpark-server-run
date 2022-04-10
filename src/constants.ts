@@ -12,3 +12,9 @@ export const newsProvider = {
 };
 
 export const SCRAPING_NEWS_SCHEDULER_BASE_ENDPOINT = '/scraping/news';
+
+export const RECEIPT_VERIFICATION_ENDPOINT_FOR_IOS_SANDBOX =
+  'https://sandbox.itunes.apple.com/verifyReceipt';
+
+export const RECEIPT_VERIFICATION_ENDPOINT_FOR_IOS_PROD =
+  'https://buy.itunes.apple.com/verifyReceipt';
