@@ -6,6 +6,11 @@ export const registerAppStoreEvent = (app: Express) => {
   app.post('/appStoreEvent', async (req, res) => {
     const { body } = req;
 
+    console.log('😆 body is ');
+    console.log(body);
+
+    console.log('IAP_SECRET is ' + process.env.IAP_SECRET);
+
     if (process.env.IAP_SECRET !== body.password) {
       console.log('パスワードが違います');
       console.log('Password is ' + body.password);
