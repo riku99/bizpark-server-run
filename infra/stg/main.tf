@@ -50,7 +50,7 @@ module "cloud-build" {
   registory_name              = var.registory_name # localにできそう(?)
   bucket_name                 = module.cloud-storage.bucket_name
   target_branch               = local.deploy_target_branch
-  app_bunlde_id               = var.app_bundle_id
+  app_bundle_id               = var.app_bundle_id
 }
 
 module "service-account" {
