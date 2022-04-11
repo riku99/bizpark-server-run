@@ -6,11 +6,6 @@ export const registerAppStoreEvent = (app: Express) => {
   app.post('/appStoreEvent', async (req, res) => {
     const { body } = req;
 
-    console.log('😆 body is ');
-    console.log(body);
-
-    console.log('IAP_SECRET is ' + process.env.IAP_SECRET);
-
     if (process.env.IAP_SECRET !== body.password) {
       console.log('パスワードが違います');
       console.log('Password is ' + body.password);
@@ -24,9 +19,6 @@ export const registerAppStoreEvent = (app: Express) => {
     const originalTransactionId = latestReceipt.original_transaction_id;
     const expireDate = Number(latestReceipt.expires_date_ms);
     const productId = latestReceipt.product_id;
-
-    console.log('notificationType is ' + notificationType);
-    console.log(latestReceipt);
 
     const updateData: Prisma.SubscriptionPurchaseUpdateInput = {
       receipt,
