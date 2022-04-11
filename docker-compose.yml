@@ -19,7 +19,7 @@ services:
       dockerfile: Dockerfile
     container_name: server
     environment:
-      NODE_ENV: dev
+      NODE_ENV: development
       GOOGLE_APPLICATION_CREDENTIALS: /google_credentials.json
       DATABASE_URL: postgresql://postgres:password@db:5432/postgres?schema=public
     networks:
