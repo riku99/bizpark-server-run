@@ -1,12 +1,23 @@
+// @ts-nocheck
+
 import { PubSub } from 'graphql-subscriptions';
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-import { GooglePubSub } from '@axelspringer/graphql-google-pubsub';
-import Redis from 'ioredis';
+import { PostgresPubSub } from 'graphql-postgres-subscriptions';
+import { Client } from 'pg';
 
-const options = {
-  host: 'host.docker.internal',
-  port: 6379,
-};
+export let pubsub: PubSub;
 
-export const pubsub =
-  process.env.NODE_ENV === 'development' ? new PubSub() : new GooglePubSub();
+if (process.env.NODE_ENV === 'dev') {
+  pubsub = new PubSub();
+} else {
+  const client = new Client({
+    user: process.env.DATABASE_USER,
+    host: process.env.DATABASE_HOST,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: 5432,
+  });
+
+  client.connect();
+
+  pubsub = new PostgresPubSub({ client }) as PubSub;
+}

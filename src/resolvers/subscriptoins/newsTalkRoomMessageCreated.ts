@@ -3,15 +3,15 @@
 import {
   SubscriptionResolvers,
   SubscriptionNewsTalkRoomMessageCreatedArgs,
-} from "~/generated/graphql";
-import { pubsub } from "~/lib/pubsub";
-import { withFilter } from "graphql-subscriptions";
-import { prisma } from "~/lib/prisma";
-import { NewsTalkRoomMessage } from "@prisma/client";
+} from '~/generated/graphql';
+import { pubsub } from '~/lib/pubsub';
+import { withFilter } from 'graphql-subscriptions';
+import { prisma } from '~/lib/prisma';
+import { NewsTalkRoomMessage } from '@prisma/client';
 
-export const newsTalkRoomMessageCreated: SubscriptionResolvers["newsTalkRoomMessageCreated"] = {
+export const newsTalkRoomMessageCreated: SubscriptionResolvers['newsTalkRoomMessageCreated'] = {
   subscribe: withFilter(
-    () => pubsub.asyncIterator(["NEWS_TALK_ROOM_MESSAGE_CREATED"]),
+    () => pubsub.asyncIterator(['NEWS_TALK_ROOM_MESSAGE_CREATED']),
     async (
       payload: { newsTalkRoomMessageCreated: NewsTalkRoomMessage },
       variables: SubscriptionNewsTalkRoomMessageCreatedArgs

@@ -19,7 +19,6 @@
     "exe": "docker exec -it server bash"
   },
   "dependencies": {
-    "@axelspringer/graphql-google-pubsub": "^2.1.0",
     "@google-cloud/storage": "^5.16.1",
     "@graphql-codegen/add": "^3.1.0",
     "@graphql-tools/graphql-file-loader": "^7.3.3",
@@ -35,13 +34,13 @@
     "firebase-functions": "^3.14.1",
     "fluent-ffmpeg": "^2.1.2",
     "graphql": "^16.2.0",
-    "graphql-redis-subscriptions": "^2.4.2",
+    "graphql-postgres-subscriptions": "^1.0.5",
     "graphql-subscriptions": "^2.0.0",
     "graphql-upload": "^13.0.0",
-    "ioredis": "^5.0.4",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.5",
     "nodemon": "^2.0.15",
+    "pg": "^8.7.3",
     "prisma": "^3.7.0",
     "puppeteer": "^13.3.2",
     "sharp": "^0.29.3",
