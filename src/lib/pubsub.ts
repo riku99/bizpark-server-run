@@ -4,22 +4,20 @@ import { PubSub } from 'graphql-subscriptions';
 import { PostgresPubSub } from 'graphql-postgres-subscriptions';
 import { Client } from 'pg';
 
-const client = new Client({
-  user: 'postgres',
-  host: 'db',
-  database: 'postgres',
-  password: 'password',
-  port: 5432,
-});
+export let pubsub: PubSub;
 
-client.connect();
+if (process.env.NODE_ENV === 'dev') {
+  pubsub = new PubSub();
+} else {
+  const client = new Client({
+    user: process.env.DATABASE_USER,
+    host: process.env.DATABASE_HOST,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: 5432,
+  });
 
-export const pubsub =
-  process.env.NODE_ENV === 'dev'
-    ? new PubSub()
-    : (new PostgresPubSub({ client }) as PubSub);
+  client.connect();
 
-pubsub.subscribe('error', (err) => {
-  console.log(err.message);
-  console.log('Error');
-});
+  pubsub = new PostgresPubSub({ client }) as PubSub;
+}
