@@ -20,6 +20,11 @@ if (process.env.NODE_ENV === 'dev') {
 
   pubsub = new PostgresPubSub({ client }) as PubSub;
 } else {
+  console.log('PG ENV ✋');
+  console.log(process.env.DATABASE_USER);
+  console.log(process.env.DATABASE_HOST);
+  console.log(process.env.DATABASE_NAME);
+  console.log(process.env.DATABASE_PASSWORD);
   const client = new Client({
     user: process.env.DATABASE_USER,
     host: process.env.DATABASE_HOST,
