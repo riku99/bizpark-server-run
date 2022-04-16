@@ -1,18 +1,18 @@
 import {
   MutationResolvers,
   CustomErrorResponseCode,
-} from "~/generated/graphql";
-import { ForbiddenError, ApolloError } from "apollo-server-express";
-import { Prisma } from "@prisma/client";
-import { NOT_ENABLED_JOIN_TALK_ROOM } from "~/constants";
+} from '~/generated/graphql';
+import { ForbiddenError, ApolloError } from 'apollo-server-express';
+import { Prisma } from '@prisma/client';
+import { NOT_ENABLED_JOIN_TALK_ROOM } from '~/constants';
 
-export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
+export const joinThoughtTalk: MutationResolvers['joinThoughtTalk'] = async (
   _,
   { input },
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
   }
 
   const blocked = await prisma.block.findUnique({
@@ -52,11 +52,11 @@ export const joinThoughtTalk: MutationResolvers["joinThoughtTalk"] = async (
     include: {
       thought: true,
       members: {
-        where: {
-          userId: {
-            not: requestUser.id,
-          },
-        },
+        // where: {
+        //   userId: {
+        //     not: requestUser.id,
+        //   },
+        // },
         include: {
           user: true,
         },

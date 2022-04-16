@@ -672,6 +672,7 @@ export type Query = {
   pickedThoughts: ThoughtsConnection;
   thought: Thought;
   thoughtTalkRoom: ThoughtTalkRoom;
+  thoughtTalkRoomMessage?: Maybe<ThoughtTalkRoomMessage>;
   thoughtTalkRooms: Array<Maybe<ThoughtTalkRoom>>;
   thoughts: ThoughtsConnection;
   userResult: UserResult;
@@ -737,6 +738,11 @@ export type QueryThoughtArgs = {
 
 
 export type QueryThoughtTalkRoomArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryThoughtTalkRoomMessageArgs = {
   id: Scalars['Int'];
 };
 
@@ -1634,6 +1640,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;
   thought?: Resolver<ResolversTypes['Thought'], ParentType, ContextType, RequireFields<QueryThoughtArgs, 'id'>>;
   thoughtTalkRoom?: Resolver<ResolversTypes['ThoughtTalkRoom'], ParentType, ContextType, RequireFields<QueryThoughtTalkRoomArgs, 'id'>>;
+  thoughtTalkRoomMessage?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, ParentType, ContextType, RequireFields<QueryThoughtTalkRoomMessageArgs, 'id'>>;
   thoughtTalkRooms?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoom']>>, ParentType, ContextType>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, never>>;
   userResult?: Resolver<ResolversTypes['UserResult'], ParentType, ContextType, RequireFields<QueryUserResultArgs, 'id'>>;

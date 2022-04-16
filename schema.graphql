@@ -443,6 +443,7 @@ type Query {
   oneOnOneTalkRoom(id: Int!): OneOnOneTalkRoom!
   notifications(first: Int, after: String): NotificationConnection!
   newsTalkRoomMessage(id: Int!): NewsTalkRoomMessage
+  thoughtTalkRoomMessage(id: Int!): ThoughtTalkRoomMessage
 }
 
 input CreateUserInput {

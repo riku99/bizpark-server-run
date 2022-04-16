@@ -19,6 +19,7 @@ import { oneOnOneTalkRooms } from './oneOnOneTalkRooms';
 import { oneOnOneTalkRoom } from './oneOnOneTalkRoom';
 import { notifications } from './notifications';
 import { newsTalkRoomMessage } from './newsTalkRoomMessage';
+import { thoughtTalkRoomMessage } from './thoughtTalkRoomMessage';
 
 export const Query: QueryResolvers = {
   thoughts,
@@ -41,4 +42,5 @@ export const Query: QueryResolvers = {
   oneOnOneTalkRoom,
   notifications,
   newsTalkRoomMessage,
+  thoughtTalkRoomMessage,
 };
