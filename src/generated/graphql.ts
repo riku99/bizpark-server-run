@@ -662,6 +662,7 @@ export type Query = {
   me: Me;
   news?: Maybe<NewsConnection>;
   newsTalkRoom: NewsTalkRoom;
+  newsTalkRoomMessage?: Maybe<NewsTalkRoomMessage>;
   newsTalkRooms: Array<NewsTalkRoom>;
   notifications: NotificationConnection;
   oneNews: News;
@@ -693,6 +694,11 @@ export type QueryNewsArgs = {
 
 
 export type QueryNewsTalkRoomArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryNewsTalkRoomMessageArgs = {
   id: Scalars['Int'];
 };
 
@@ -1618,6 +1624,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   me?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
   newsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<QueryNewsTalkRoomArgs, 'id'>>;
+  newsTalkRoomMessage?: Resolver<Maybe<ResolversTypes['NewsTalkRoomMessage']>, ParentType, ContextType, RequireFields<QueryNewsTalkRoomMessageArgs, 'id'>>;
   newsTalkRooms?: Resolver<Array<ResolversTypes['NewsTalkRoom']>, ParentType, ContextType>;
   notifications?: Resolver<ResolversTypes['NotificationConnection'], ParentType, ContextType, RequireFields<QueryNotificationsArgs, never>>;
   oneNews?: Resolver<ResolversTypes['News'], ParentType, ContextType, RequireFields<QueryOneNewsArgs, 'id'>>;

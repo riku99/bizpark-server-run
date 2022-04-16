@@ -8,15 +8,18 @@ import { ForbiddenError, ApolloError } from 'apollo-server-express';
 import { NOT_TALKROOM_FOUND } from '~/constants';
 import { sendFcm } from '~/helpers/sendFcm';
 import { getDeviceTokens } from '~/helpers/getDeviceTokens';
+import { getFirestore } from 'firebase-admin/firestore';
 
 export const createNewsTalkRoomMessage: MutationResolvers['createNewsTalkRoomMessage'] = async (
   _,
   { input },
-  { prisma, requestUser, pubsub }
+  { prisma, requestUser }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError('auth error');
   }
+
+  const firestore = getFirestore();
 
   const findTalkRoom = prisma.newsTalkRoom.findUnique({
     where: {
@@ -68,8 +71,16 @@ export const createNewsTalkRoomMessage: MutationResolvers['createNewsTalkRoomMes
     },
   });
 
-  pubsub.publish('NEWS_TALK_ROOM_MESSAGE_CREATED', {
-    newsTalkRoomMessageCreated: message,
+  const memberIds = talkRoom.members.map((member) => member.userId);
+
+  const messageRef = firestore
+    .collection('newsTalkRoomMessages')
+    .doc(message.id.toString());
+
+  await messageRef.set({
+    talkRoomId: input.talkRoomId,
+    members: memberIds,
+    createdAt: message.createdAt,
   });
 
   if (input.replyTo) {

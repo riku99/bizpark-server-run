@@ -5,5 +5,3 @@ export const firebaseInit = () => {
     credential: admin.credential.applicationDefault(),
   });
 };
-
-// export const auth = admin.auth();
