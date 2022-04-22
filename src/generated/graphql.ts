@@ -667,6 +667,7 @@ export type Query = {
   notifications: NotificationConnection;
   oneNews: News;
   oneOnOneTalkRoom: OneOnOneTalkRoom;
+  oneOnOneTalkRoomMessage?: Maybe<OneOnOneTalkRoomMessage>;
   oneOnOneTalkRooms: Array<Maybe<OneOnOneTalkRoom>>;
   pickedNews: NewsPickConnection;
   pickedThoughts: ThoughtsConnection;
@@ -716,6 +717,11 @@ export type QueryOneNewsArgs = {
 
 
 export type QueryOneOnOneTalkRoomArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryOneOnOneTalkRoomMessageArgs = {
   id: Scalars['Int'];
 };
 
@@ -1635,6 +1641,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   notifications?: Resolver<ResolversTypes['NotificationConnection'], ParentType, ContextType, RequireFields<QueryNotificationsArgs, never>>;
   oneNews?: Resolver<ResolversTypes['News'], ParentType, ContextType, RequireFields<QueryOneNewsArgs, 'id'>>;
   oneOnOneTalkRoom?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<QueryOneOnOneTalkRoomArgs, 'id'>>;
+  oneOnOneTalkRoomMessage?: Resolver<Maybe<ResolversTypes['OneOnOneTalkRoomMessage']>, ParentType, ContextType, RequireFields<QueryOneOnOneTalkRoomMessageArgs, 'id'>>;
   oneOnOneTalkRooms?: Resolver<Array<Maybe<ResolversTypes['OneOnOneTalkRoom']>>, ParentType, ContextType>;
   pickedNews?: Resolver<ResolversTypes['NewsPickConnection'], ParentType, ContextType, RequireFields<QueryPickedNewsArgs, 'first'>>;
   pickedThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryPickedThoughtsArgs, 'first'>>;

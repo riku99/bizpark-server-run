@@ -444,6 +444,7 @@ type Query {
   notifications(first: Int, after: String): NotificationConnection!
   newsTalkRoomMessage(id: Int!): NewsTalkRoomMessage
   thoughtTalkRoomMessage(id: Int!): ThoughtTalkRoomMessage
+  oneOnOneTalkRoomMessage(id: Int!): OneOnOneTalkRoomMessage
 }
 
 input CreateUserInput {

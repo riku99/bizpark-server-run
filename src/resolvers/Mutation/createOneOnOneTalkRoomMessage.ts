@@ -9,6 +9,7 @@ import { NOT_TALKROOM_FOUND } from '~/constants';
 import { OneOnOneTalkRoomMessage } from '@prisma/client';
 import { getDeviceTokens } from '~/helpers/getDeviceTokens';
 import { sendFcm } from '~/helpers/sendFcm';
+import { getFirestore } from 'firebase-admin/firestore';
 
 export type PublishOneOnOneMessagePayload = {
   oneOnOneTalkRoomMessageCreated: OneOnOneTalkRoomMessage & {
@@ -19,7 +20,7 @@ export type PublishOneOnOneMessagePayload = {
 export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTalkRoomMessage'] = async (
   _,
   { input },
-  { requestUser, prisma, pubsub }
+  { requestUser, prisma }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError('auth error');
@@ -65,11 +66,6 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     );
   }
 
-  const messageRecipientId =
-    talkRoom.senderId === requestUser.id
-      ? talkRoom.recipientId
-      : talkRoom.senderId;
-
   const message = await prisma.oneOnOneTalkRoomMessage.create({
     data: {
       roomId: input.talkRoomId,
@@ -88,11 +84,18 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     },
   });
 
-  pubsub.publish('ONE_ON_ONE_TALK_ROOM_MESSAGE_CREATED', {
-    oneOnOneTalkRoomMessageCreated: {
-      ...message,
-      messageRecipientId,
-    },
+  const firestore = getFirestore();
+
+  const memberIds = [sendToUserId, requestUser.id];
+
+  const messageRef = firestore
+    .collection('oneOnOneTalkRoomMessages')
+    .doc(message.id.toString());
+
+  await messageRef.set({
+    talkRoomId: input.talkRoomId,
+    members: memberIds,
+    createdAt: message.createdAt,
   });
 
   const targetUser = await prisma.user.findUnique({
