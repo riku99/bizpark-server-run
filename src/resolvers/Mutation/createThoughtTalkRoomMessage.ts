@@ -8,11 +8,12 @@ import { ForbiddenError, ApolloError } from 'apollo-server-express';
 import { NOT_TALKROOM_FOUND } from '~/constants';
 import { sendFcm } from '~/helpers/sendFcm';
 import { getDeviceTokens } from '~/helpers/getDeviceTokens';
+import { getFirestore } from 'firebase-admin/firestore';
 
 export const createThoughtTalkRoomMessage: MutationResolvers['createThoughtTalkRoomMessage'] = async (
   _,
   { input },
-  { prisma, requestUser, pubsub }
+  { prisma, requestUser }
 ) => {
   if (!requestUser) {
     throw new ForbiddenError('auth error');
@@ -74,11 +75,18 @@ export const createThoughtTalkRoomMessage: MutationResolvers['createThoughtTalkR
     },
   });
 
-  pubsub.publish('THOUGHT_TALK_ROOM_MESSAGE_CREATED', {
-    thoughtTalkRoomMessageCreated: {
-      ...message,
-      contributorId: talkRoom.thought.contributorId,
-    },
+  const firestore = getFirestore();
+
+  const memberIds = talkRoom.members.map((member) => member.userId);
+
+  const messageRef = firestore
+    .collection('thoughtTalkRoomMessages')
+    .doc(message.id.toString());
+
+  await messageRef.set({
+    talkRoomId: input.roomId,
+    members: memberIds,
+    createdAt: message.createdAt,
   });
 
   if (input.replyTo) {
