@@ -52,13 +52,3 @@ module "cloud-build" {
   target_branch               = local.deploy_target_branch
   app_bundle_id               = var.app_bundle_id
 }
-
-module "service-account" {
-  source = "../modules/service-account"
-}
-
-module "cloud-scheduler" {
-  source                      = "../modules/cloud-scheduler"
-  scraping_news_base_endpoint = var.scraping_news_base_endpoint
-  service-account-email       = module.service-account.scraping-scheduler-invoker-email
-}

@@ -13,8 +13,8 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { createServer } from 'http';
 import { prisma } from '~/lib/prisma';
 import { verifyIdToken } from '~/auth/verifyIdToken';
-import { registerScrapeNews } from '~/schedulers/scrapeNews';
 import { registerAppStoreEvent } from '~/rest-apis/appStoreServerNotificatoin';
+import { registerNewsEndpoint } from '~/rest-apis/news';
 
 const schema = loadSchemaSync(join(__dirname, '../schema.graphql'), {
   loaders: [new GraphQLFileLoader()],
@@ -92,13 +92,13 @@ const start = async () => {
     res.send('ok');
   });
 
-  registerScrapeNews(app);
   registerAppStoreEvent(app);
+  registerNewsEndpoint(app);
 
   const port = process.env.PORT || 4000;
 
   httpServer.listen({ port }, () => {
-    console.log('env is ' + process.env.NODE_ENV);
+    console.log('NODE_ENV is ' + process.env.NODE_ENV);
     console.log(
       `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
     );
