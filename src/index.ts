@@ -98,7 +98,7 @@ const start = async () => {
   const port = process.env.PORT || 4000;
 
   httpServer.listen({ port }, () => {
-    console.log('env is ' + process.env.NODE_ENV);
+    console.log('NODE_ENV is ' + process.env.NODE_ENV);
     console.log(
       `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
     );
