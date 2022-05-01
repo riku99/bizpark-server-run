@@ -54,7 +54,7 @@ steps:
       - --update-secrets=IAP_SECRET=BIZPARK_IAP_SECRET:latest
     waitFor: ['apply-migrations']
 
-timeout: 2300s
+timeout: 2000s
 substitutions:
   _REGION: by-terraform
   _CLOUDSQL_INSTANCE_FULL_NAME: by-terraform
