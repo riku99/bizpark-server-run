@@ -404,6 +404,12 @@ model SubscriptionPurchase {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model NewsEndpointAccessToken {
+  id Int @id @default(autoincrement())
+  value String @unique
+  createdAt DateTime @default(now())
+}
+
 enum Genre {
   BUSINESS
   ECONOMY
