@@ -40,7 +40,7 @@ steps:
       - --tag=latest
       - --concurrency=40 # 1インスタンスあたりの同時接続数。必要ないかも
       - --cpu=1
-      - --memory=1Gi
+      - --memory=512Mi
       - --max-instances=3
       - --min-instances=0
       - --no-use-http2 # HTTP/2での接続は行わない
