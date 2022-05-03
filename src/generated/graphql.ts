@@ -805,30 +805,6 @@ export type SubImage = {
   width?: Maybe<Scalars['Int']>;
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  newsTalkRoomMessageCreated: NewsTalkRoomMessage;
-  oneOnOneTalkRoomMessageCreated: OneOnOneTalkRoomMessage;
-  thoughtTalkRoomMessageCreated?: Maybe<ThoughtTalkRoomMessage>;
-};
-
-
-export type SubscriptionNewsTalkRoomMessageCreatedArgs = {
-  roomIds: Array<InputMaybe<Scalars['Int']>>;
-  userId: Scalars['ID'];
-};
-
-
-export type SubscriptionOneOnOneTalkRoomMessageCreatedArgs = {
-  userId: Scalars['ID'];
-};
-
-
-export type SubscriptionThoughtTalkRoomMessageCreatedArgs = {
-  roomIds: Array<InputMaybe<Scalars['Int']>>;
-  userId: Scalars['ID'];
-};
-
 export type TalkRoom = {
   allMessageSeen?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['String']>;
@@ -1196,7 +1172,6 @@ export type ResolversTypes = {
   SnsAccounts: ResolverTypeWrapper<SnsAccounts>;
   String: ResolverTypeWrapper<Scalars['String']>;
   SubImage: ResolverTypeWrapper<SubImage>;
-  Subscription: ResolverTypeWrapper<{}>;
   TalkRoom: ResolversTypes['NewsTalkRoom'] | ResolversTypes['OneOnOneTalkRoom'] | ResolversTypes['ThoughtTalkRoom'];
   TalkRoomMember: ResolversTypes['NewsTalkRoomMember'] | ResolversTypes['ThoughtTalkRoomMember'];
   TalkRoomMessage: ResolversTypes['NewsTalkRoomMessage'] | ResolversTypes['OneOnOneTalkRoomMessage'] | ResolversTypes['ThoughtTalkRoomMessage'];
@@ -1297,7 +1272,6 @@ export type ResolversParentTypes = {
   SnsAccounts: SnsAccounts;
   String: Scalars['String'];
   SubImage: SubImage;
-  Subscription: {};
   TalkRoom: ResolversParentTypes['NewsTalkRoom'] | ResolversParentTypes['OneOnOneTalkRoom'] | ResolversParentTypes['ThoughtTalkRoom'];
   TalkRoomMember: ResolversParentTypes['NewsTalkRoomMember'] | ResolversParentTypes['ThoughtTalkRoomMember'];
   TalkRoomMessage: ResolversParentTypes['NewsTalkRoomMessage'] | ResolversParentTypes['OneOnOneTalkRoomMessage'] | ResolversParentTypes['ThoughtTalkRoomMessage'];
@@ -1669,12 +1643,6 @@ export type SubImageResolvers<ContextType = Context, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type SubscriptionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  newsTalkRoomMessageCreated?: SubscriptionResolver<ResolversTypes['NewsTalkRoomMessage'], "newsTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionNewsTalkRoomMessageCreatedArgs, 'roomIds' | 'userId'>>;
-  oneOnOneTalkRoomMessageCreated?: SubscriptionResolver<ResolversTypes['OneOnOneTalkRoomMessage'], "oneOnOneTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionOneOnOneTalkRoomMessageCreatedArgs, 'userId'>>;
-  thoughtTalkRoomMessageCreated?: SubscriptionResolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, "thoughtTalkRoomMessageCreated", ParentType, ContextType, RequireFields<SubscriptionThoughtTalkRoomMessageCreatedArgs, 'roomIds' | 'userId'>>;
-};
-
 export type TalkRoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['TalkRoom'] = ResolversParentTypes['TalkRoom']> = {
   __resolveType: TypeResolveFn<'NewsTalkRoom' | 'OneOnOneTalkRoom' | 'ThoughtTalkRoom', ParentType, ContextType>;
   allMessageSeen?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -1899,7 +1867,6 @@ export type Resolvers<ContextType = Context> = {
   Query?: QueryResolvers<ContextType>;
   SnsAccounts?: SnsAccountsResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
-  Subscription?: SubscriptionResolvers<ContextType>;
   TalkRoom?: TalkRoomResolvers<ContextType>;
   TalkRoomMember?: TalkRoomMemberResolvers<ContextType>;
   TalkRoomMessage?: TalkRoomMessageResolvers<ContextType>;

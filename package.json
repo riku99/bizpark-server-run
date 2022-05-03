@@ -33,7 +33,6 @@
     "firebase-functions": "^3.14.1",
     "fluent-ffmpeg": "^2.1.2",
     "graphql": "^16.2.0",
-    "graphql-subscriptions": "^2.0.0",
     "graphql-upload": "^13.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.5",

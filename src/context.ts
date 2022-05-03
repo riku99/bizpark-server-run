@@ -1,23 +1,21 @@
-import { prisma, Prisma } from "~/lib/prisma";
-import { verifyIdToken } from "~/auth/verifyIdToken";
-import type { ExpressContext } from "apollo-server-express";
-import { User } from "@prisma/client";
-import { pubsub } from "~/lib/pubsub";
+import { prisma, Prisma } from '~/lib/prisma';
+import { verifyIdToken } from '~/auth/verifyIdToken';
+import type { ExpressContext } from 'apollo-server-express';
+import { User } from '@prisma/client';
 
 export type Context = {
   prisma: Prisma;
   requestUser: User | null;
-  pubsub: typeof pubsub;
 };
 
 type ContextFunction = (c: ExpressContext) => Promise<Context>;
 
 export const context: ContextFunction = async ({ req }) => {
   if (!req) {
-    console.warn("not requested");
+    console.warn('not requested');
   }
 
-  const token = req.headers.authorization?.replace(/^Bearer /, "");
+  const token = req.headers.authorization?.replace(/^Bearer /, '');
   const sessoin = await verifyIdToken(token);
 
   let requestUser;
@@ -34,6 +32,5 @@ export const context: ContextFunction = async ({ req }) => {
   return {
     prisma,
     requestUser,
-    pubsub,
   };
 };

@@ -2,7 +2,6 @@ import { Mutation } from './Mutation';
 import { Resolvers } from '~/generated/graphql';
 import { Query } from './Query';
 import { GraphQLUpload } from 'graphql-upload';
-import { Subscription } from './subscriptoins';
 import { Thought } from './Thought';
 import { ThoughtTalkRoom } from './ThoughtTalkRoom';
 import { ThoughtTalkRoomMessage } from './ThoughtTalkRoomMessage';
@@ -21,7 +20,6 @@ export const resolvers: Resolvers = {
   Upload: GraphQLUpload,
   Mutation,
   Query,
-  Subscription,
   ThoughtTalkRoom,
   ThoughtTalkRoomMessage,
   Thought,
