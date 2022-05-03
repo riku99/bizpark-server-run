@@ -8,11 +8,7 @@ import { addResolversToSchema } from '@graphql-tools/schema';
 import { join } from 'path';
 import { context } from '~/context';
 import { resolvers } from '~/resolvers';
-import { execute, subscribe } from 'graphql';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { createServer } from 'http';
-import { prisma } from '~/lib/prisma';
-import { verifyIdToken } from '~/auth/verifyIdToken';
 import { registerAppStoreEvent } from '~/rest-apis/appStoreServerNotificatoin';
 import { registerNewsEndpoint } from '~/rest-apis/news';
 
@@ -36,53 +32,13 @@ const start = async () => {
 
   const httpServer = createServer(app);
 
-  const subscriptionServer = SubscriptionServer.create(
-    {
-      schema: schemaWithResolvers,
-      execute,
-      subscribe,
-      onConnect: async (connectionParams: any) => {
-        let requestUser;
-        const token = connectionParams.authToken?.replace(/^Bearer /, '');
-        const session = await verifyIdToken(token);
-        if (!session) {
-          requestUser = null;
-        } else {
-          requestUser = await prisma.user.findUnique({
-            where: {
-              uid: session.uid,
-            },
-          });
-        }
-        return {
-          prisma,
-          requestUser,
-        };
-      },
-    },
-    {
-      server: httpServer,
-      path: '/graphql',
-    }
-  );
-
   const server = new ApolloServer({
     schema: schemaWithResolvers,
     context,
-    plugins: [
-      {
-        async serverWillStart() {
-          return {
-            async drainServer() {
-              subscriptionServer.close();
-            },
-          };
-        },
-      },
-    ],
   });
 
   await server.start();
+
   server.applyMiddleware({
     app,
   });

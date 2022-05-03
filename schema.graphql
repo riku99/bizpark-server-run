@@ -664,12 +664,3 @@ type Mutation {
   seeNotification(id: Int!): Notification!
   verifyIapReceipt(input: VerifyIapReceiptInput!): Me!
 }
-
-type Subscription {
-  thoughtTalkRoomMessageCreated(
-    roomIds: [Int]!
-    userId: ID!
-  ): ThoughtTalkRoomMessage
-  newsTalkRoomMessageCreated(roomIds: [Int]!, userId: ID!): NewsTalkRoomMessage!
-  oneOnOneTalkRoomMessageCreated(userId: ID!): OneOnOneTalkRoomMessage!
-}
