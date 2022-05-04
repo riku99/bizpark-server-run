@@ -3,7 +3,7 @@ import { thoughts } from './thoughts';
 import { initialData } from './initial';
 import { news } from './news';
 import { me } from './me';
-import { userResult } from './userResult';
+import { user } from './user';
 import { pickedThoughts } from './pickedThoughts';
 import { pickedNews } from './pickedNews';
 import { userThoughts } from './userThoughts';
@@ -27,7 +27,7 @@ export const Query: QueryResolvers = {
   initialData,
   news,
   me,
-  userResult,
+  user,
   pickedThoughts,
   pickedNews,
   userThoughts,

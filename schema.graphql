@@ -58,6 +58,10 @@ enum ReceiptVerificationError {
   InValidStatus
 }
 
+enum UserGetError {
+  NOT_FOUND
+}
+
 type PushNotificationMessage {
   type: PushNotificationDataKind!
   id: String!
@@ -124,7 +128,8 @@ type User {
   linkedin: String
   instagram: String
   follow: Boolean
-  blocking: Boolean
+  blocking: Boolean # リクエストユーザーが対象のユーザーをブロックしているかどうか
+  blocked: Boolean # リクエストユーザーが対象のユーザーからブロックされているかどうか
   pickedNews(first: Int, after: String): NewsPickConnection
   pickedThoughts(first: Int, after: String): ThoughtsConnection
   likedThoughts(first: Int, after: String): ThoughtLikeConnection
@@ -145,8 +150,6 @@ type IsBlocked {
   message: String
   blockedByUser: User
 }
-
-union UserResult = User | Deleted | IsBlocked
 
 type Me {
   id: ID!
@@ -427,7 +430,7 @@ type Query {
   initialData: InitialResponse!
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
   me: Me!
-  userResult(id: ID!): UserResult!
+  user(id: ID!): User!
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsPickConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!

@@ -676,7 +676,7 @@ export type Query = {
   thoughtTalkRoomMessage?: Maybe<ThoughtTalkRoomMessage>;
   thoughtTalkRooms: Array<Maybe<ThoughtTalkRoom>>;
   thoughts: ThoughtsConnection;
-  userResult: UserResult;
+  user: User;
   userThoughts: ThoughtsConnection;
 };
 
@@ -761,7 +761,7 @@ export type QueryThoughtsArgs = {
 };
 
 
-export type QueryUserResultArgs = {
+export type QueryUserArgs = {
   id: Scalars['ID'];
 };
 
@@ -975,6 +975,7 @@ export type UploadThoughtImagesResponse = {
 export type User = {
   __typename?: 'User';
   bio?: Maybe<Scalars['String']>;
+  blocked?: Maybe<Scalars['Boolean']>;
   blocking?: Maybe<Scalars['Boolean']>;
   facebook?: Maybe<Scalars['String']>;
   follow?: Maybe<Scalars['Boolean']>;
@@ -1020,7 +1021,9 @@ export type UserEdge = {
   node: User;
 };
 
-export type UserResult = Deleted | IsBlocked | User;
+export enum UserGetError {
+  NotFound = 'NOT_FOUND'
+}
 
 export type VerifyIapReceiptInput = {
   platform: Scalars['String'];
@@ -1198,7 +1201,7 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
-  UserResult: ResolversTypes['Deleted'] | ResolversTypes['IsBlocked'] | ResolversTypes['User'];
+  UserGetError: UserGetError;
   VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
@@ -1297,7 +1300,6 @@ export type ResolversParentTypes = {
   User: User;
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
-  UserResult: ResolversParentTypes['Deleted'] | ResolversParentTypes['IsBlocked'] | ResolversParentTypes['User'];
   VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: Scalars['Void'];
 };
@@ -1624,7 +1626,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   thoughtTalkRoomMessage?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, ParentType, ContextType, RequireFields<QueryThoughtTalkRoomMessageArgs, 'id'>>;
   thoughtTalkRooms?: Resolver<Array<Maybe<ResolversTypes['ThoughtTalkRoom']>>, ParentType, ContextType>;
   thoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryThoughtsArgs, never>>;
-  userResult?: Resolver<ResolversTypes['UserResult'], ParentType, ContextType, RequireFields<QueryUserResultArgs, 'id'>>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   userThoughts?: Resolver<ResolversTypes['ThoughtsConnection'], ParentType, ContextType, RequireFields<QueryUserThoughtsArgs, 'first' | 'userId'>>;
 };
 
@@ -1789,6 +1791,7 @@ export type UploadThoughtImagesResponseResolvers<ContextType = Context, ParentTy
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  blocked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   blocking?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   facebook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   follow?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -1815,10 +1818,6 @@ export type UserEdgeResolvers<ContextType = Context, ParentType extends Resolver
   cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   node?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type UserResultResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UserResult'] = ResolversParentTypes['UserResult']> = {
-  __resolveType: TypeResolveFn<'Deleted' | 'IsBlocked' | 'User', ParentType, ContextType>;
 };
 
 export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Void'], any> {
@@ -1890,7 +1889,6 @@ export type Resolvers<ContextType = Context> = {
   User?: UserResolvers<ContextType>;
   UserConnection?: UserConnectionResolvers<ContextType>;
   UserEdge?: UserEdgeResolvers<ContextType>;
-  UserResult?: UserResultResolvers<ContextType>;
   Void?: GraphQLScalarType;
 };
 
