@@ -10,7 +10,7 @@ export const user: QueryResolvers['user'] = async (
     throw new ForbiddenError('auth error');
   }
 
-  let user = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       id,
     },
@@ -18,17 +18,6 @@ export const user: QueryResolvers['user'] = async (
 
   if (!user) {
     throw new ApolloError('ユーザーが存在しません', UserGetError.NotFound);
-  }
-
-  const blocked = await prisma.block.findFirst({
-    where: {
-      blockTo: requestUser.id,
-      blockBy: id,
-    },
-  });
-
-  if (blocked) {
-    throw new ApolloError('ブロックされています', UserGetError.Blocked);
   }
 
   return user;

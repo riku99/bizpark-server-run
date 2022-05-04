@@ -975,6 +975,7 @@ export type UploadThoughtImagesResponse = {
 export type User = {
   __typename?: 'User';
   bio?: Maybe<Scalars['String']>;
+  blocked?: Maybe<Scalars['Boolean']>;
   blocking?: Maybe<Scalars['Boolean']>;
   facebook?: Maybe<Scalars['String']>;
   follow?: Maybe<Scalars['Boolean']>;
@@ -1021,7 +1022,6 @@ export type UserEdge = {
 };
 
 export enum UserGetError {
-  Blocked = 'BLOCKED',
   NotFound = 'NOT_FOUND'
 }
 
@@ -1791,6 +1791,7 @@ export type UploadThoughtImagesResponseResolvers<ContextType = Context, ParentTy
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  blocked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   blocking?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   facebook?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   follow?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;

@@ -60,7 +60,6 @@ enum ReceiptVerificationError {
 
 enum UserGetError {
   NOT_FOUND
-  BLOCKED
 }
 
 type PushNotificationMessage {
@@ -130,6 +129,7 @@ type User {
   instagram: String
   follow: Boolean
   blocking: Boolean # リクエストユーザーが対象のユーザーをブロックしているかどうか
+  blocked: Boolean # リクエストユーザーが対象のユーザーからブロックされているかどうか
   pickedNews(first: Int, after: String): NewsPickConnection
   pickedThoughts(first: Int, after: String): ThoughtsConnection
   likedThoughts(first: Int, after: String): ThoughtLikeConnection

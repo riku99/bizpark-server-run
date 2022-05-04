@@ -4,6 +4,7 @@ import { blocking } from './blocking';
 import { pickedNews } from './pickedNews';
 import { likedThoughts } from './likedThoughts';
 import { snsAccounts } from './snsAccounts';
+import { blocked } from './blocked';
 
 export const User: UserResolvers = {
   follow,
@@ -11,4 +12,5 @@ export const User: UserResolvers = {
   pickedNews,
   likedThoughts,
   snsAccounts,
+  blocked,
 };
