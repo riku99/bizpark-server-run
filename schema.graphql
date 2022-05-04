@@ -58,6 +58,20 @@ enum ReceiptVerificationError {
   InValidStatus
 }
 
+enum UserGetError {
+  NOT_FOUND
+}
+
+enum FollowError {
+  NOT_FOUND
+  BLOCKING
+  BLOKCED
+}
+
+enum UnFollowError {
+  NOT_FOUND
+}
+
 type PushNotificationMessage {
   type: PushNotificationDataKind!
   id: String!
@@ -124,7 +138,8 @@ type User {
   linkedin: String
   instagram: String
   follow: Boolean
-  blocking: Boolean
+  blocking: Boolean # リクエストユーザーが対象のユーザーをブロックしているかどうか
+  blocked: Boolean # リクエストユーザーが対象のユーザーからブロックされているかどうか
   pickedNews(first: Int, after: String): NewsPickConnection
   pickedThoughts(first: Int, after: String): ThoughtsConnection
   likedThoughts(first: Int, after: String): ThoughtLikeConnection
@@ -145,8 +160,6 @@ type IsBlocked {
   message: String
   blockedByUser: User
 }
-
-union UserResult = User | Deleted | IsBlocked
 
 type Me {
   id: ID!
@@ -427,7 +440,7 @@ type Query {
   initialData: InitialResponse!
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
   me: Me!
-  userResult(id: ID!): UserResult!
+  user(id: ID!): User!
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsPickConnection!
   userThoughts(userId: ID!, first: Int!, after: String): ThoughtsConnection!
@@ -600,10 +613,6 @@ input UnLikeThoughtInput {
   thoughtId: String!
 }
 
-union FollowResult = User | Deleted
-
-union UnFollowResult = User | Deleted
-
 input VerifyIapReceiptInput {
   platform: String!
   productId: String!
@@ -622,8 +631,8 @@ type Mutation {
   deleteNewsPick(input: DeleteNewsPickInput!): News!
   updateMe(input: UpdateMeInput!): Me!
   uploadImage(file: Upload!): SubImage!
-  follow(followeeId: ID!): FollowResult!
-  unfollow(followeeId: ID!): UnFollowResult!
+  follow(followeeId: ID!): User!
+  unfollow(followeeId: ID!): User!
   block(blockTo: ID!): User!
   unblock(blockedUserId: ID!): User!
   joinThoughtTalk(input: JoinTalkInput!): ThoughtTalkRoom!
