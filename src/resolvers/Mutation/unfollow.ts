@@ -1,5 +1,6 @@
-import { MutationResolvers } from '~/generated/graphql';
+import { MutationResolvers, UnFollowError } from '~/generated/graphql';
 import { ForbiddenError } from 'apollo-server-express';
+import { ApolloError } from 'apollo-server-express';
 
 export const unfollow: MutationResolvers['unfollow'] = async (
   _,
@@ -17,10 +18,7 @@ export const unfollow: MutationResolvers['unfollow'] = async (
   });
 
   if (!targetUser) {
-    return {
-      __typename: 'Deleted',
-      message: 'ユーザーが見つかりません',
-    };
+    throw new ApolloError('ユーザーが見つかりません', UnFollowError.NotFound);
   }
 
   const result = await prisma.follow.delete({
@@ -37,7 +35,6 @@ export const unfollow: MutationResolvers['unfollow'] = async (
 
   return {
     ...result.followee,
-    __typename: 'User',
     follow: false,
   };
 };
