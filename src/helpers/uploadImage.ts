@@ -1,8 +1,8 @@
-import { createRandomString } from '~/helpers/createRandomString';
-import { Upload } from 'graphql-upload';
 import { Storage } from '@google-cloud/storage';
+import { Upload } from 'graphql-upload';
 import sharp from 'sharp';
 import { SubImage } from '~/generated/graphql';
+import { createRandomString } from '~/helpers/createRandomString';
 
 const storage = new Storage();
 const myBucket = storage.bucket(process.env.STORAGE_BUCKET_NAME as string);
@@ -12,12 +12,13 @@ export const upload = async ({ file }: { file: Upload }) => {
   const filePath = `https://storage.googleapis.com/${process.env.STORAGE_BUCKET_NAME}/${randomName}`;
   const fileObj = myBucket.file(randomName);
 
-  const { createReadStream, filename, mimetype, encoding } = await file;
+  const { createReadStream } = await file;
 
   let dimensions: { height?: number; width?: number };
 
   const stream = createReadStream();
-  const convertedToWebp = stream.pipe(sharp().webp());
+
+  const convertedToWebp = stream.pipe(sharp().rotate().webp());
   const metadata = await convertedToWebp.metadata();
 
   dimensions = { height: metadata.height, width: metadata.width };
