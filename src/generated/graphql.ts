@@ -262,6 +262,7 @@ export type Mutation = {
   unblock: User;
   unfollow: User;
   unlikeThought?: Maybe<Thought>;
+  updateEmail?: Maybe<Scalars['Boolean']>;
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
@@ -416,6 +417,11 @@ export type MutationUnfollowArgs = {
 
 export type MutationUnlikeThoughtArgs = {
   input: UnLikeThoughtInput;
+};
+
+
+export type MutationUpdateEmailArgs = {
+  input: UpdateEmailInput;
 };
 
 
@@ -963,6 +969,10 @@ export type UnLikeThoughtInput = {
   thoughtId: Scalars['String'];
 };
 
+export type UpdateEmailInput = {
+  email: Scalars['String'];
+};
+
 export type UpdateMeInput = {
   bio?: InputMaybe<Scalars['String']>;
   facebook?: InputMaybe<Scalars['String']>;
@@ -1201,6 +1211,7 @@ export type ResolversTypes = {
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
   UnFollowError: UnFollowError;
   UnLikeThoughtInput: UnLikeThoughtInput;
+  UpdateEmailInput: UpdateEmailInput;
   UpdateMeInput: UpdateMeInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
   UploadThoughtImagesResponse: ResolverTypeWrapper<UploadThoughtImagesResponse>;
@@ -1298,6 +1309,7 @@ export type ResolversParentTypes = {
   ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
   UnLikeThoughtInput: UnLikeThoughtInput;
+  UpdateEmailInput: UpdateEmailInput;
   UpdateMeInput: UpdateMeInput;
   Upload: Scalars['Upload'];
   UploadThoughtImagesResponse: UploadThoughtImagesResponse;
@@ -1419,6 +1431,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
   unfollow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
   unlikeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationUnlikeThoughtArgs, 'input'>>;
+  updateEmail?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateEmailArgs, 'input'>>;
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
