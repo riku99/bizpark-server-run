@@ -619,6 +619,10 @@ input VerifyIapReceiptInput {
   receipt: String!
 }
 
+input UpdateEmailInput {
+  email: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -672,4 +676,5 @@ type Mutation {
   deleteAccount: Boolean
   seeNotification(id: Int!): Notification!
   verifyIapReceipt(input: VerifyIapReceiptInput!): Me!
+  updateEmail(input: UpdateEmailInput!): Boolean
 }
