@@ -52,6 +52,7 @@ steps:
       - --set-env-vars=APP_BUNDLE_ID=$_APP_BUNDLE_ID
       - --update-secrets=DATABASE_URL=BIZPARK_DATABASE_URL:latest # Secret Managerの値を使用
       - --update-secrets=IAP_SECRET=BIZPARK_IAP_SECRET:latest
+      - --update-secrets=GMAIL_APP_PASS=GMAIL_APP_PASS:latest
     waitFor: ['apply-migrations']
 
 timeout: 2300s
