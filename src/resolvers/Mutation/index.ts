@@ -1,6 +1,7 @@
 import { MutationResolvers } from '~/generated/graphql';
 import { addDeviceToken } from './addDeviceToken';
 import { block } from './block';
+import { createEmailAuthCode } from './createEmailAuthCode';
 import { createNewsPick } from './createNewsPick';
 import { createNewsTalkRoomMessage } from './createNewsTalkRoomMessage';
 import { createOneOnOneTalkRoom } from './createOneOnOneTalkRoom';
@@ -35,6 +36,7 @@ import { updateEmail } from './updateEmail';
 import { updateMe } from './updateMe';
 import { uploadImage } from './uploadImage';
 import { uploadThoughtImages } from './uploadThoughtImages';
+import { verifyEmailAuthCode } from './verifyEmailAuthCode';
 import { verifyIapReceipt } from './verifyIapReceipt';
 
 export const Mutation: MutationResolvers = {
@@ -74,5 +76,7 @@ export const Mutation: MutationResolvers = {
   deleteAccount,
   seeNotification,
   verifyIapReceipt,
-  updateEmail
+  updateEmail,
+  createEmailAuthCode,
+  verifyEmailAuthCode,
 };
