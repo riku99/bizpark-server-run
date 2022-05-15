@@ -1,6 +1,7 @@
 import { MutationResolvers } from '~/generated/graphql';
 import { addDeviceToken } from './addDeviceToken';
 import { block } from './block';
+import { createEmailAuthCode } from './createEmailAuthCode';
 import { createNewsPick } from './createNewsPick';
 import { createNewsTalkRoomMessage } from './createNewsTalkRoomMessage';
 import { createOneOnOneTalkRoom } from './createOneOnOneTalkRoom';
@@ -74,5 +75,6 @@ export const Mutation: MutationResolvers = {
   deleteAccount,
   seeNotification,
   verifyIapReceipt,
-  updateEmail
+  updateEmail,
+  createEmailAuthCode,
 };

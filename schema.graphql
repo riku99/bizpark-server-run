@@ -623,6 +623,10 @@ input UpdateEmailInput {
   email: String!
 }
 
+input CreateEmailAuthCodeInput {
+  email: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -677,4 +681,5 @@ type Mutation {
   seeNotification(id: Int!): Notification!
   verifyIapReceipt(input: VerifyIapReceiptInput!): Me!
   updateEmail(input: UpdateEmailInput!): Boolean
+  createEmailAuthCode(input: CreateEmailAuthCodeInput!): Int!
 }

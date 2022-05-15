@@ -68,6 +68,7 @@ node_modules/
 firebase-admin-sdk.json
 
 cred.json
+cred.ts
 
 #  Local .terraform directories
 **/.terraform/*

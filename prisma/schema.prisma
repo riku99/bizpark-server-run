@@ -410,6 +410,12 @@ model NewsEndpointAccessToken {
   createdAt DateTime @default(now())
 }
 
+model EmailAuthCode {
+  id Int @id @default(autoincrement())
+  value Int
+  createdAt DateTime @default(now())
+}
+
 enum Genre {
   BUSINESS
   ECONOMY

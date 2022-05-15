@@ -33,6 +33,10 @@ export type BlockedByUser = {
   name: Scalars['String'];
 };
 
+export type CreateEmailAuthCodeInput = {
+  email: Scalars['String'];
+};
+
 export type CreateNewsPickInput = {
   newsId: Scalars['Int'];
 };
@@ -232,6 +236,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addDeviceToken?: Maybe<Scalars['Boolean']>;
   block: User;
+  createEmailAuthCode: Scalars['Int'];
   createNewsPick: NewsPick;
   createNewsTalkRoomMessage: NewsTalkRoomMessage;
   createOneOnOneTalkRoom: OneOnOneTalkRoom;
@@ -277,6 +282,11 @@ export type MutationAddDeviceTokenArgs = {
 
 export type MutationBlockArgs = {
   blockTo: Scalars['ID'];
+};
+
+
+export type MutationCreateEmailAuthCodeArgs = {
+  input: CreateEmailAuthCodeInput;
 };
 
 
@@ -1119,6 +1129,7 @@ export type ResolversTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
   BlockedByUser: ResolverTypeWrapper<BlockedByUser>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CreateEmailAuthCodeInput: CreateEmailAuthCodeInput;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
   CreateNewsTalkRoomMessageInput: CreateNewsTalkRoomMessageInput;
@@ -1228,6 +1239,7 @@ export type ResolversParentTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
   BlockedByUser: BlockedByUser;
   Boolean: Scalars['Boolean'];
+  CreateEmailAuthCodeInput: CreateEmailAuthCodeInput;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: CreateNewsPickResponse;
   CreateNewsTalkRoomMessageInput: CreateNewsTalkRoomMessageInput;
@@ -1401,6 +1413,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addDeviceToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddDeviceTokenArgs, 'input'>>;
   block?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationBlockArgs, 'blockTo'>>;
+  createEmailAuthCode?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationCreateEmailAuthCodeArgs, 'input'>>;
   createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createNewsTalkRoomMessage?: Resolver<ResolversTypes['NewsTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateNewsTalkRoomMessageArgs, 'input'>>;
   createOneOnOneTalkRoom?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationCreateOneOnOneTalkRoomArgs, 'input'>>;
