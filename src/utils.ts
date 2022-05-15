@@ -1,4 +1,4 @@
-export const create4digitNumber = () => {
+export const create4digitNumberStr = () => {
   let code: string = '';
 
   while (code.length < 4) {
@@ -9,5 +9,5 @@ export const create4digitNumber = () => {
     }
   }
 
-  return Number(code);
+  return code;
 };

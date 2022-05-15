@@ -72,6 +72,12 @@ enum UnFollowError {
   NOT_FOUND
 }
 
+enum VerifyEmailAuthCodeError {
+  NOT_FOUND
+  EXPIRED
+  INVALID
+}
+
 type PushNotificationMessage {
   type: PushNotificationDataKind!
   id: String!
@@ -627,6 +633,10 @@ input CreateEmailAuthCodeInput {
   email: String!
 }
 
+input VerifyEmailAuthCodeInput {
+  code: String!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -682,4 +692,5 @@ type Mutation {
   verifyIapReceipt(input: VerifyIapReceiptInput!): Me!
   updateEmail(input: UpdateEmailInput!): Boolean
   createEmailAuthCode(input: CreateEmailAuthCodeInput!): Int!
+  verifyEmailAuthCode(input: VerifyEmailAuthCodeInput!, id: Int!): Boolean
 }

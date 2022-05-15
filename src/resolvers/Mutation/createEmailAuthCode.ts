@@ -1,13 +1,13 @@
 import { MutationResolvers } from '~/generated/graphql';
 import { sendMail } from '~/mailer';
-import { create4digitNumber } from '~/utils';
+import { create4digitNumberStr } from '~/utils';
 
 export const createEmailAuthCode: MutationResolvers['createEmailAuthCode'] = async (
   _,
   { input },
   { prisma }
 ) => {
-  const value = create4digitNumber();
+  const value = create4digitNumberStr();
 
   const emailAuthCode = await prisma.emailAuthCode.create({
     data: {

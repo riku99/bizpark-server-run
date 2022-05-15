@@ -36,6 +36,7 @@ import { updateEmail } from './updateEmail';
 import { updateMe } from './updateMe';
 import { uploadImage } from './uploadImage';
 import { uploadThoughtImages } from './uploadThoughtImages';
+import { verifyEmailAuthCode } from './verifyEmailAuthCode';
 import { verifyIapReceipt } from './verifyIapReceipt';
 
 export const Mutation: MutationResolvers = {
@@ -77,4 +78,5 @@ export const Mutation: MutationResolvers = {
   verifyIapReceipt,
   updateEmail,
   createEmailAuthCode,
+  verifyEmailAuthCode,
 };

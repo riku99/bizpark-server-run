@@ -271,6 +271,7 @@ export type Mutation = {
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
+  verifyEmailAuthCode?: Maybe<Scalars['Boolean']>;
   verifyIapReceipt: Me;
 };
 
@@ -447,6 +448,12 @@ export type MutationUploadImageArgs = {
 
 export type MutationUploadThoughtImagesArgs = {
   files: Array<Scalars['Upload']>;
+};
+
+
+export type MutationVerifyEmailAuthCodeArgs = {
+  id: Scalars['Int'];
+  input: VerifyEmailAuthCodeInput;
 };
 
 
@@ -1051,6 +1058,16 @@ export enum UserGetError {
   NotFound = 'NOT_FOUND'
 }
 
+export enum VerifyEmailAuthCodeError {
+  Expired = 'EXPIRED',
+  Invalid = 'INVALID',
+  NotFound = 'NOT_FOUND'
+}
+
+export type VerifyEmailAuthCodeInput = {
+  code: Scalars['String'];
+};
+
 export type VerifyIapReceiptInput = {
   platform: Scalars['String'];
   productId: Scalars['String'];
@@ -1230,6 +1247,8 @@ export type ResolversTypes = {
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
   UserGetError: UserGetError;
+  VerifyEmailAuthCodeError: VerifyEmailAuthCodeError;
+  VerifyEmailAuthCodeInput: VerifyEmailAuthCodeInput;
   VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
@@ -1328,6 +1347,7 @@ export type ResolversParentTypes = {
   User: User;
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
+  VerifyEmailAuthCodeInput: VerifyEmailAuthCodeInput;
   VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: Scalars['Void'];
 };
@@ -1448,6 +1468,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
+  verifyEmailAuthCode?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationVerifyEmailAuthCodeArgs, 'id' | 'input'>>;
   verifyIapReceipt?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationVerifyIapReceiptArgs, 'input'>>;
 };
 

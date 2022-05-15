@@ -412,7 +412,7 @@ model NewsEndpointAccessToken {
 
 model EmailAuthCode {
   id Int @id @default(autoincrement())
-  value Int
+  value String
   createdAt DateTime @default(now())
 }
 
