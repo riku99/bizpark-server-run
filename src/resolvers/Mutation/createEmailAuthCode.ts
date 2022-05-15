@@ -12,6 +12,7 @@ export const createEmailAuthCode: MutationResolvers['createEmailAuthCode'] = asy
   const emailAuthCode = await prisma.emailAuthCode.create({
     data: {
       value,
+      email: input.email,
     },
   });
 

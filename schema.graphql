@@ -635,6 +635,7 @@ input CreateEmailAuthCodeInput {
 
 input VerifyEmailAuthCodeInput {
   code: String!
+  email: String!
 }
 
 type Mutation {

@@ -1066,6 +1066,7 @@ export enum VerifyEmailAuthCodeError {
 
 export type VerifyEmailAuthCodeInput = {
   code: Scalars['String'];
+  email: Scalars['String'];
 };
 
 export type VerifyIapReceiptInput = {
