@@ -10,9 +10,10 @@ export const verifyEmailAuthCode: MutationResolvers['verifyEmailAuthCode'] = asy
   { input, id },
   { prisma }
 ) => {
-  const emailAuthCode = await prisma.emailAuthCode.findUnique({
+  const emailAuthCode = await prisma.emailAuthCode.findFirst({
     where: {
       id,
+      email: input.email,
     },
   });
 

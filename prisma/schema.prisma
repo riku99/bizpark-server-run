@@ -413,7 +413,10 @@ model NewsEndpointAccessToken {
 model EmailAuthCode {
   id Int @id @default(autoincrement())
   value String
+  email String
   createdAt DateTime @default(now())
+
+  @@index([id, email])
 }
 
 enum Genre {
