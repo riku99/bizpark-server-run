@@ -33,6 +33,10 @@ export type BlockedByUser = {
   name: Scalars['String'];
 };
 
+export type CreateEmailAuthCodeInput = {
+  email: Scalars['String'];
+};
+
 export type CreateNewsPickInput = {
   newsId: Scalars['Int'];
 };
@@ -232,6 +236,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addDeviceToken?: Maybe<Scalars['Boolean']>;
   block: User;
+  createEmailAuthCode: Scalars['Int'];
   createNewsPick: NewsPick;
   createNewsTalkRoomMessage: NewsTalkRoomMessage;
   createOneOnOneTalkRoom: OneOnOneTalkRoom;
@@ -262,9 +267,11 @@ export type Mutation = {
   unblock: User;
   unfollow: User;
   unlikeThought?: Maybe<Thought>;
+  updateEmail?: Maybe<Scalars['Boolean']>;
   updateMe: Me;
   uploadImage: SubImage;
   uploadThoughtImages: UploadThoughtImagesResponse;
+  verifyEmailAuthCode?: Maybe<Scalars['Boolean']>;
   verifyIapReceipt: Me;
 };
 
@@ -276,6 +283,11 @@ export type MutationAddDeviceTokenArgs = {
 
 export type MutationBlockArgs = {
   blockTo: Scalars['ID'];
+};
+
+
+export type MutationCreateEmailAuthCodeArgs = {
+  input: CreateEmailAuthCodeInput;
 };
 
 
@@ -419,6 +431,11 @@ export type MutationUnlikeThoughtArgs = {
 };
 
 
+export type MutationUpdateEmailArgs = {
+  input: UpdateEmailInput;
+};
+
+
 export type MutationUpdateMeArgs = {
   input: UpdateMeInput;
 };
@@ -431,6 +448,12 @@ export type MutationUploadImageArgs = {
 
 export type MutationUploadThoughtImagesArgs = {
   files: Array<Scalars['Upload']>;
+};
+
+
+export type MutationVerifyEmailAuthCodeArgs = {
+  id: Scalars['Int'];
+  input: VerifyEmailAuthCodeInput;
 };
 
 
@@ -963,6 +986,10 @@ export type UnLikeThoughtInput = {
   thoughtId: Scalars['String'];
 };
 
+export type UpdateEmailInput = {
+  email: Scalars['String'];
+};
+
 export type UpdateMeInput = {
   bio?: InputMaybe<Scalars['String']>;
   facebook?: InputMaybe<Scalars['String']>;
@@ -1030,6 +1057,17 @@ export type UserEdge = {
 export enum UserGetError {
   NotFound = 'NOT_FOUND'
 }
+
+export enum VerifyEmailAuthCodeError {
+  Expired = 'EXPIRED',
+  Invalid = 'INVALID',
+  NotFound = 'NOT_FOUND'
+}
+
+export type VerifyEmailAuthCodeInput = {
+  code: Scalars['String'];
+  email: Scalars['String'];
+};
 
 export type VerifyIapReceiptInput = {
   platform: Scalars['String'];
@@ -1109,6 +1147,7 @@ export type ResolversTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
   BlockedByUser: ResolverTypeWrapper<BlockedByUser>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CreateEmailAuthCodeInput: CreateEmailAuthCodeInput;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
   CreateNewsTalkRoomMessageInput: CreateNewsTalkRoomMessageInput;
@@ -1201,6 +1240,7 @@ export type ResolversTypes = {
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
   UnFollowError: UnFollowError;
   UnLikeThoughtInput: UnLikeThoughtInput;
+  UpdateEmailInput: UpdateEmailInput;
   UpdateMeInput: UpdateMeInput;
   Upload: ResolverTypeWrapper<Scalars['Upload']>;
   UploadThoughtImagesResponse: ResolverTypeWrapper<UploadThoughtImagesResponse>;
@@ -1208,6 +1248,8 @@ export type ResolversTypes = {
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<ResolversTypes['UserEdge']> }>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
   UserGetError: UserGetError;
+  VerifyEmailAuthCodeError: VerifyEmailAuthCodeError;
+  VerifyEmailAuthCodeInput: VerifyEmailAuthCodeInput;
   VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: ResolverTypeWrapper<Scalars['Void']>;
 };
@@ -1217,6 +1259,7 @@ export type ResolversParentTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
   BlockedByUser: BlockedByUser;
   Boolean: Scalars['Boolean'];
+  CreateEmailAuthCodeInput: CreateEmailAuthCodeInput;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: CreateNewsPickResponse;
   CreateNewsTalkRoomMessageInput: CreateNewsTalkRoomMessageInput;
@@ -1298,12 +1341,14 @@ export type ResolversParentTypes = {
   ThoughtTalkRoomMessageEdge: Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['ThoughtTalkRoomMessage'] };
   ThoughtsConnection: Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversParentTypes['ThoughtEdge']> };
   UnLikeThoughtInput: UnLikeThoughtInput;
+  UpdateEmailInput: UpdateEmailInput;
   UpdateMeInput: UpdateMeInput;
   Upload: Scalars['Upload'];
   UploadThoughtImagesResponse: UploadThoughtImagesResponse;
   User: User;
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<ResolversParentTypes['UserEdge']> };
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
+  VerifyEmailAuthCodeInput: VerifyEmailAuthCodeInput;
   VerifyIapReceiptInput: VerifyIapReceiptInput;
   Void: Scalars['Void'];
 };
@@ -1389,6 +1434,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addDeviceToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddDeviceTokenArgs, 'input'>>;
   block?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationBlockArgs, 'blockTo'>>;
+  createEmailAuthCode?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationCreateEmailAuthCodeArgs, 'input'>>;
   createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createNewsTalkRoomMessage?: Resolver<ResolversTypes['NewsTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateNewsTalkRoomMessageArgs, 'input'>>;
   createOneOnOneTalkRoom?: Resolver<ResolversTypes['OneOnOneTalkRoom'], ParentType, ContextType, RequireFields<MutationCreateOneOnOneTalkRoomArgs, 'input'>>;
@@ -1419,9 +1465,11 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   unblock?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnblockArgs, 'blockedUserId'>>;
   unfollow?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUnfollowArgs, 'followeeId'>>;
   unlikeThought?: Resolver<Maybe<ResolversTypes['Thought']>, ParentType, ContextType, RequireFields<MutationUnlikeThoughtArgs, 'input'>>;
+  updateEmail?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateEmailArgs, 'input'>>;
   updateMe?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationUpdateMeArgs, 'input'>>;
   uploadImage?: Resolver<ResolversTypes['SubImage'], ParentType, ContextType, RequireFields<MutationUploadImageArgs, 'file'>>;
   uploadThoughtImages?: Resolver<ResolversTypes['UploadThoughtImagesResponse'], ParentType, ContextType, RequireFields<MutationUploadThoughtImagesArgs, 'files'>>;
+  verifyEmailAuthCode?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationVerifyEmailAuthCodeArgs, 'id' | 'input'>>;
   verifyIapReceipt?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationVerifyIapReceiptArgs, 'input'>>;
 };
 
