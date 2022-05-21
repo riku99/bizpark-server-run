@@ -22,10 +22,14 @@ enum CustomErrorResponseCode {
   NOT_FOUND
 }
 
-enum PushNotificationDataKind {
+enum PushNotificationMessageDataType {
   THOUGHT_TALK_ROOM_MESSAGE
   NEWS_TALK_ROOM_MESSAGE
   ONE_ON_ONE_TALK_ROOM_MESSAGE
+}
+
+enum PushNotificationFollowDataType {
+  FOLLOW
 }
 
 enum NotificationType {
@@ -78,10 +82,15 @@ enum VerifyEmailAuthCodeError {
   INVALID
 }
 
-type PushNotificationMessage {
-  type: PushNotificationDataKind!
+type PushNotificationMessageData {
+  type: PushNotificationMessageDataType!
   id: String!
   roomId: String!
+}
+
+type PushNotificationFollowData {
+  type: PushNotificationFollowDataType!
+  userId: String!
 }
 
 type PageInfo {

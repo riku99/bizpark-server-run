@@ -5,8 +5,8 @@ import { NOT_TALKROOM_FOUND } from '~/constants';
 import {
   CustomErrorResponseCode,
   MutationResolvers,
-  PushNotificationDataKind,
-  PushNotificationMessage,
+  PushNotificationMessageData,
+  PushNotificationMessageDataType,
 } from '~/generated/graphql';
 import { getDeviceTokens } from '~/helpers/getDeviceTokens';
 import { sendFcm } from '~/helpers/sendFcm';
@@ -111,8 +111,8 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
   if (targetUser?.loggedIn) {
     const deviceTokens = await getDeviceTokens(sendToUserId);
 
-    const notificationData: PushNotificationMessage = {
-      type: PushNotificationDataKind.OneOnOneTalkRoomMessage,
+    const notificationData: PushNotificationMessageData = {
+      type: PushNotificationMessageDataType.OneOnOneTalkRoomMessage,
       id: JSON.stringify(message.id),
       roomId: JSON.stringify(message.roomId),
     };

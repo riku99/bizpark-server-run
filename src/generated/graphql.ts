@@ -668,18 +668,28 @@ export enum Plan {
   Plus = 'Plus'
 }
 
-export enum PushNotificationDataKind {
+export type PushNotificationFollowData = {
+  __typename?: 'PushNotificationFollowData';
+  type: PushNotificationFollowDataType;
+  userId: Scalars['String'];
+};
+
+export enum PushNotificationFollowDataType {
+  Follow = 'FOLLOW'
+}
+
+export type PushNotificationMessageData = {
+  __typename?: 'PushNotificationMessageData';
+  id: Scalars['String'];
+  roomId: Scalars['String'];
+  type: PushNotificationMessageDataType;
+};
+
+export enum PushNotificationMessageDataType {
   NewsTalkRoomMessage = 'NEWS_TALK_ROOM_MESSAGE',
   OneOnOneTalkRoomMessage = 'ONE_ON_ONE_TALK_ROOM_MESSAGE',
   ThoughtTalkRoomMessage = 'THOUGHT_TALK_ROOM_MESSAGE'
 }
-
-export type PushNotificationMessage = {
-  __typename?: 'PushNotificationMessage';
-  id: Scalars['String'];
-  roomId: Scalars['String'];
-  type: PushNotificationDataKind;
-};
 
 export type Query = {
   __typename?: 'Query';
@@ -1211,8 +1221,10 @@ export type ResolversTypes = {
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Pick: ResolverTypeWrapper<Pick>;
   Plan: Plan;
-  PushNotificationDataKind: PushNotificationDataKind;
-  PushNotificationMessage: ResolverTypeWrapper<PushNotificationMessage>;
+  PushNotificationFollowData: ResolverTypeWrapper<PushNotificationFollowData>;
+  PushNotificationFollowDataType: PushNotificationFollowDataType;
+  PushNotificationMessageData: ResolverTypeWrapper<PushNotificationMessageData>;
+  PushNotificationMessageDataType: PushNotificationMessageDataType;
   Query: ResolverTypeWrapper<{}>;
   ReceiptVerificationError: ReceiptVerificationError;
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
@@ -1316,7 +1328,8 @@ export type ResolversParentTypes = {
   OneOnOneTalkRoomMessageEdge: Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversParentTypes['OneOnOneTalkRoomMessage'] };
   PageInfo: PageInfo;
   Pick: Pick;
-  PushNotificationMessage: PushNotificationMessage;
+  PushNotificationFollowData: PushNotificationFollowData;
+  PushNotificationMessageData: PushNotificationMessageData;
   Query: {};
   RequestNewsTalkRoomMemberDeletionInput: RequestNewsTalkRoomMemberDeletionInput;
   SeenOneOnOneTalkRoomMessageInput: SeenOneOnOneTalkRoomMessageInput;
@@ -1646,10 +1659,16 @@ export type PickResolvers<ContextType = Context, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PushNotificationMessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PushNotificationMessage'] = ResolversParentTypes['PushNotificationMessage']> = {
+export type PushNotificationFollowDataResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PushNotificationFollowData'] = ResolversParentTypes['PushNotificationFollowData']> = {
+  type?: Resolver<ResolversTypes['PushNotificationFollowDataType'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PushNotificationMessageDataResolvers<ContextType = Context, ParentType extends ResolversParentTypes['PushNotificationMessageData'] = ResolversParentTypes['PushNotificationMessageData']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   roomId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  type?: Resolver<ResolversTypes['PushNotificationDataKind'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['PushNotificationMessageDataType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1905,7 +1924,8 @@ export type Resolvers<ContextType = Context> = {
   OneOnOneTalkRoomMessageEdge?: OneOnOneTalkRoomMessageEdgeResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
   Pick?: PickResolvers<ContextType>;
-  PushNotificationMessage?: PushNotificationMessageResolvers<ContextType>;
+  PushNotificationFollowData?: PushNotificationFollowDataResolvers<ContextType>;
+  PushNotificationMessageData?: PushNotificationMessageDataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SnsAccounts?: SnsAccountsResolvers<ContextType>;
   SubImage?: SubImageResolvers<ContextType>;
