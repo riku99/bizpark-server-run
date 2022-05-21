@@ -1,5 +1,4 @@
-import { QueryResolvers, Plan } from '~/generated/graphql';
-import { ForbiddenError } from 'apollo-server-express';
+import { Plan, QueryResolvers } from '~/generated/graphql';
 
 export const me: QueryResolvers['me'] = async (
   _,
@@ -7,7 +6,7 @@ export const me: QueryResolvers['me'] = async (
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError('auth error');
+    return null;
   }
 
   if (!requestUser.loggedIn) {

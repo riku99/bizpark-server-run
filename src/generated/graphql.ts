@@ -686,7 +686,7 @@ export type Query = {
   blockingUsers: Array<Maybe<User>>;
   follows: UserConnection;
   initialData: InitialResponse;
-  me: Me;
+  me?: Maybe<Me>;
   news?: Maybe<NewsConnection>;
   newsTalkRoom: NewsTalkRoom;
   newsTalkRoomMessage?: Maybe<NewsTalkRoomMessage>;
@@ -1657,7 +1657,7 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   blockingUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
   follows?: Resolver<ResolversTypes['UserConnection'], ParentType, ContextType, RequireFields<QueryFollowsArgs, 'first'>>;
   initialData?: Resolver<ResolversTypes['InitialResponse'], ParentType, ContextType>;
-  me?: Resolver<ResolversTypes['Me'], ParentType, ContextType>;
+  me?: Resolver<Maybe<ResolversTypes['Me']>, ParentType, ContextType>;
   news?: Resolver<Maybe<ResolversTypes['NewsConnection']>, ParentType, ContextType, RequireFields<QueryNewsArgs, 'genre'>>;
   newsTalkRoom?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<QueryNewsTalkRoomArgs, 'id'>>;
   newsTalkRoomMessage?: Resolver<Maybe<ResolversTypes['NewsTalkRoomMessage']>, ParentType, ContextType, RequireFields<QueryNewsTalkRoomMessageArgs, 'id'>>;

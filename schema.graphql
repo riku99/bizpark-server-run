@@ -445,7 +445,7 @@ type Query {
   ): ThoughtsConnection!
   initialData: InitialResponse!
   news(genre: NewsGenre!, first: Int, after: String): NewsConnection
-  me: Me!
+  me: Me
   user(id: ID!): User!
   pickedThoughts(first: Int!, after: String): ThoughtsConnection!
   pickedNews(first: Int!, after: String): NewsPickConnection!
