@@ -1,15 +1,15 @@
-import {
-  MutationResolvers,
-  CustomErrorResponseCode,
-  PushNotificationMessage,
-  PushNotificationDataKind,
-} from '~/generated/graphql';
-import { ForbiddenError, ApolloError } from 'apollo-server-express';
-import { NOT_TALKROOM_FOUND } from '~/constants';
 import { OneOnOneTalkRoomMessage } from '@prisma/client';
+import { ApolloError, ForbiddenError } from 'apollo-server-express';
+import { getFirestore } from 'firebase-admin/firestore';
+import { NOT_TALKROOM_FOUND } from '~/constants';
+import {
+  CustomErrorResponseCode,
+  MutationResolvers,
+  PushNotificationDataKind,
+  PushNotificationMessage,
+} from '~/generated/graphql';
 import { getDeviceTokens } from '~/helpers/getDeviceTokens';
 import { sendFcm } from '~/helpers/sendFcm';
-import { getFirestore } from 'firebase-admin/firestore';
 
 export type PublishOneOnOneMessagePayload = {
   oneOnOneTalkRoomMessageCreated: OneOnOneTalkRoomMessage & {
@@ -107,18 +107,6 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
       id: true,
     },
   });
-
-  if (targetUser) {
-    await prisma.notification.create({
-      data: {
-        userId: targetUser.id,
-        performerId: requestUser.id,
-        type: 'REPLY',
-        talkRoomType: 'ONEONONE',
-        talkRoomId: input.talkRoomId,
-      },
-    });
-  }
 
   if (targetUser?.loggedIn) {
     const deviceTokens = await getDeviceTokens(sendToUserId);
