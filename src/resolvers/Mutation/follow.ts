@@ -1,7 +1,12 @@
-import { MutationResolvers, FollowError } from '~/generated/graphql';
-import { ForbiddenError, ApolloError } from 'apollo-server-express';
-import { sendFcm } from '~/helpers/sendFcm';
+import { ApolloError, ForbiddenError } from 'apollo-server-express';
+import {
+  FollowError,
+  MutationResolvers,
+  PushNotificationFollowData,
+  PushNotificationFollowDataType,
+} from '~/generated/graphql';
 import { getDeviceTokens } from '~/helpers/getDeviceTokens';
+import { sendFcm } from '~/helpers/sendFcm';
 
 export const follow: MutationResolvers['follow'] = async (
   _,
@@ -69,6 +74,10 @@ export const follow: MutationResolvers['follow'] = async (
 
   if (targetUser.loggedIn) {
     const tokens = await getDeviceTokens(targetUser.id);
+    const notificationData: PushNotificationFollowData = {
+      type: PushNotificationFollowDataType.Follow,
+      userId: targetUser.id,
+    };
 
     if (tokens.length) {
       await sendFcm(tokens, {
@@ -76,9 +85,7 @@ export const follow: MutationResolvers['follow'] = async (
           title: 'フォローされました',
           sound: 'default',
         },
-        data: {
-          userId: targetUser.id,
-        },
+        data: notificationData,
       });
     }
   }

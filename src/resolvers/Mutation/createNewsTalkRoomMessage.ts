@@ -1,14 +1,14 @@
-import {
-  MutationResolvers,
-  CustomErrorResponseCode,
-  PushNotificationDataKind,
-  PushNotificationMessage,
-} from '~/generated/graphql';
-import { ForbiddenError, ApolloError } from 'apollo-server-express';
-import { NOT_TALKROOM_FOUND } from '~/constants';
-import { sendFcm } from '~/helpers/sendFcm';
-import { getDeviceTokens } from '~/helpers/getDeviceTokens';
+import { ApolloError, ForbiddenError } from 'apollo-server-express';
 import { getFirestore } from 'firebase-admin/firestore';
+import { NOT_TALKROOM_FOUND } from '~/constants';
+import {
+  CustomErrorResponseCode,
+  MutationResolvers,
+  PushNotificationMessageData,
+  PushNotificationMessageDataType,
+} from '~/generated/graphql';
+import { getDeviceTokens } from '~/helpers/getDeviceTokens';
+import { sendFcm } from '~/helpers/sendFcm';
 
 export const createNewsTalkRoomMessage: MutationResolvers['createNewsTalkRoomMessage'] = async (
   _,
@@ -116,8 +116,8 @@ export const createNewsTalkRoomMessage: MutationResolvers['createNewsTalkRoomMes
         const tokens = await getDeviceTokens(replyMessageUser.id);
 
         if (tokens.length) {
-          const notificationData: PushNotificationMessage = {
-            type: PushNotificationDataKind.NewsTalkRoomMessage,
+          const notificationData: PushNotificationMessageData = {
+            type: PushNotificationMessageDataType.NewsTalkRoomMessage,
             id: JSON.stringify(message.id),
             roomId: JSON.stringify(message.roomId),
           };
