@@ -1,9 +1,8 @@
 import { OneOnOneTalkRoomMessage } from '@prisma/client';
 import { ApolloError, ForbiddenError } from 'apollo-server-express';
 import { getFirestore } from 'firebase-admin/firestore';
-import { NOT_TALKROOM_FOUND } from '~/constants';
 import {
-  CustomErrorResponseCode,
+  MessageSendError,
   MutationResolvers,
   PushNotificationMessageData,
   PushNotificationMessageDataType,
@@ -34,8 +33,8 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
 
   if (!talkRoom) {
     throw new ApolloError(
-      NOT_TALKROOM_FOUND,
-      CustomErrorResponseCode.InvalidRequest
+      'トークルームが見つかりません',
+      MessageSendError.NotFound
     );
   }
 
@@ -61,8 +60,8 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
 
   if (blockedOrBlocking) {
     throw new ApolloError(
-      'メッセージを送信することができませんでした',
-      CustomErrorResponseCode.InvalidRequest
+      'ブロックしているか、ブロックされています',
+      MessageSendError.BlockingOrBlocked
     );
   }
 

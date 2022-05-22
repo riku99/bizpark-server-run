@@ -1,8 +1,7 @@
 import { ApolloError, ForbiddenError } from 'apollo-server-express';
 import { getFirestore } from 'firebase-admin/firestore';
-import { NOT_TALKROOM_FOUND } from '~/constants';
 import {
-  CustomErrorResponseCode,
+  MessageSendError,
   MutationResolvers,
   PushNotificationMessageData,
   PushNotificationMessageDataType,
@@ -49,8 +48,8 @@ export const createThoughtTalkRoomMessage: MutationResolvers['createThoughtTalkR
 
   if (!talkRoom || !memberMe) {
     throw new ApolloError(
-      NOT_TALKROOM_FOUND,
-      CustomErrorResponseCode.InvalidRequest
+      'トークルームが見つかりません',
+      MessageSendError.NotFound
     );
   }
 

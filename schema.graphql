@@ -82,6 +82,11 @@ enum VerifyEmailAuthCodeError {
   INVALID
 }
 
+enum MessageSendError {
+  NOT_FOUND
+  BLOCKING_OR_BLOCKED
+}
+
 type PushNotificationMessageData {
   type: PushNotificationMessageDataType!
   id: String!
