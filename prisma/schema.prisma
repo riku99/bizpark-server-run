@@ -394,7 +394,7 @@ model Notification {
 model SubscriptionPurchase {
   id Int @id @default(autoincrement())
   userId String @unique
-  receiptId String @unique
+  receiptId String // original_transaction_idが入る
   expireDate DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
