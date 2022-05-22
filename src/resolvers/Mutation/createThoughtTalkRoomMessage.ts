@@ -77,7 +77,9 @@ export const createThoughtTalkRoomMessage: MutationResolvers['createThoughtTalkR
 
   const firestore = getFirestore();
 
-  const memberIds = talkRoom.members.map((member) => member.userId);
+  const memberIds = talkRoom.members
+    .map((member) => member.userId)
+    .filter((memberId) => memberId !== requestUser.id);
 
   const messageRef = firestore
     .collection('thoughtTalkRoomMessages')

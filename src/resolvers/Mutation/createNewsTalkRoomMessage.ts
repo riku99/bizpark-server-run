@@ -71,7 +71,9 @@ export const createNewsTalkRoomMessage: MutationResolvers['createNewsTalkRoomMes
     },
   });
 
-  const memberIds = talkRoom.members.map((member) => member.userId);
+  const memberIds = talkRoom.members
+    .map((member) => member.userId)
+    .filter((memberId) => memberId !== requestUser.id);
 
   const messageRef = firestore
     .collection('newsTalkRoomMessages')
