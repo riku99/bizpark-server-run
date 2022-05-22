@@ -232,6 +232,11 @@ export type Me = {
   twitter?: Maybe<Scalars['String']>;
 };
 
+export enum MessageSendError {
+  BlockingOrBlocked = 'BLOCKING_OR_BLOCKED',
+  NotFound = 'NOT_FOUND'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   addDeviceToken?: Maybe<Scalars['Boolean']>;
@@ -1195,6 +1200,7 @@ export type ResolversTypes = {
   JoinTalkInput: JoinTalkInput;
   LikeThoughtInput: LikeThoughtInput;
   Me: ResolverTypeWrapper<User>;
+  MessageSendError: MessageSendError;
   Mutation: ResolverTypeWrapper<{}>;
   News: ResolverTypeWrapper<News>;
   NewsConnection: ResolverTypeWrapper<Omit<NewsConnection, 'edges'> & { edges: Array<ResolversTypes['NewsEdge']> }>;
