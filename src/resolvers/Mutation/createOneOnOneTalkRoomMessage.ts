@@ -86,7 +86,7 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
 
   const firestore = getFirestore();
 
-  const memberIds = [sendToUserId, requestUser.id];
+  const memberIds = [sendToUserId];
 
   const messageRef = firestore
     .collection('oneOnOneTalkRoomMessages')
