@@ -228,6 +228,7 @@ export type Me = {
   loggedIn: Scalars['Boolean'];
   name: Scalars['String'];
   plan: Plan;
+  receiveOneOnOneTalkRoomMessage: Scalars['Boolean'];
   snsAccounts?: Maybe<SnsAccounts>;
   twitter?: Maybe<Scalars['String']>;
 };
@@ -1445,6 +1446,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
   loggedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   plan?: Resolver<ResolversTypes['Plan'], ParentType, ContextType>;
+  receiveOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   snsAccounts?: Resolver<Maybe<ResolversTypes['SnsAccounts']>, ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

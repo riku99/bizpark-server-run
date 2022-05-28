@@ -193,6 +193,7 @@ type Me {
   instagram: String
   plan: Plan!
   snsAccounts: SnsAccounts
+  receiveOneOnOneTalkRoomMessage: Boolean!
 }
 
 type Pick {
