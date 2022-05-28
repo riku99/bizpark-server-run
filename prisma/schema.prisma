@@ -24,6 +24,7 @@ model User {
   linkedin String?
   instagram String? 
   plan Plan @default(Normal)
+  receiveOneOnOneTalkRoomMessage Boolean @default(true)
 
   thoughts Thought[]
   thoughtTalkRoomMessages ThoughtTalkRoomMessage[]
