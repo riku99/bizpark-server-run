@@ -1,16 +1,17 @@
-import { QueryResolvers } from "~/generated/graphql";
-import { ForbiddenError } from "apollo-server-express";
+import { ForbiddenError } from 'apollo-server-express';
+import { subDays } from 'date-fns';
+import { TALKROOM_DISPLAY_LIMIT_DATE } from '~/constants';
+import { QueryResolvers } from '~/generated/graphql';
 
-export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
+export const thoughtTalkRooms: QueryResolvers['thoughtTalkRooms'] = async (
   _,
   __,
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
   }
 
-  // 自分が発言したトークルーム && 3日以内に更新されている もののみを取得するようにする
   const talkRooms = await prisma.thoughtTalkRoom.findMany({
     where: {
       members: {
@@ -18,9 +19,12 @@ export const thoughtTalkRooms: QueryResolvers["thoughtTalkRooms"] = async (
           userId: requestUser.id,
         },
       },
+      updatedAt: {
+        gte: subDays(new Date(), TALKROOM_DISPLAY_LIMIT_DATE),
+      },
     },
     orderBy: {
-      updatedAt: "desc",
+      updatedAt: 'desc',
     },
   });
 
