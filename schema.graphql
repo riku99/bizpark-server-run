@@ -87,6 +87,12 @@ enum MessageSendError {
   BLOCKING_OR_BLOCKED
 }
 
+enum OneOnOneTalkRoomCreationError {
+  BLOCKING_OR_BLOCKED
+  REJECTION
+  USER_NOT_FOUND
+}
+
 type PushNotificationMessageData {
   type: PushNotificationMessageDataType!
   id: String!
