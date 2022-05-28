@@ -1,15 +1,9 @@
+import { Express } from 'express';
+import { SCRAPING_NEWS_SCHEDULER_BASE_ENDPOINT } from '~/constants';
+import { verifyGcpOidcTokenForCloudScheduler } from '~/helpers/verifyGcpOidcTokenForCloudScheduler';
+import { scrapeBiz } from './biz';
 import { scrapePolicy } from './seiji';
 import { scrapeStock } from './stock';
-import { scrapeBiz } from './biz';
-import { SCRAPING_NEWS_SCHEDULER_BASE_ENDPOINT } from '~/constants';
-import { Express } from 'express';
-import { verifyGcpOidcTokenForCloudScheduler } from '~/helpers/verifyGcpOidcTokenForCloudScheduler';
-
-// export const scrapeMainichi = async () => {
-//   await scrapePolicy();
-//   await scrapeStock();
-//   await scrapeBiz();
-// };
 
 export const registerMainichi = (app: Express) => {
   app.get(

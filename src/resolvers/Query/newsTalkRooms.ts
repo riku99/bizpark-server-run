@@ -1,5 +1,7 @@
-import { QueryResolvers } from '~/generated/graphql';
 import { ForbiddenError } from 'apollo-server-express';
+import { subDays } from 'date-fns';
+import { TALKROOM_DISPLAY_LIMIT_DATE } from '~/constants';
+import { QueryResolvers } from '~/generated/graphql';
 
 export const newsTalkRooms: QueryResolvers['newsTalkRooms'] = async (
   _,
@@ -10,13 +12,15 @@ export const newsTalkRooms: QueryResolvers['newsTalkRooms'] = async (
     throw new ForbiddenError('aurh error');
   }
 
-  // FIX: 3日以内に更新されている もののみを取得するようにする
   const talkRooms = await prisma.newsTalkRoom.findMany({
     where: {
       members: {
         some: {
           userId: requestUser.id,
         },
+      },
+      updatedAt: {
+        gte: subDays(new Date(), TALKROOM_DISPLAY_LIMIT_DATE),
       },
     },
     orderBy: {
