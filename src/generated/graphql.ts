@@ -33,6 +33,10 @@ export type BlockedByUser = {
   name: Scalars['String'];
 };
 
+export type ChangeReceiveOneOnOneTalkRoomMessageInput = {
+  value: Scalars['Boolean'];
+};
+
 export type CreateEmailAuthCodeInput = {
   email: Scalars['String'];
 };
@@ -228,6 +232,7 @@ export type Me = {
   loggedIn: Scalars['Boolean'];
   name: Scalars['String'];
   plan: Plan;
+  receiveOneOnOneTalkRoomMessage: Scalars['Boolean'];
   snsAccounts?: Maybe<SnsAccounts>;
   twitter?: Maybe<Scalars['String']>;
 };
@@ -241,6 +246,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addDeviceToken?: Maybe<Scalars['Boolean']>;
   block: User;
+  changeReceiveOneOnOneTalkRoomMessage: Me;
   createEmailAuthCode: Scalars['Int'];
   createNewsPick: NewsPick;
   createNewsTalkRoomMessage: NewsTalkRoomMessage;
@@ -288,6 +294,11 @@ export type MutationAddDeviceTokenArgs = {
 
 export type MutationBlockArgs = {
   blockTo: Scalars['ID'];
+};
+
+
+export type MutationChangeReceiveOneOnOneTalkRoomMessageArgs = {
+  input: ChangeReceiveOneOnOneTalkRoomMessageInput;
 };
 
 
@@ -630,6 +641,12 @@ export type OneOnOneTalkRoomMessagesArgs = {
   after?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
 };
+
+export enum OneOnOneTalkRoomCreationError {
+  BlockingOrBlocked = 'BLOCKING_OR_BLOCKED',
+  Rejection = 'REJECTION',
+  UserNotFound = 'USER_NOT_FOUND'
+}
 
 export type OneOnOneTalkRoomMessage = TalkRoomMessage & {
   __typename?: 'OneOnOneTalkRoomMessage';
@@ -1162,6 +1179,7 @@ export type ResolversTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
   BlockedByUser: ResolverTypeWrapper<BlockedByUser>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  ChangeReceiveOneOnOneTalkRoomMessageInput: ChangeReceiveOneOnOneTalkRoomMessageInput;
   CreateEmailAuthCodeInput: CreateEmailAuthCodeInput;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
@@ -1221,6 +1239,7 @@ export type ResolversTypes = {
   NotificationEdge: ResolverTypeWrapper<Omit<NotificationEdge, 'node'> & { node: ResolversTypes['Notification'] }>;
   NotificationType: NotificationType;
   OneOnOneTalkRoom: ResolverTypeWrapper<OneOnOneTalkRoom>;
+  OneOnOneTalkRoomCreationError: OneOnOneTalkRoomCreationError;
   OneOnOneTalkRoomMessage: ResolverTypeWrapper<OneOnOneTalkRoomMessage>;
   OneOnOneTalkRoomMessageConnection: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['OneOnOneTalkRoomMessageEdge']> }>;
   OneOnOneTalkRoomMessageEdge: ResolverTypeWrapper<Omit<OneOnOneTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['OneOnOneTalkRoomMessage'] }>;
@@ -1277,6 +1296,7 @@ export type ResolversParentTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
   BlockedByUser: BlockedByUser;
   Boolean: Scalars['Boolean'];
+  ChangeReceiveOneOnOneTalkRoomMessageInput: ChangeReceiveOneOnOneTalkRoomMessageInput;
   CreateEmailAuthCodeInput: CreateEmailAuthCodeInput;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: CreateNewsPickResponse;
@@ -1445,6 +1465,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
   loggedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   plan?: Resolver<ResolversTypes['Plan'], ParentType, ContextType>;
+  receiveOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   snsAccounts?: Resolver<Maybe<ResolversTypes['SnsAccounts']>, ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1453,6 +1474,7 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addDeviceToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddDeviceTokenArgs, 'input'>>;
   block?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationBlockArgs, 'blockTo'>>;
+  changeReceiveOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationChangeReceiveOneOnOneTalkRoomMessageArgs, 'input'>>;
   createEmailAuthCode?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationCreateEmailAuthCodeArgs, 'input'>>;
   createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createNewsTalkRoomMessage?: Resolver<ResolversTypes['NewsTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateNewsTalkRoomMessageArgs, 'input'>>;

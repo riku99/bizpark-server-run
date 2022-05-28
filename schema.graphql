@@ -87,6 +87,12 @@ enum MessageSendError {
   BLOCKING_OR_BLOCKED
 }
 
+enum OneOnOneTalkRoomCreationError {
+  BLOCKING_OR_BLOCKED
+  REJECTION
+  USER_NOT_FOUND
+}
+
 type PushNotificationMessageData {
   type: PushNotificationMessageDataType!
   id: String!
@@ -193,6 +199,7 @@ type Me {
   instagram: String
   plan: Plan!
   snsAccounts: SnsAccounts
+  receiveOneOnOneTalkRoomMessage: Boolean!
 }
 
 type Pick {
@@ -652,6 +659,10 @@ input VerifyEmailAuthCodeInput {
   email: String!
 }
 
+input ChangeReceiveOneOnOneTalkRoomMessageInput {
+  value: Boolean!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -708,4 +719,7 @@ type Mutation {
   updateEmail(input: UpdateEmailInput!): Boolean
   createEmailAuthCode(input: CreateEmailAuthCodeInput!): Int!
   verifyEmailAuthCode(input: VerifyEmailAuthCodeInput!, id: Int!): Boolean
+  changeReceiveOneOnOneTalkRoomMessage(
+    input: ChangeReceiveOneOnOneTalkRoomMessageInput!
+  ): Me!
 }
