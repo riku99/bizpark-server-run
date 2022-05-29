@@ -1,7 +1,9 @@
 import { MutationResolvers } from '~/generated/graphql';
 import { addDeviceToken } from './addDeviceToken';
 import { block } from './block';
+import { changeReceiveFollowPushNotification } from './changeReceiveFollowPushNotification';
 import { changeReceiveOneOnOneTalkRoomMessage } from './changeReceiveOneOnOneTalkRoomMessage';
+import { changeReceiveOneOnOneTalkRoomMessagePushNotification } from './changeReceiveOneOnOneTalkRoomMessagePushNotification';
 import { changeReceiveReplyPushNotification } from './changeReceiveReplyPushNotification';
 import { createEmailAuthCode } from './createEmailAuthCode';
 import { createNewsPick } from './createNewsPick';
@@ -83,4 +85,6 @@ export const Mutation: MutationResolvers = {
   verifyEmailAuthCode,
   changeReceiveOneOnOneTalkRoomMessage,
   changeReceiveReplyPushNotification,
+  changeReceiveOneOnOneTalkRoomMessagePushNotification,
+  changeReceiveFollowPushNotification,
 };

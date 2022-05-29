@@ -670,6 +670,14 @@ input ChangeReceiveReplyPushNotificationInput {
   value: Boolean!
 }
 
+input ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput {
+  value: Boolean!
+}
+
+input ChangeReceiveFollowPushNotificationInput {
+  value: Boolean!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -731,5 +739,11 @@ type Mutation {
   ): Me!
   changeReceiveReplyPushNotification(
     input: ChangeReceiveReplyPushNotificationInput!
+  ): Me!
+  changeReceiveOneOnOneTalkRoomMessagePushNotification(
+    input: ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput!
+  ): Me!
+  changeReceiveFollowPushNotification(
+    input: ChangeReceiveFollowPushNotificationInput!
   ): Me!
 }
