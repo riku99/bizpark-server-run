@@ -666,6 +666,10 @@ input ChangeReceiveOneOnOneTalkRoomMessageInput {
   value: Boolean!
 }
 
+input ChangeReceiveReplyPushNotificationInput {
+  value: Boolean!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -724,5 +728,8 @@ type Mutation {
   verifyEmailAuthCode(input: VerifyEmailAuthCodeInput!, id: Int!): Boolean
   changeReceiveOneOnOneTalkRoomMessage(
     input: ChangeReceiveOneOnOneTalkRoomMessageInput!
+  ): Me!
+  changeReceiveReplyPushNotification(
+    input: ChangeReceiveReplyPushNotificationInput!
   ): Me!
 }
