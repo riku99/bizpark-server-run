@@ -104,10 +104,14 @@ export const createOneOnOneTalkRoomMessage: MutationResolvers['createOneOnOneTal
     select: {
       loggedIn: true,
       id: true,
+      receiveOneOnOneTalkRoomMessagePushNotification: true,
     },
   });
 
-  if (targetUser?.loggedIn) {
+  if (
+    targetUser?.loggedIn &&
+    targetUser?.receiveOneOnOneTalkRoomMessagePushNotification
+  ) {
     const deviceTokens = await getDeviceTokens(sendToUserId);
 
     const notificationData: PushNotificationMessageData = {

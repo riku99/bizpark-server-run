@@ -114,7 +114,11 @@ export const createThoughtTalkRoomMessage: MutationResolvers['createThoughtTalkR
       });
     }
 
-    if (replyMessageUser && replyMessageUser.loggedIn) {
+    if (
+      replyMessageUser &&
+      replyMessageUser.loggedIn &&
+      replyMessageUser.receiveReplyPushNotification
+    ) {
       const isReplyMessageUserIncludedMember = talkRoom.members.some(
         (member) => member.userId === replyMessageUser.id
       );

@@ -72,7 +72,7 @@ export const follow: MutationResolvers['follow'] = async (
     },
   });
 
-  if (targetUser.loggedIn) {
+  if (targetUser.loggedIn && targetUser.receiveFollowPushNotification) {
     const tokens = await getDeviceTokens(targetUser.id);
     const notificationData: PushNotificationFollowData = {
       type: PushNotificationFollowDataType.Follow,

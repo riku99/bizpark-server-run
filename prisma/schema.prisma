@@ -25,6 +25,9 @@ model User {
   instagram String? 
   plan Plan @default(Normal)
   receiveOneOnOneTalkRoomMessage Boolean @default(true)
+  receiveReplyPushNotification Boolean @default(true)
+  receiveOneOnOneTalkRoomMessagePushNotification Boolean @default(true)
+  receiveFollowPushNotification Boolean @default(true)
 
   thoughts Thought[]
   thoughtTalkRoomMessages ThoughtTalkRoomMessage[]

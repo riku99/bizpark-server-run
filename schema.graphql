@@ -200,6 +200,9 @@ type Me {
   plan: Plan!
   snsAccounts: SnsAccounts
   receiveOneOnOneTalkRoomMessage: Boolean!
+  receiveReplyPushNotification: Boolean
+  receiveOneOnOneTalkRoomMessagePushNotification: Boolean
+  receiveFollowPushNotification: Boolean
 }
 
 type Pick {
@@ -663,6 +666,18 @@ input ChangeReceiveOneOnOneTalkRoomMessageInput {
   value: Boolean!
 }
 
+input ChangeReceiveReplyPushNotificationInput {
+  value: Boolean!
+}
+
+input ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput {
+  value: Boolean!
+}
+
+input ChangeReceiveFollowPushNotificationInput {
+  value: Boolean!
+}
+
 type Mutation {
   createUser(input: CreateUserInput!): Me!
   createPick(input: CreatePickInput!): Pick!
@@ -721,5 +736,14 @@ type Mutation {
   verifyEmailAuthCode(input: VerifyEmailAuthCodeInput!, id: Int!): Boolean
   changeReceiveOneOnOneTalkRoomMessage(
     input: ChangeReceiveOneOnOneTalkRoomMessageInput!
+  ): Me!
+  changeReceiveReplyPushNotification(
+    input: ChangeReceiveReplyPushNotificationInput!
+  ): Me!
+  changeReceiveOneOnOneTalkRoomMessagePushNotification(
+    input: ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput!
+  ): Me!
+  changeReceiveFollowPushNotification(
+    input: ChangeReceiveFollowPushNotificationInput!
   ): Me!
 }

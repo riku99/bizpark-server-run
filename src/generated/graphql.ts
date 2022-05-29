@@ -33,7 +33,19 @@ export type BlockedByUser = {
   name: Scalars['String'];
 };
 
+export type ChangeReceiveFollowPushNotificationInput = {
+  value: Scalars['Boolean'];
+};
+
 export type ChangeReceiveOneOnOneTalkRoomMessageInput = {
+  value: Scalars['Boolean'];
+};
+
+export type ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput = {
+  value: Scalars['Boolean'];
+};
+
+export type ChangeReceiveReplyPushNotificationInput = {
   value: Scalars['Boolean'];
 };
 
@@ -232,7 +244,10 @@ export type Me = {
   loggedIn: Scalars['Boolean'];
   name: Scalars['String'];
   plan: Plan;
+  receiveFollowPushNotification?: Maybe<Scalars['Boolean']>;
   receiveOneOnOneTalkRoomMessage: Scalars['Boolean'];
+  receiveOneOnOneTalkRoomMessagePushNotification?: Maybe<Scalars['Boolean']>;
+  receiveReplyPushNotification?: Maybe<Scalars['Boolean']>;
   snsAccounts?: Maybe<SnsAccounts>;
   twitter?: Maybe<Scalars['String']>;
 };
@@ -246,7 +261,10 @@ export type Mutation = {
   __typename?: 'Mutation';
   addDeviceToken?: Maybe<Scalars['Boolean']>;
   block: User;
+  changeReceiveFollowPushNotification: Me;
   changeReceiveOneOnOneTalkRoomMessage: Me;
+  changeReceiveOneOnOneTalkRoomMessagePushNotification: Me;
+  changeReceiveReplyPushNotification: Me;
   createEmailAuthCode: Scalars['Int'];
   createNewsPick: NewsPick;
   createNewsTalkRoomMessage: NewsTalkRoomMessage;
@@ -297,8 +315,23 @@ export type MutationBlockArgs = {
 };
 
 
+export type MutationChangeReceiveFollowPushNotificationArgs = {
+  input: ChangeReceiveFollowPushNotificationInput;
+};
+
+
 export type MutationChangeReceiveOneOnOneTalkRoomMessageArgs = {
   input: ChangeReceiveOneOnOneTalkRoomMessageInput;
+};
+
+
+export type MutationChangeReceiveOneOnOneTalkRoomMessagePushNotificationArgs = {
+  input: ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput;
+};
+
+
+export type MutationChangeReceiveReplyPushNotificationArgs = {
+  input: ChangeReceiveReplyPushNotificationInput;
 };
 
 
@@ -1179,7 +1212,10 @@ export type ResolversTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
   BlockedByUser: ResolverTypeWrapper<BlockedByUser>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  ChangeReceiveFollowPushNotificationInput: ChangeReceiveFollowPushNotificationInput;
   ChangeReceiveOneOnOneTalkRoomMessageInput: ChangeReceiveOneOnOneTalkRoomMessageInput;
+  ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput: ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput;
+  ChangeReceiveReplyPushNotificationInput: ChangeReceiveReplyPushNotificationInput;
   CreateEmailAuthCodeInput: CreateEmailAuthCodeInput;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: ResolverTypeWrapper<CreateNewsPickResponse>;
@@ -1296,7 +1332,10 @@ export type ResolversParentTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
   BlockedByUser: BlockedByUser;
   Boolean: Scalars['Boolean'];
+  ChangeReceiveFollowPushNotificationInput: ChangeReceiveFollowPushNotificationInput;
   ChangeReceiveOneOnOneTalkRoomMessageInput: ChangeReceiveOneOnOneTalkRoomMessageInput;
+  ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput: ChangeReceiveOneOnOneTalkRoomMessagePushNotificationInput;
+  ChangeReceiveReplyPushNotificationInput: ChangeReceiveReplyPushNotificationInput;
   CreateEmailAuthCodeInput: CreateEmailAuthCodeInput;
   CreateNewsPickInput: CreateNewsPickInput;
   CreateNewsPickResponse: CreateNewsPickResponse;
@@ -1465,7 +1504,10 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
   loggedIn?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   plan?: Resolver<ResolversTypes['Plan'], ParentType, ContextType>;
+  receiveFollowPushNotification?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   receiveOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  receiveOneOnOneTalkRoomMessagePushNotification?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  receiveReplyPushNotification?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   snsAccounts?: Resolver<Maybe<ResolversTypes['SnsAccounts']>, ParentType, ContextType>;
   twitter?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1474,7 +1516,10 @@ export type MeResolvers<ContextType = Context, ParentType extends ResolversParen
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   addDeviceToken?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAddDeviceTokenArgs, 'input'>>;
   block?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationBlockArgs, 'blockTo'>>;
+  changeReceiveFollowPushNotification?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationChangeReceiveFollowPushNotificationArgs, 'input'>>;
   changeReceiveOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationChangeReceiveOneOnOneTalkRoomMessageArgs, 'input'>>;
+  changeReceiveOneOnOneTalkRoomMessagePushNotification?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationChangeReceiveOneOnOneTalkRoomMessagePushNotificationArgs, 'input'>>;
+  changeReceiveReplyPushNotification?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationChangeReceiveReplyPushNotificationArgs, 'input'>>;
   createEmailAuthCode?: Resolver<ResolversTypes['Int'], ParentType, ContextType, RequireFields<MutationCreateEmailAuthCodeArgs, 'input'>>;
   createNewsPick?: Resolver<ResolversTypes['NewsPick'], ParentType, ContextType, RequireFields<MutationCreateNewsPickArgs, 'input'>>;
   createNewsTalkRoomMessage?: Resolver<ResolversTypes['NewsTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateNewsTalkRoomMessageArgs, 'input'>>;
