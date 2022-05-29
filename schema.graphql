@@ -200,6 +200,9 @@ type Me {
   plan: Plan!
   snsAccounts: SnsAccounts
   receiveOneOnOneTalkRoomMessage: Boolean!
+  receiveReplyPushNotification: Boolean
+  receiveOneOnOneTalkRoomMessagePushNotification: Boolean
+  receiveFollowPushNotification: Boolean
 }
 
 type Pick {
