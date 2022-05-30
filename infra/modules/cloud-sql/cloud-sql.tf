@@ -8,8 +8,7 @@ resource "google_sql_database_instance" "bizpark-db-instance" {
   region           = var.region
 
   # 後で消せるように
-  deletion_protection = false
-
+  #  deletion_protection = false
 
   settings {
     tier              = var.tier
