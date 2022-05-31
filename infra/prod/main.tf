@@ -16,8 +16,8 @@ provider "google" {
 }
 
 locals {
-  db_tier              = "db-lightweight-1"
-  db_disk_size         = "10"
+  db_tier      = "db-custom-1-3840"
+  db_disk_size = "10"
 }
 
 module "cloud-sql" {
