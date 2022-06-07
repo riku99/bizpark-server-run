@@ -1,6 +1,7 @@
 variable region {}
 variable tier {}
 variable disk_size {}
+variable activation_policy {} # ALWAYSだと起動状態、NEVERだと停止
 
 resource "google_sql_database_instance" "bizpark-db-instance" {
   name             = "db"
@@ -15,6 +16,7 @@ resource "google_sql_database_instance" "bizpark-db-instance" {
     availability_type = "ZONAL"
     disk_size         = var.disk_size
     disk_type         = "PD_SSD"
+    activation_policy = var.activation_policy
 
     ip_configuration {
       ipv4_enabled = "true"

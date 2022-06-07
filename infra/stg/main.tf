@@ -33,10 +33,13 @@ module "cloud-sql" {
   region    = var.region
   tier      = local.db_tier
   disk_size = local.db_disk_size
+  activation_policy = "NEVER"
 }
 
 module "cloud-storage" {
   source = "../modules/cloud-storage"
+  force_destroy = true
+  name = "bizpark-user-upload-stg"
 }
 
 output "user_upload_storage_bucket_name" {

@@ -25,4 +25,18 @@ module "cloud-sql" {
   region    = var.region
   tier      = local.db_tier
   disk_size = local.db_disk_size
+  activation_policy = "ALWAYS"
+}
+
+module "artifact-registry" {
+  source               = "../modules/artifact-registry"
+  project              = var.project
+  location             = var.region
+  artifact_registry_id = var.artifact_registry_id
+}
+
+module "cloud-storage" {
+  source = "../modules/cloud-storage"
+  force_destroy = false
+  name = "bizpark-user-upload"
 }
