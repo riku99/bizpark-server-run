@@ -16,16 +16,16 @@ provider "google" {
 }
 
 locals {
-  db_tier      = "db-custom-1-3840"
-  db_disk_size = "10"
+  db_tier              = "db-custom-1-3840"
+  db_disk_size         = "10"
   deploy_target_branch = "main"
 }
 
 module "cloud-sql" {
-  source    = "../modules/cloud-sql"
-  region    = var.region
-  tier      = local.db_tier
-  disk_size = local.db_disk_size
+  source            = "../modules/cloud-sql"
+  region            = var.region
+  tier              = local.db_tier
+  disk_size         = local.db_disk_size
   activation_policy = "ALWAYS"
 }
 
@@ -37,9 +37,9 @@ module "artifact-registry" {
 }
 
 module "cloud-storage" {
-  source = "../modules/cloud-storage"
+  source        = "../modules/cloud-storage"
   force_destroy = false
-  name = "bizpark-user-upload"
+  name          = "bizpark-user-upload"
 }
 
 module "cloud-build" {
