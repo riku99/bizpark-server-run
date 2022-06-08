@@ -24,10 +24,10 @@ resource "google_sql_database_instance" "bizpark-db-instance" {
   }
 }
 
-resource "google_sql_database" "bizpark-db" {
-  name     = "bizpark-db"
-  instance = google_sql_database_instance.bizpark-db-instance.name
-}
+# resource "google_sql_database" "bizpark-db" {
+#   name     = "bizpark-db"
+#   instance = google_sql_database_instance.bizpark-db-instance.name
+# }
 
 output "bizpark-db-connection-name" {
   value = google_sql_database_instance.bizpark-db-instance.connection_name
