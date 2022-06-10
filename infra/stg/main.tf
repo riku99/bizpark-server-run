@@ -33,7 +33,7 @@ module "cloud-sql" {
   region    = var.region
   tier      = local.db_tier
   disk_size = local.db_disk_size
-  activation_policy = "NEVER"
+  activation_policy = "ALWAYS"
 }
 
 module "cloud-storage" {
