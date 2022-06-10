@@ -55,7 +55,7 @@ steps:
       - --update-secrets=GMAIL_APP_PASS=GMAIL_APP_PASS:latest
     waitFor: ['apply-migrations']
 
-timeout: 2300s
+timeout: 2500s
 substitutions:
   _REGION: by-terraform
   _CLOUDSQL_INSTANCE_FULL_NAME: by-terraform

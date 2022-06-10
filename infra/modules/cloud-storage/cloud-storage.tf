@@ -1,7 +1,10 @@
+variable force_destroy {}
+variable name {}
+
 resource "google_storage_bucket" "bizpark-user-upload" {
-  name          = "bizpzrk-user-upload"
+  name          = var.name
   location      = "ASIA-NORTHEAST1"
-  force_destroy = true # 本番はfalseの方がいいかも
+  force_destroy = var.force_destroy
 }
 
 // オブジェクトをインターネットに公開する。https://zenn.dev/catnose99/articles/18720e3af36d22
