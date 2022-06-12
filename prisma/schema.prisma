@@ -118,7 +118,6 @@ model News {
   articleCreatedAt DateTime?
   genre NewsGenre
   provider String?
-  apiSource String? // どのAPIから取得したデータか
 
   talkRooms NewsTalkRoom[]
 
