@@ -488,6 +488,7 @@ type Query {
   newsTalkRoomMessage(id: Int!): NewsTalkRoomMessage
   thoughtTalkRoomMessage(id: Int!): ThoughtTalkRoomMessage
   oneOnOneTalkRoomMessage(id: Int!): OneOnOneTalkRoomMessage
+  developer: User
 }
 
 input CreateUserInput {
