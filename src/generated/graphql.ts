@@ -749,6 +749,7 @@ export enum PushNotificationMessageDataType {
 export type Query = {
   __typename?: 'Query';
   blockingUsers: Array<Maybe<User>>;
+  developer?: Maybe<User>;
   follows: UserConnection;
   initialData: InitialResponse;
   me?: Maybe<Me>;
@@ -1747,6 +1748,7 @@ export type PushNotificationMessageDataResolvers<ContextType = Context, ParentTy
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   blockingUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  developer?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   follows?: Resolver<ResolversTypes['UserConnection'], ParentType, ContextType, RequireFields<QueryFollowsArgs, 'first'>>;
   initialData?: Resolver<ResolversTypes['InitialResponse'], ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['Me']>, ParentType, ContextType>;
