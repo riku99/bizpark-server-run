@@ -55,3 +55,8 @@ module "cloud-build" {
   target_branch               = local.deploy_target_branch
   app_bundle_id               = var.app_bundle_id
 }
+
+module "service-account" {
+  source  = "../modules/service-account"
+  project = var.project
+}
