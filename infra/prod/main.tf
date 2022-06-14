@@ -51,3 +51,14 @@ module "cloud-build" {
   target_branch               = local.deploy_target_branch
   app_bundle_id               = var.app_bundle_id
 }
+
+module "service-account" {
+  source  = "../modules/service-account"
+  project = var.project
+}
+
+module "cloud-scheduler" {
+  source                = "../modules/cloud-scheduler"
+  health-check-endpoint     = var.health_check_endpoint
+  service-account-email = module.service-account.server-invoker-email
+}
