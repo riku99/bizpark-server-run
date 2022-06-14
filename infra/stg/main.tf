@@ -60,3 +60,9 @@ module "service-account" {
   source  = "../modules/service-account"
   project = var.project
 }
+
+module "cloud-scheduler" {
+  source                = "../modules/cloud-scheduler"
+  health-check-endpoint     = var.health_check_endpoint
+  service-account-email = module.service-account.server-invoker-email
+}
