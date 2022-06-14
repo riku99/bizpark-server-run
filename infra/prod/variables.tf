@@ -15,3 +15,5 @@ variable "artifact_registry_id" {}
 variable "registory_name" {}
 
 variable "app_bundle_id" {}
+
+variable "health_check_endpoint" {}
