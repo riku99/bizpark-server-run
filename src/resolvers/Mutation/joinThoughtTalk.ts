@@ -29,10 +29,6 @@ export const joinThoughtTalk: MutationResolvers['joinThoughtTalk'] = async (
       'ブロックされています',
       ThouhgtTalkRoomJoinError.Blokced
     );
-    // throw new ApolloError(
-    //   NOT_ENABLED_JOIN_TALK_ROOM,
-    //   CustomErrorResponseCode.InvalidRequest
-    // );
   }
 
   if (requestUser.plan === 'Normal') {
@@ -46,9 +42,6 @@ export const joinThoughtTalk: MutationResolvers['joinThoughtTalk'] = async (
         },
       }
     );
-
-    console.log('Joined is ');
-    console.log(alreadyJoinedRoomsThisMonth.length);
 
     if (alreadyJoinedRoomsThisMonth.length >= 6) {
       throw new ApolloError(

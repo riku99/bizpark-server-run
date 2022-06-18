@@ -183,6 +183,7 @@ model ThoughtTalkRoomMember {
 
   @@index([talkRoomId])
   @@index([userId])
+  @@index([userId, createdAt])
   @@unique([talkRoomId, userId])
 }
 
