@@ -1044,6 +1044,11 @@ export type ThoughtsConnection = {
   pageInfo: PageInfo;
 };
 
+export enum ThouhgtTalkRoomJoinError {
+  Blokced = 'BLOKCED',
+  UpperLimit = 'UPPER_LIMIT'
+}
+
 export enum UnFollowError {
   NotFound = 'NOT_FOUND'
 }
@@ -1312,6 +1317,7 @@ export type ResolversTypes = {
   ThoughtTalkRoomMessageConnection: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtTalkRoomMessageEdge']> }>;
   ThoughtTalkRoomMessageEdge: ResolverTypeWrapper<Omit<ThoughtTalkRoomMessageEdge, 'node'> & { node: ResolversTypes['ThoughtTalkRoomMessage'] }>;
   ThoughtsConnection: ResolverTypeWrapper<Omit<ThoughtsConnection, 'edges'> & { edges: Array<ResolversTypes['ThoughtEdge']> }>;
+  ThouhgtTalkRoomJoinError: ThouhgtTalkRoomJoinError;
   UnFollowError: UnFollowError;
   UnLikeThoughtInput: UnLikeThoughtInput;
   UpdateEmailInput: UpdateEmailInput;

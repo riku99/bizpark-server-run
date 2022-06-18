@@ -93,6 +93,11 @@ enum OneOnOneTalkRoomCreationError {
   USER_NOT_FOUND
 }
 
+enum ThouhgtTalkRoomJoinError {
+  BLOKCED
+  UPPER_LIMIT
+}
+
 type PushNotificationMessageData {
   type: PushNotificationMessageDataType!
   id: String!
