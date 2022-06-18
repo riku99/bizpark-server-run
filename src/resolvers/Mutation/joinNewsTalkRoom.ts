@@ -1,17 +1,15 @@
-import {
-  MutationResolvers,
-  CustomErrorResponseCode,
-} from "~/generated/graphql";
-import { ForbiddenError, ApolloError } from "apollo-server-express";
-import { NOT_ENABLED_JOIN_TALK_ROOM } from "~/constants";
+import { ApolloError, ForbiddenError } from 'apollo-server-express';
+import startOfMonth from 'date-fns/startOfMonth';
+import { NORMAL_USER_JOIN_TALK_ROOM_LIMIT } from '~/constants';
+import { MutationResolvers, NewsTalkRoomJoinError } from '~/generated/graphql';
 
-export const joinNewsTalkRoom: MutationResolvers["joinNewsTalkRoom"] = async (
+export const joinNewsTalkRoom: MutationResolvers['joinNewsTalkRoom'] = async (
   _,
   { input },
   { prisma, requestUser }
 ) => {
   if (!requestUser) {
-    throw new ForbiddenError("auth error");
+    throw new ForbiddenError('auth error');
   }
 
   const deleted = await prisma.deletedUserFromNewsTalkRoom.findFirst({
@@ -25,9 +23,32 @@ export const joinNewsTalkRoom: MutationResolvers["joinNewsTalkRoom"] = async (
 
   if (deleted) {
     throw new ApolloError(
-      NOT_ENABLED_JOIN_TALK_ROOM,
-      CustomErrorResponseCode.InvalidRequest
+      'トークルームから削除されました',
+      NewsTalkRoomJoinError.UserRemoved
     );
+  }
+
+  if (requestUser.plan === 'Normal') {
+    const alreadyJoinedNewsTalkRoomsInThinMonth = await prisma.newsTalkRoomMember.findMany(
+      {
+        where: {
+          userId: requestUser.id,
+          createdAt: {
+            gt: startOfMonth(new Date()),
+          },
+        },
+      }
+    );
+
+    if (
+      alreadyJoinedNewsTalkRoomsInThinMonth.length >=
+      NORMAL_USER_JOIN_TALK_ROOM_LIMIT
+    ) {
+      throw new ApolloError(
+        '参加上限に達しています',
+        NewsTalkRoomJoinError.UpperLimit
+      );
+    }
   }
 
   const existingTalkRoom = await prisma.newsTalkRoom.findUnique({

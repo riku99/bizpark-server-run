@@ -20,3 +20,5 @@ export const RECEIPT_VERIFICATION_ENDPOINT_FOR_IOS_PROD =
   'https://buy.itunes.apple.com/verifyReceipt';
 
 export const TALKROOM_DISPLAY_LIMIT_DATE = 3;
+
+export const NORMAL_USER_JOIN_TALK_ROOM_LIMIT = 6;

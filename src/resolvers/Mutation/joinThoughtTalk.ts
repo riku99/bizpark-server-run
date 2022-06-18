@@ -1,10 +1,11 @@
+import { Prisma } from '@prisma/client';
+import { ApolloError, ForbiddenError } from 'apollo-server-express';
+import { startOfMonth } from 'date-fns';
+import { NORMAL_USER_JOIN_TALK_ROOM_LIMIT } from '~/constants';
 import {
   MutationResolvers,
-  CustomErrorResponseCode,
+  ThouhgtTalkRoomJoinError,
 } from '~/generated/graphql';
-import { ForbiddenError, ApolloError } from 'apollo-server-express';
-import { Prisma } from '@prisma/client';
-import { NOT_ENABLED_JOIN_TALK_ROOM } from '~/constants';
 
 export const joinThoughtTalk: MutationResolvers['joinThoughtTalk'] = async (
   _,
@@ -26,9 +27,31 @@ export const joinThoughtTalk: MutationResolvers['joinThoughtTalk'] = async (
 
   if (blocked) {
     throw new ApolloError(
-      NOT_ENABLED_JOIN_TALK_ROOM,
-      CustomErrorResponseCode.InvalidRequest
+      'ブロックされています',
+      ThouhgtTalkRoomJoinError.Blokced
     );
+  }
+
+  if (requestUser.plan === 'Normal') {
+    const alreadyJoinedRoomsInThisMonth = await prisma.thoughtTalkRoomMember.findMany(
+      {
+        where: {
+          userId: requestUser.id,
+          createdAt: {
+            gt: startOfMonth(new Date()),
+          },
+        },
+      }
+    );
+
+    if (
+      alreadyJoinedRoomsInThisMonth.length >= NORMAL_USER_JOIN_TALK_ROOM_LIMIT
+    ) {
+      throw new ApolloError(
+        '参加上限に達しています',
+        ThouhgtTalkRoomJoinError.UpperLimit
+      );
+    }
   }
 
   const include: Prisma.ThoughtTalkRoomInclude = {
@@ -52,11 +75,6 @@ export const joinThoughtTalk: MutationResolvers['joinThoughtTalk'] = async (
     include: {
       thought: true,
       members: {
-        // where: {
-        //   userId: {
-        //     not: requestUser.id,
-        //   },
-        // },
         include: {
           user: true,
         },
