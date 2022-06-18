@@ -40,8 +40,6 @@ export const joinNewsTalkRoom: MutationResolvers['joinNewsTalkRoom'] = async (
       }
     );
 
-    console.log('J is ' + alreadyJoinedNewsTalkRoomsInThinMonth.length);
-
     if (
       alreadyJoinedNewsTalkRoomsInThinMonth.length >=
       NORMAL_USER_JOIN_TALK_ROOM_LIMIT
