@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { ApolloError, ForbiddenError } from 'apollo-server-express';
 import { startOfMonth } from 'date-fns';
+import { NORMAL_USER_JOIN_TALK_ROOM_LIMIT } from '~/constants';
 import {
   MutationResolvers,
   ThouhgtTalkRoomJoinError,
@@ -32,7 +33,7 @@ export const joinThoughtTalk: MutationResolvers['joinThoughtTalk'] = async (
   }
 
   if (requestUser.plan === 'Normal') {
-    const alreadyJoinedRoomsThisMonth = await prisma.thoughtTalkRoomMember.findMany(
+    const alreadyJoinedRoomsInThisMonth = await prisma.thoughtTalkRoomMember.findMany(
       {
         where: {
           userId: requestUser.id,
@@ -43,7 +44,9 @@ export const joinThoughtTalk: MutationResolvers['joinThoughtTalk'] = async (
       }
     );
 
-    if (alreadyJoinedRoomsThisMonth.length >= 6) {
+    if (
+      alreadyJoinedRoomsInThisMonth.length >= NORMAL_USER_JOIN_TALK_ROOM_LIMIT
+    ) {
       throw new ApolloError(
         '参加上限に達しています',
         ThouhgtTalkRoomJoinError.UpperLimit

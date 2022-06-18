@@ -584,6 +584,11 @@ export type NewsTalkRoomMessagesArgs = {
   first?: InputMaybe<Scalars['Int']>;
 };
 
+export enum NewsTalkRoomJoinError {
+  UpperLimit = 'UPPER_LIMIT',
+  UserRemoved = 'USER_REMOVED'
+}
+
 export type NewsTalkRoomMember = TalkRoomMember & {
   __typename?: 'NewsTalkRoomMember';
   createdAt?: Maybe<Scalars['String']>;
@@ -1270,6 +1275,7 @@ export type ResolversTypes = {
   NewsPickConnection: ResolverTypeWrapper<Omit<NewsPickConnection, 'edges'> & { edges: Array<ResolversTypes['NewsPickEdge']> }>;
   NewsPickEdge: ResolverTypeWrapper<Omit<NewsPickEdge, 'node'> & { node: ResolversTypes['NewsPick'] }>;
   NewsTalkRoom: ResolverTypeWrapper<NewsTalkRoom>;
+  NewsTalkRoomJoinError: NewsTalkRoomJoinError;
   NewsTalkRoomMember: ResolverTypeWrapper<Omit<NewsTalkRoomMember, 'talkRoom' | 'user'> & { talkRoom?: Maybe<ResolversTypes['NewsTalkRoom']>, user: ResolversTypes['User'] }>;
   NewsTalkRoomMemberConnection: ResolverTypeWrapper<Omit<NewsTalkRoomMemberConnection, 'edges'> & { edges: Array<ResolversTypes['NewsTalkRoomMemberEdge']> }>;
   NewsTalkRoomMemberEdge: ResolverTypeWrapper<Omit<NewsTalkRoomMemberEdge, 'node'> & { node: ResolversTypes['NewsTalkRoomMember'] }>;

@@ -98,6 +98,11 @@ enum ThouhgtTalkRoomJoinError {
   UPPER_LIMIT
 }
 
+enum NewsTalkRoomJoinError {
+  USER_REMOVED
+  UPPER_LIMIT
+}
+
 type PushNotificationMessageData {
   type: PushNotificationMessageDataType!
   id: String!
