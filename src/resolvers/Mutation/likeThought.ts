@@ -1,5 +1,5 @@
-import { MutationResolvers } from '~/generated/graphql';
 import { ForbiddenError } from 'apollo-server-express';
+import { MutationResolvers } from '~/generated/graphql';
 
 export const likeThought: MutationResolvers['likeThought'] = async (
   _,
@@ -35,7 +35,7 @@ export const likeThought: MutationResolvers['likeThought'] = async (
     },
   });
 
-  if (thought.contributor) {
+  if (thought.contributor && thought.contributor.id !== requestUser.id) {
     await prisma.notification.create({
       data: {
         userId: thought.contributor.id,
