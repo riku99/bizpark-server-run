@@ -26,6 +26,10 @@ export type AddDeviceTokenInput = {
   oldToken?: InputMaybe<Scalars['String']>;
 };
 
+export enum BlockError {
+  AlreadyBlocked = 'ALREADY_BLOCKED'
+}
+
 export type BlockedByUser = {
   __typename?: 'BlockedByUser';
   id: Scalars['ID'];
@@ -1227,6 +1231,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
+  BlockError: BlockError;
   BlockedByUser: ResolverTypeWrapper<BlockedByUser>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ChangeReceiveFollowPushNotificationInput: ChangeReceiveFollowPushNotificationInput;

@@ -103,6 +103,10 @@ enum NewsTalkRoomJoinError {
   UPPER_LIMIT
 }
 
+enum BlockError {
+  ALREADY_BLOCKED
+}
+
 type PushNotificationMessageData {
   type: PushNotificationMessageDataType!
   id: String!
