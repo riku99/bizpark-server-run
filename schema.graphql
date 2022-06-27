@@ -757,4 +757,5 @@ type Mutation {
   changeReceiveFollowPushNotification(
     input: ChangeReceiveFollowPushNotificationInput!
   ): Me!
+  createThoughtReport(thoughtId: String!): Boolean
 }

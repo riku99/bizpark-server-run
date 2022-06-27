@@ -64,6 +64,8 @@ model User {
   performNotifications Notification[] @relation("performer")
 
   subscriptionPurchase SubscriptionPurchase?
+
+  thoughtReports ThoughtReport[]
 }
 
 model Thought {
@@ -82,6 +84,7 @@ model Thought {
   likes ThoughtLike[]
   picked Pick[]
   notifications Notification[]
+  reports ThoughtReport[]
 
   @@index([genre, cursor])
   @@index([contributorId, cursor])
@@ -422,6 +425,17 @@ model EmailAuthCode {
   createdAt DateTime @default(now())
 
   @@index([id, email])
+}
+
+model ThoughtReport {
+  id Int @id @default(autoincrement())
+  reporterId String
+  thoughtId String
+
+  reporter User @relation(fields: [reporterId], references: [id])
+  thought Thought @relation(fields: [thoughtId], references: [id], onDelete: Cascade)
+
+  @@unique([reporterId, thoughtId])
 }
 
 enum Genre {
