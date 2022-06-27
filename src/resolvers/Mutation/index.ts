@@ -12,6 +12,7 @@ import { createOneOnOneTalkRoom } from './createOneOnOneTalkRoom';
 import { createOneOnOneTalkRoomMessage } from './createOneOnOneTalkRoomMessage';
 import { createPick } from './createPick';
 import { createThought } from './createThought';
+import { createThoughtReport } from './createThoughtReport';
 import { createThoughtTalkRoomMessage } from './createThoughtTalkRoomMessage';
 import { createUser } from './createUser';
 import { createUserNewsTalkRoomMessageSeen } from './createUserNewsTalkRoomMessageSeen';
@@ -87,4 +88,5 @@ export const Mutation: MutationResolvers = {
   changeReceiveReplyPushNotification,
   changeReceiveOneOnOneTalkRoomMessagePushNotification,
   changeReceiveFollowPushNotification,
+  createThoughtReport,
 };

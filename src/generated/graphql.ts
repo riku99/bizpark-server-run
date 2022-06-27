@@ -26,6 +26,10 @@ export type AddDeviceTokenInput = {
   oldToken?: InputMaybe<Scalars['String']>;
 };
 
+export enum BlockError {
+  AlreadyBlocked = 'ALREADY_BLOCKED'
+}
+
 export type BlockedByUser = {
   __typename?: 'BlockedByUser';
   id: Scalars['ID'];
@@ -272,6 +276,7 @@ export type Mutation = {
   createOneOnOneTalkRoomMessage: OneOnOneTalkRoomMessage;
   createPick: Pick;
   createThought: CreateThoughtResponse;
+  createThoughtReport?: Maybe<Scalars['Boolean']>;
   createThoughtTalkRoomMessage?: Maybe<ThoughtTalkRoomMessage>;
   createUser: Me;
   createUserNewsTalkRoomMessageSeen: NewsTalkRoom;
@@ -367,6 +372,11 @@ export type MutationCreatePickArgs = {
 
 export type MutationCreateThoughtArgs = {
   input: CreateThoughtInput;
+};
+
+
+export type MutationCreateThoughtReportArgs = {
+  thoughtId: Scalars['String'];
 };
 
 
@@ -1221,6 +1231,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddDeviceTokenInput: AddDeviceTokenInput;
+  BlockError: BlockError;
   BlockedByUser: ResolverTypeWrapper<BlockedByUser>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ChangeReceiveFollowPushNotificationInput: ChangeReceiveFollowPushNotificationInput;
@@ -1540,6 +1551,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   createOneOnOneTalkRoomMessage?: Resolver<ResolversTypes['OneOnOneTalkRoomMessage'], ParentType, ContextType, RequireFields<MutationCreateOneOnOneTalkRoomMessageArgs, 'input'>>;
   createPick?: Resolver<ResolversTypes['Pick'], ParentType, ContextType, RequireFields<MutationCreatePickArgs, 'input'>>;
   createThought?: Resolver<ResolversTypes['CreateThoughtResponse'], ParentType, ContextType, RequireFields<MutationCreateThoughtArgs, 'input'>>;
+  createThoughtReport?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationCreateThoughtReportArgs, 'thoughtId'>>;
   createThoughtTalkRoomMessage?: Resolver<Maybe<ResolversTypes['ThoughtTalkRoomMessage']>, ParentType, ContextType, RequireFields<MutationCreateThoughtTalkRoomMessageArgs, 'input'>>;
   createUser?: Resolver<ResolversTypes['Me'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   createUserNewsTalkRoomMessageSeen?: Resolver<ResolversTypes['NewsTalkRoom'], ParentType, ContextType, RequireFields<MutationCreateUserNewsTalkRoomMessageSeenArgs, 'input'>>;
